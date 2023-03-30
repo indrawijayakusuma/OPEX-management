@@ -15,7 +15,6 @@ import java.util.Locale;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-
 @Component
 public class BebanService {
     @Autowired
@@ -56,6 +55,4 @@ public class BebanService {
         beban1.setSisa(budget.subtract(jumlahNominalKegiatan, mc));
         bebanRepository.save(beban1);
     }
-
-
 }
