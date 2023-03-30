@@ -5,35 +5,46 @@ import com.bni.report.entities.Kegiatan;
 import com.bni.report.service.BebanService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@RestController
-@RequestMapping("/api")
+@Controller
 public class BebanController {
     @Autowired
     private BebanService bebanService;
 
     @GetMapping("/beban")
-    public ResponseEntity<List<Beban>> getAll(){
-        return ResponseEntity.ok().body(bebanService.getAll());
+    public String getAll(Model model){
+        List<Beban> all = bebanService.getAll();
+        model.addAttribute("bebans", all);
+        return "index";
     }
+    @GetMapping("/beban/addform")
+    public String addForm(Model model){
+        Beban beban = new Beban();
+        model.addAttribute("bebans", beban);
+        return "formAddBeban";
+    }
+
     @PostMapping("/beban")
-    public ResponseEntity<Beban> add(@RequestBody Beban beban){
-        return ResponseEntity.ok().body(bebanService.create(beban));
+    public String add(Beban beban){
+        bebanService.create(beban);
+        return "redirect:/beban";
     }
     @GetMapping("/beban/{id}")
     public ResponseEntity<Beban> getById(@PathVariable Integer id){
-        return ResponseEntity.ok().body(bebanService.findById(id));
+        return null;
     }
     @PutMapping("/beban")
     public ResponseEntity<Beban> edit(@RequestBody Beban beban){
-        return ResponseEntity.ok().body(bebanService.edit(beban));
+        return null;
     }
-    @DeleteMapping("/beban/{id}")
-    public ResponseEntity<?> delete(@PathVariable Integer id){
+    @GetMapping("/beban/delete/{id}")
+    public String delete(@PathVariable Integer id){
         bebanService.delete(id);
-        return ResponseEntity.ok().body("deleted");
+        return "redirect:/beban";
     }
 }

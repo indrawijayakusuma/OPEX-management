@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
+</head>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-aFq/bzH65dt+w6FI2ooMVUpc+21e0SRygnTpmBvdBgSdnuTN7QbdgL+OapgHtvPp" crossorigin="anonymous">
+    <title>index</title>
+</head>
+<body>
+    <div class="container-md mt-5">
+        <div class="row">
+            <div class="col">
+                <a th:href="@{/beban/addform}" class="btn btn-primary"><i class="bi bi-plus-circle"></i> Add Beban</a>
+                <table class="table table-striped mt-3 text-center">
+                    <thead class="table-light">
+                        <tr>
+                            <th scope="col">No</th>
+                            <th scope="col">Name</th>
+                            <th scope="col">Bedget</th>
+                            <th scope="col">Sisa</th>
+                            <th scope="col">Date</th>
+                            <th scope="col">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="beban,iterator : ${bebans}">
+                            <th scope="row" th:text="${iterator.index + 1}"></th>
+                            <td>[[${beban.name}]]</td>
+                            <td>[[${beban.budget}]]</td>
+                            <td>[[${beban.sisa}]]</td>
+                            <td>[[${beban.date}]]</td>
+                            <td>
+                                <button type="button" class="btn btn-outline-primary"><i class="bi bi-pencil-square"></i> Edit</button>
+                                <a type="button" th:href="@{'/beban/delete/' + ${beban.id}}" class="btn btn-outline-danger"><i class="bi bi-x-circle"></i> Delete</a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha2/dist/js/bootstrap.bundle.min.js" integrity="sha384-qKXV1j0HvMUeCBQ+QVp7JcfGl760yU08IQ+GpUo5hlbpg51QRiuqHAJz8+BrxE/N" crossorigin="anonymous"></script>
+</body>
+</html>
