@@ -9,7 +9,9 @@ import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
 import java.math.MathContext;
+import java.text.NumberFormat;
 import java.util.List;
+import java.util.Locale;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -22,6 +24,7 @@ public class BebanService {
     private KegiatanRepository kegiatanRepository;
     @Autowired
     private KegiatanService kegiatanService;
+
     public List<Beban> getAll(){
         List<Beban> all = bebanRepository.findAll();
         all.stream().map(beban -> {

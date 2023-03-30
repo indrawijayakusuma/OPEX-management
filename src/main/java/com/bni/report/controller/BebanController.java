@@ -10,6 +10,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Controller
 public class BebanController {
@@ -39,8 +41,14 @@ public class BebanController {
         return null;
     }
     @PutMapping("/beban")
-    public ResponseEntity<Beban> edit(@RequestBody Beban beban){
-        return null;
+    public String formUpdateBeban1(Model model){
+        return "redirect:/beban";
+    }
+    @GetMapping("/beban/update/{id}")
+    public String formUpdateBeban(@PathVariable Integer id, Model model){
+        Beban byId = bebanService.findById(id);
+        model.addAttribute("bebans", byId);
+        return "formUpdateBeban";
     }
     @GetMapping("/beban/delete/{id}")
     public String delete(@PathVariable Integer id){

@@ -15,31 +15,33 @@
         <div class="row">
             <div class="col">
                 <a th:href="@{/beban/addform}" class="btn btn-primary"><i class="bi bi-plus-circle"></i> Add Beban</a>
-                <table class="table table-striped mt-3 text-center">
-                    <thead class="table-light">
+                <div class="table-responsive d-flex justify-content-center">
+                    <table class="table table-md table-striped mt-4 w-100">
+                        <thead class="table-light">
                         <tr>
-                            <th scope="col">No</th>
+                            <th scope="col" >No</th>
                             <th scope="col">Name</th>
-                            <th scope="col">Bedget</th>
+                            <th scope="col">Budget</th>
                             <th scope="col">Sisa</th>
                             <th scope="col">Date</th>
                             <th scope="col">Action</th>
                         </tr>
-                    </thead>
-                    <tbody>
+                        </thead>
+                        <tbody>
                         <tr th:each="beban,iterator : ${bebans}">
                             <th scope="row" th:text="${iterator.index + 1}"></th>
                             <td>[[${beban.name}]]</td>
-                            <td>[[${beban.budget}]]</td>
-                            <td>[[${beban.sisa}]]</td>
-                            <td>[[${beban.date}]]</td>
+                            <td>[[${#strings.replace(#numbers.formatCurrency(beban.budget), ',00','')}]]</td>
+                            <td>[[${#strings.replace(#numbers.formatCurrency(beban.sisa), ',00','')}]]</td>
+                            <td>[[${#dates.format(beban.date, 'dd/MM/yyyy')}]]</td>
                             <td>
-                                <button type="button" class="btn btn-outline-primary"><i class="bi bi-pencil-square"></i> Edit</button>
+                                <a type="button"  th:href="@{'/beban/update/' + ${beban.id}}" class="btn btn-outline-primary"><i class="bi bi-pencil-square"></i> Edit</a>
                                 <a type="button" th:href="@{'/beban/delete/' + ${beban.id}}" class="btn btn-outline-danger"><i class="bi bi-x-circle"></i> Delete</a>
                             </td>
                         </tr>
-                    </tbody>
-                </table>
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
     </div>

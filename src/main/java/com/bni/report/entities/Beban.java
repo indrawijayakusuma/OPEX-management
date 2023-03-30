@@ -6,6 +6,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.extern.apachecommons.CommonsLog;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.math.BigDecimal;
 import java.util.Date;
@@ -22,6 +23,7 @@ public class Beban {
     private List<Kegiatan> kegiatan;
     private BigDecimal budget;
     private BigDecimal sisa;
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date date;
 
 }
