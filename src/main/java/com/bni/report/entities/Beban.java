@@ -9,6 +9,7 @@ import lombok.extern.apachecommons.CommonsLog;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -25,5 +26,12 @@ public class Beban {
     private BigDecimal sisa;
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date date;
+
+
+    public Beban(String name, BigDecimal budget, Date date) {
+        this.name = name;
+        this.budget = budget;
+        this.date = date;
+    }
 
 }

@@ -4,13 +4,18 @@ import com.bni.report.entities.Beban;
 import com.bni.report.entities.Kegiatan;
 import com.bni.report.service.BebanService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Supplier;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
+import java.util.stream.LongStream;
 import java.util.stream.Stream;
 
 @Controller
@@ -20,10 +25,36 @@ public class BebanController {
 
     @GetMapping("/beban")
     public String getAll(Model model){
-        List<Beban> all = bebanService.getAll();
-        model.addAttribute("bebans", all);
+
+        return getALlPaginate(1,"name", "asc",model);
+    }
+    @GetMapping("/beban/page/{no}")
+    public String getALlPaginate(
+            @PathVariable(value = "no") int currPage,
+            @RequestParam(defaultValue = "name") String sortField,
+            @RequestParam(defaultValue = "asc") String sortDirection,
+            Model model
+            ){
+        int pageSize = 9;
+        Page<Beban> bebanPage = bebanService.paginateGetAll(currPage,pageSize,sortField,sortDirection);
+        List<Beban> bebanList = new ArrayList<>();
+        bebanList = bebanPage.getContent();
+        Integer countListBeban = bebanService.countBeban();
+        List<Long> number = LongStream.range(0, bebanPage.getTotalElements()).boxed().collect(Collectors.toList());
+
+        model.addAttribute("numbers",number);
+        model.addAttribute("currentPage", currPage);
+        model.addAttribute("totalPages", bebanPage.getTotalPages());
+        model.addAttribute("totalItems", bebanPage.getTotalElements());
+        model.addAttribute("bebans", bebanList);
+
+        model.addAttribute("sortField", sortField);
+        model.addAttribute("sortDirection", sortDirection);
+        model.addAttribute("reverseDirection", sortDirection.equals("asc")?"desc":"asc");
+
         return "index";
     }
+
     @GetMapping("/beban/addform")
     public String addForm(Model model){
         Beban beban = new Beban();
