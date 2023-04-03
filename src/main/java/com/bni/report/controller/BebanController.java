@@ -26,30 +26,27 @@ public class BebanController {
     @GetMapping("/beban")
     public String getAll(Model model){
 
-        return getALlPaginate(1,"name", "asc",model);
+        return paginateGetAll(1,"name", "asc",model);
     }
     @GetMapping("/beban/page/{no}")
-    public String getALlPaginate(
+    public String paginateGetAll(
             @PathVariable(value = "no") int currPage,
             @RequestParam(defaultValue = "name") String sortField,
             @RequestParam(defaultValue = "asc") String sortDirection,
             Model model
-            ){
+    ){
         int pageSize = 9;
         Page<Beban> bebanPage = bebanService.paginateGetAll(currPage,pageSize,sortField,sortDirection);
         List<Beban> bebanList = new ArrayList<>();
         bebanList = bebanPage.getContent();
-        Integer countListBeban = bebanService.countBeban();
-        List<Long> number = LongStream.range(0, bebanPage.getTotalElements()).boxed().collect(Collectors.toList());
 
-        model.addAttribute("numbers",number);
         model.addAttribute("currentPage", currPage);
         model.addAttribute("totalPages", bebanPage.getTotalPages());
         model.addAttribute("totalItems", bebanPage.getTotalElements());
         model.addAttribute("bebans", bebanList);
 
-        model.addAttribute("sortField", sortField);
         model.addAttribute("sortDirection", sortDirection);
+        model.addAttribute("sortField", sortField);
         model.addAttribute("reverseDirection", sortDirection.equals("asc")?"desc":"asc");
 
         return "index";
@@ -66,10 +63,6 @@ public class BebanController {
     public String add(Beban beban){
         bebanService.create(beban);
         return "redirect:/beban";
-    }
-    @GetMapping("/beban/{id}")
-    public ResponseEntity<Beban> getById(@PathVariable Integer id){
-        return null;
     }
     @PutMapping("/beban")
     public String formUpdateBeban1(Model model){

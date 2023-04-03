@@ -30,4 +30,13 @@ public class Kegiatan {
         this.nominal =   validator.getNominal();
         this.date =   validator.getDate();
     }
+
+    public Kegiatan(String name, Beban beban, String cat, String pic, BigDecimal nominal, Date date) {
+        this.name = name;
+        this.beban = beban;
+        this.cat = cat;
+        this.pic = pic;
+        this.nominal = nominal;
+        this.date = date;
+    }
 }

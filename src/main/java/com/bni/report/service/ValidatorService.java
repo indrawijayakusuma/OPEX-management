@@ -38,6 +38,5 @@ public class ValidatorService {
                 .map(Kegiatan::new).orElseThrow(() -> new RuntimeException());
         kegiatanRepository.save(kegiatan);
         validatorRepository.deleteById(id);
-        //test
     }
 }

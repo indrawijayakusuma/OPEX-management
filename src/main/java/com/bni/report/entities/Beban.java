@@ -34,4 +34,8 @@ public class Beban {
         this.date = date;
     }
 
+    public Beban(Integer id){
+        this.id = id;
+    }
+
 }

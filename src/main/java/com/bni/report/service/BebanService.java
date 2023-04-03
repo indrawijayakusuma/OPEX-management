@@ -27,10 +27,6 @@ public class BebanService {
     @Autowired
     private KegiatanService kegiatanService;
 
-    public Integer countBeban(){
-        return Math.toIntExact(kegiatanRepository.count());
-    }
-
     public Page<Beban> getAll(Pageable pageable){
         Page<Beban> all = bebanRepository.findAll(pageable);
         all.stream().map(beban -> {
@@ -85,10 +81,20 @@ public class BebanService {
         bebanList.add(new Beban("beban operasional", new BigDecimal(654000000), new Date()));
         bebanList.add(new Beban("beban perioritas", new BigDecimal(900000000), new Date()));
         bebanList.add(new Beban("beban kesehatan", new BigDecimal(540000000), new Date()));
-        bebanList.add(new Beban("beban peyuluhan", new BigDecimal(340000000), new Date()));
         bebanList.add(new Beban("beban promo", new BigDecimal(796000000), new Date()));
 
-        bebanRepository.saveAll(bebanList);
-    }
+        List<Kegiatan> kegitanList = new ArrayList<>();
+        kegitanList.add(new Kegiatan("kegitan olahrage", new Beban(1),"cat1","suni", new BigDecimal(800000), new Date()));
+        kegitanList.add(new Kegiatan("kegitan senam", new Beban(1),"cat1","julian", new BigDecimal(89000), new Date()));
+        kegitanList.add(new Kegiatan("kegitan gym", new Beban(1),"cat1","brian", new BigDecimal(324000), new Date()));
+        kegitanList.add(new Kegiatan("kegitan kebugaran", new Beban(1),"cat1","hasim", new BigDecimal(24235000), new Date()));
 
+        kegitanList.add(new Kegiatan("kegitan olahrage", new Beban(2),"cat1","suni", new BigDecimal(800000), new Date()));
+        kegitanList.add(new Kegiatan("kegitan senam", new Beban(2),"cat1","julian", new BigDecimal(89000), new Date()));
+        kegitanList.add(new Kegiatan("kegitan gym", new Beban(2),"cat1","brian", new BigDecimal(324000), new Date()));
+        kegitanList.add(new Kegiatan("kegitan kebugaran", new Beban(2),"cat1","hasim", new BigDecimal(24235000), new Date()));
+
+        bebanRepository.saveAll(bebanList);
+        kegiatanRepository.saveAll(kegitanList);
+    }
 }
