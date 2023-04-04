@@ -15,7 +15,7 @@
         <div class="row">
             <div class="col">
                 <a th:href="@{/beban}" class="link-underline link-underline-opacity-0">back</a>
-                <a href="#" class="btn btn-primary"><i class="bi bi-plus-circle"></i> Add Kegiatan</a>
+                <a th:href="@{'/validator/addform/' + ${id}}" class="btn btn-primary"><i class="bi bi-plus-circle"></i> Add Kegiatan</a>
                 <h1 th:text="${nameBeban}"></h1>
                 <div class="table-responsive d-flex justify-content-center">
                     <table class="table table-md table-striped mt-4 w-100">
