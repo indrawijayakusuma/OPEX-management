@@ -25,10 +25,11 @@ public class KegiatanController {
 
     @GetMapping("/kegiatan/{id}")
     public String getAll(Model model, @PathVariable(value = "id") Integer id){
-        return paginateGetAll(id,1,"name", "asc",model);
+        return paginateGetAll(null,id,1,"name", "asc",model);
     }
     @GetMapping("/kegiatan/page/{id}/{no}")
     public String paginateGetAll(
+            @RequestParam(required = false) String keyword,
             @PathVariable(value = "id") Integer id,
             @PathVariable(value = "no") int currPage,
             @RequestParam(defaultValue = "name") String sortField,
@@ -36,7 +37,13 @@ public class KegiatanController {
             Model model
     ){
         int pageSize = 9;
-        Page<Kegiatan> kegiatanPage = kegiatanService.paginateGetALl(currPage, pageSize, sortDirection, sortField, id);
+        Page<Kegiatan> kegiatanPage = null;
+        if (keyword == null){
+            kegiatanPage = kegiatanService.paginateGetALl(currPage, pageSize, sortDirection, sortField, id);
+        }else{
+            kegiatanPage = kegiatanService.paginateSearchingGetAll(currPage,pageSize,sortField,sortDirection, keyword);
+        }
+
         List<Kegiatan> kegiatanList = new ArrayList<>();
         kegiatanList = kegiatanPage.getContent();
 

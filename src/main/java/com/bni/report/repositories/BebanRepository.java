@@ -12,5 +12,7 @@ import java.util.List;
 
 @Repository
 public interface BebanRepository extends JpaRepository<Beban, Integer> {
-//    Page<Beban>
+    @Query("SELECT p FROM Beban p WHERE CONCAT(p.name, p.budget, p.sisa, p.date) LIKE %?1%")
+    Page<Beban> search(String keyword, Pageable pageable);
+//    Page<Beban> findByNameContainingIgnoreCase(String keyword, Pageable pageable);
 }

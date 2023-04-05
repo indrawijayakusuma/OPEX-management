@@ -26,17 +26,23 @@ public class BebanController {
     @GetMapping("/beban")
     public String getAll(Model model){
 
-        return paginateGetAll(1,"name", "asc",model);
+        return paginateGetAll(null,1,"name", "asc",model);
     }
     @GetMapping("/beban/page/{no}")
     public String paginateGetAll(
+            @RequestParam(required = false) String keyword,
             @PathVariable(value = "no") int currPage,
             @RequestParam(defaultValue = "name") String sortField,
             @RequestParam(defaultValue = "asc") String sortDirection,
             Model model
     ){
         int pageSize = 9;
-        Page<Beban> bebanPage = bebanService.paginateGetAll(currPage,pageSize,sortField,sortDirection);
+        Page<Beban> bebanPage = null;
+        if (keyword == null){
+            bebanPage = bebanService.paginateGetAll(currPage,pageSize,sortField,sortDirection);
+        }else{
+            bebanPage = bebanService.paginateSearchingGetAll(currPage,pageSize,sortField,sortDirection, keyword);
+        }
         List<Beban> bebanList = new ArrayList<>();
         bebanList = bebanPage.getContent();
 

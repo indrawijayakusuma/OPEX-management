@@ -63,6 +63,14 @@ public class BebanService {
         Pageable pageable = PageRequest.of(currPage-1, pageSize, sort);
         return getAll(pageable);
     }
+
+    public Page<Beban> paginateSearchingGetAll(int currPage, int pageSize, String sortField, String sortDirection, String keyword){
+        Sort sort = sortDirection.equalsIgnoreCase(Sort.Direction.ASC.name()) ? Sort.by(sortField).ascending() : Sort.by(sortField).descending();
+        Pageable pageable = PageRequest.of(currPage-1, pageSize, sort);
+        return bebanRepository.search(keyword, pageable);
+    }
+
+
     @PostConstruct
     public void addbeban() {
         List<Beban> bebanList = new ArrayList<>();

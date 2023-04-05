@@ -13,11 +13,12 @@
 <body>
     <div class="container-md mt-5">
         <div class="row">
+            <form th:action="@{'/beban/page/' + ${currentPage}}" method="get">
+                <input type="text" name="keyword" id="keyword" size="50" th:value="${keyword}" class="form-control"/>
+                &nbsp;
+                <input type="submit" value="Search" />
+            </form>
             <div class="col">
-                <div class="form-floating mb-3">
-                    <input type="email" class="form-control" id="floatingInput" placeholder="name@example.com">
-                    <label for="floatingInput">Search</label>
-                </div>
                 <a th:href="@{/beban/addform}" class="btn btn-primary"><i class="bi bi-plus-circle"></i> Add Beban</a>
                 <div class="table-responsive d-flex justify-content-center">
                     <table class="table table-md table-striped mt-4 w-100">
@@ -25,16 +26,16 @@
                         <tr>
                             <th scope="col">No</th>
                             <th scope="col" >
-                                <a class="link-underline link-underline-opacity-0" th:href="@{'/beban/page/' + ${currentPage} + '?' + 'sortField=name&sortDirection=' + ${reverseDirection}}">Name <i class="bi bi-arrow-down-up"></i></a>
+                                <a class="link-underline link-underline-opacity-0" th:href="@{'/beban/page/' + ${currentPage} + '?' + ${keyword!=null && keyword!=''? 'keyword=' + keyword + '&' : ''} + 'sortField=name&sortDirection=' + ${reverseDirection}}">Name <i class="bi bi-arrow-down-up"></i></a>
                             </th>
                             <th scope="col">
-                                <a class="link-underline link-underline-opacity-0" th:href="@{'/beban/page/' + ${currentPage} + '?' + 'sortField=budget&sortDirection=' + ${reverseDirection}}">Budget <i class="bi bi-arrow-down-up"></i></a>
+                                <a class="link-underline link-underline-opacity-0" th:href="@{'/beban/page/' + ${currentPage} + '?' + ${keyword!=null && keyword!=''? 'keyword=' + keyword + '&' : ''} + 'sortField=budget&sortDirection=' + ${reverseDirection}}">Budget <i class="bi bi-arrow-down-up"></i></a>
                             </th>
                             <th scope="col">
-                                <a class="link-underline link-underline-opacity-0" th:href="@{'/beban/page/' + ${currentPage} + '?' + 'sortField=sisa&sortDirection=' + ${reverseDirection}}">Sisa <i class="bi bi-arrow-down-up"></i></a>
+                                <a class="link-underline link-underline-opacity-0" th:href="@{'/beban/page/' + ${currentPage} + '?' + ${keyword!=null && keyword!=''? 'keyword=' + keyword + '&' : ''} + 'sortField=sisa&sortDirection=' + ${reverseDirection}}">Sisa <i class="bi bi-arrow-down-up"></i></a>
                             </th>
                             <th scope="col">
-                                <a class="link-underline link-underline-opacity-0" th:href="@{'/beban/page/' + ${currentPage} + '?' + 'sortField=date&sortDirection=' + ${reverseDirection}}">Date <i class="bi bi-arrow-down-up"></i></a>
+                                <a class="link-underline link-underline-opacity-0" th:href="@{'/beban/page/' + ${currentPage} + '?' + ${keyword!=null && keyword!=''? 'keyword=' + keyword + '&' : ''} + 'sortField=date&sortDirection=' + ${reverseDirection}}">Date <i class="bi bi-arrow-down-up"></i></a>
                             </th>
                             <th scope="col">Action</th>
                         </tr>

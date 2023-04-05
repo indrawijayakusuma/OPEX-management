@@ -13,11 +13,12 @@
 <body>
     <div class="container-md mt-5">
         <div class="row">
+            <form th:action="@{'/kegiatan/page/' + ${id} + '/' + ${currentPage}}" method="get">
+                <input type="text" name="keyword" id="keyword" size="50" th:value="${keyword}" class="form-control"/>
+                &nbsp;
+                <input type="submit" value="Search" />
+            </form>
             <div class="col">
-                <div class="form-floating mb-3">
-                    <input type="email" class="form-control" id="floatingInput" placeholder="name@example.com">
-                    <label for="floatingInput">Search</label>
-                </div>
                 <a th:href="@{/beban}" class="link-underline link-underline-opacity-0">back</a>
                 <a th:href="@{'/validator/addform/' + ${id}}" class="btn btn-primary"><i class="bi bi-plus-circle"></i> Add Kegiatan</a>
                 <h1 th:text="${nameBeban}"></h1>
@@ -27,19 +28,19 @@
                         <tr>
                             <th scope="col">No</th>
                             <th scope="col" >
-                                <a class="link-underline link-underline-opacity-0" th:href="@{'/kegiatan/page/' + ${id} + '/' + ${currentPage} + '?' + 'sortField=name&sortDirection=' + ${reverseDirection}}">Name <i class="bi bi-arrow-down-up"></i></a>
+                                <a class="link-underline link-underline-opacity-0" th:href="@{'/kegiatan/page/' + ${id} + '/' + ${currentPage} + '?' + ${keyword!=null && keyword!=''? 'keyword=' + keyword + '&' : ''} + 'sortField=name&sortDirection=' + ${reverseDirection}}">Name <i class="bi bi-arrow-down-up"></i></a>
                             </th>
                             <th scope="col">
-                                <a class="link-underline link-underline-opacity-0" th:href="@{'/kegiatan/page/' + ${id} + '/' + ${currentPage} + '?' + 'sortField=budget&sortDirection=' + ${reverseDirection}}">Cat <i class="bi bi-arrow-down-up"></i></a>
+                                <a class="link-underline link-underline-opacity-0" th:href="@{'/kegiatan/page/' + ${id} + '/' + ${currentPage} + '?' + ${keyword!=null && keyword!=''? 'keyword=' + keyword + '&' : ''} + 'sortField=budget&sortDirection=' + ${reverseDirection}}">Cat <i class="bi bi-arrow-down-up"></i></a>
                             </th>
                             <th scope="col">
-                                <a class="link-underline link-underline-opacity-0" th:href="@{'/kegiatan/page/' + ${id} + '/' + ${currentPage} + '?' + 'sortField=pic&sortDirection=' + ${reverseDirection}}">Pic <i class="bi bi-arrow-down-up"></i></a>
+                                <a class="link-underline link-underline-opacity-0" th:href="@{'/kegiatan/page/' + ${id} + '/' + ${currentPage} + '?' + ${keyword!=null && keyword!=''? 'keyword=' + keyword + '&' : ''} + 'sortField=pic&sortDirection=' + ${reverseDirection}}">Pic <i class="bi bi-arrow-down-up"></i></a>
                             </th>
                             <th scope="col">
-                                <a class="link-underline link-underline-opacity-0" th:href="@{'/kegiatan/page/' + ${id} + '/' + ${currentPage} + '?' + 'sortField=nominal&sortDirection=' + ${reverseDirection}}">Nominal <i class="bi bi-arrow-down-up"></i></a>
+                                <a class="link-underline link-underline-opacity-0" th:href="@{'/kegiatan/page/' + ${id} + '/' + ${currentPage} + '?' + ${keyword!=null && keyword!=''? 'keyword=' + keyword + '&' : ''} + 'sortField=nominal&sortDirection=' + ${reverseDirection}}">Nominal <i class="bi bi-arrow-down-up"></i></a>
                             </th>
                             <th scope="col">
-                                <a class="link-underline link-underline-opacity-0" th:href="@{'/kegiatan/page/' + ${id} + '/' + ${currentPage} + '?' + 'sortField=date&sortDirection=' + ${reverseDirection}}">Date <i class="bi bi-arrow-down-up"></i></a>
+                                <a class="link-underline link-underline-opacity-0" th:href="@{'/kegiatan/page/' + ${id} + '/' + ${currentPage} + '?' + ${keyword!=null && keyword!=''? 'keyword=' + keyword + '&' : ''} + 'sortField=date&sortDirection=' + ${reverseDirection}}">Date <i class="bi bi-arrow-down-up"></i></a>
                             </th>
                             <th scope="col">Action</th>
                         </tr>

@@ -32,6 +32,12 @@ public class KegiatanService {
         return getAll(pageable, id);
     }
 
+    public Page<Kegiatan> paginateSearchingGetAll(int currPage, int pageSize, String sortField, String sortDirection, String keyword){
+        Sort sort = sortDirection.equalsIgnoreCase(Sort.Direction.ASC.name()) ? Sort.by(sortField).ascending() : Sort.by(sortField).descending();
+        Pageable pageable = PageRequest.of(currPage-1, pageSize, sort);
+        return kegiatanRepository.search(keyword, pageable);
+    }
+
     public Kegiatan findById(Integer id){
         return kegiatanRepository.findById(id).orElseThrow(RuntimeException::new);
     }
