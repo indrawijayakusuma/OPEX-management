@@ -49,7 +49,7 @@ public class BebanController {
         model.addAttribute("sortField", sortField);
         model.addAttribute("reverseDirection", sortDirection.equals("asc")?"desc":"asc");
 
-        return "index";
+        return "index1";
     }
 
     @GetMapping("/beban/addform")
@@ -78,5 +78,10 @@ public class BebanController {
     public String delete(@PathVariable Integer id){
         bebanService.delete(id);
         return "redirect:/beban";
+    }
+
+    @GetMapping("/test")
+    public String test(){
+        return "index1";
     }
 }
