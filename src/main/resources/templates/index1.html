@@ -46,7 +46,7 @@
     <form action="#">
       <input placeholder="Search" type="text" class="p-6 border ml-8 h-11 md:w-96 rounded-2xl" name="keyword" id="keyword"/>
     </form>
-    <label for="my-modal-3" class="btn lg:mr-8 rounded-2xl mx-32 bg-orange-500 border-0"><i class="fa-solid fa-square-plus"></i><span class="mx-2">Add New Beban</span></label>
+    <label for="my-modal-3" class="btn lg:mr-8 rounded-xl mx-32 bg-orange-500 border-0 text-sm font-medium"><i class="fa-solid fa-square-plus"></i><span class="mx-2">Add New Beban</span></label>
   </div>
 
 <!--  table-->
@@ -97,18 +97,25 @@
   </div>
 
 <!--  pagination-->
-  <div class="mt-6 mb-5 flex" th:if="${totalPages > 1}">
-    <div class="btn-group py-8 mx-auto justify-center w-1/2">
-      <button class="btn bg-orange-500 border-0"><i class="fa-solid fa-angle-left"></i></button>
-      <button class="btn bg-orange-500 border-0">2</button>
-      <button class="btn bg-orange-500 border-0 ">...</button>
-      <button class="btn bg-orange-500 border-0">99</button>
-      <button class="btn bg-orange-500 border-0"><i class="fa-solid fa-angle-right"></i></button>
+  <div class="flex flex-col items-center mt-9 mb-16" th:if="${totalPages > 1}">
+    <!-- Help text -->
+    <span class="text-sm text-gray-700">
+          Showing <span class="font-semibold">1</span> to <span class="font-semibold">10</span> of <span class="font-semibold">100</span> Entries
+    </span>
+    <div class="inline-flex mt-2 xs:mt-0">
+      <!-- Buttons -->
+      <a th:href="@{'/beban/page/' + ${currentPage-1} + '?' + 'sortField='+ ${sortField} +'&sortDirection=' + ${sortDirection}}" th:classappend="${currentPage == 1 ? 'pointer-events-none  ':''}" class="inline-flex items-center px-4 py-3 text-sm font-medium text-white bg-orange-500 rounded-l-xl hover:bg-gray-900">
+        Prev
+      </a>
+      <div th:each="page : ${#numbers.sequence(currentPage > 2 ? currentPage - 2 : 1, currentPage + 2 < totalPages ? currentPage + 2 : totalPages)}">
+        <a th:href="@{'/beban/page/' + ${page} + '?' + 'sortField='+ ${sortField} +'&sortDirection=' + ${sortDirection}}" th:text="${page}" th:classappend="${currentPage == page ? 'pointer-events-none bg-orange-300':'bg-orange-500'}" class="inline-flex items-center px-4 py-3 text-sm font-medium text-white hover:bg-gray-900">1</a>
+      </div>
+      <a th:href="@{'/beban/page/' + ${currentPage + 1} + '?' + 'sortField='+ ${sortField} +'&sortDirection=' + ${sortDirection}}" th:classappend="${currentPage == totalPages ? 'pointer-events-none  ':''}" class="inline-flex items-center px-4 py-3 text-sm font-medium text-white bg-orange-500 border-0 border-l border-orange-500 rounded-r-xl hover:bg-gray-900">Next</a>
     </div>
   </div>
 
 <!--  modal-->
-  <input type="checkbox" id="my-modal-3" class="modal-toggle" />
+  <input type="checkbox" id="my-modal-3" class="modal-toggle"/>
   <div class="modal">
     <div class="modal-box relative">
       <label for="my-modal-3" class="btn btn-sm bg-orange-500 border-0 btn-circle absolute right-2 top-2">✕</label>
