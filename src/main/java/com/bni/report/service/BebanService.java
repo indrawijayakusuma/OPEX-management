@@ -91,6 +91,40 @@ public class BebanService {
         bebanList.add(new Beban("beban kesehatan", new BigDecimal(540000000), new Date()));
         bebanList.add(new Beban("beban promo", new BigDecimal(796000000), new Date()));
 
+        bebanList.add(new Beban("beban penyuluhan", new BigDecimal(900000000), new Date()));
+        bebanList.add(new Beban("beban sumbangan", new BigDecimal(800000000), new Date()));
+        bebanList.add(new Beban("beban kantor", new BigDecimal(700000000), new Date()));
+        bebanList.add(new Beban("beban perbaikan", new BigDecimal(300000000), new Date()));
+        bebanList.add(new Beban("beban fasilitas", new BigDecimal(200000000), new Date()));
+        bebanList.add(new Beban("beban ac", new BigDecimal(100000000), new Date()));
+        bebanList.add(new Beban("beban peringatan", new BigDecimal(560000000), new Date()));
+        bebanList.add(new Beban("beban event", new BigDecimal(870000000), new Date()));
+        bebanList.add(new Beban("beban konsultasi", new BigDecimal(430000000), new Date()));
+        bebanList.add(new Beban("beban konsumsi", new BigDecimal(6000000), new Date()));
+        bebanList.add(new Beban("beban perbaikan", new BigDecimal(78000000), new Date()));
+        bebanList.add(new Beban("beban surat", new BigDecimal(634000000), new Date()));
+        bebanList.add(new Beban("beban operasional", new BigDecimal(654000000), new Date()));
+        bebanList.add(new Beban("beban perioritas", new BigDecimal(900000000), new Date()));
+        bebanList.add(new Beban("beban kesehatan", new BigDecimal(540000000), new Date()));
+        bebanList.add(new Beban("beban promo", new BigDecimal(796000000), new Date()));
+
+        bebanList.add(new Beban("beban penyuluhan", new BigDecimal(900000000), new Date()));
+        bebanList.add(new Beban("beban sumbangan", new BigDecimal(800000000), new Date()));
+        bebanList.add(new Beban("beban kantor", new BigDecimal(700000000), new Date()));
+        bebanList.add(new Beban("beban perbaikan", new BigDecimal(300000000), new Date()));
+        bebanList.add(new Beban("beban fasilitas", new BigDecimal(200000000), new Date()));
+        bebanList.add(new Beban("beban ac", new BigDecimal(100000000), new Date()));
+        bebanList.add(new Beban("beban peringatan", new BigDecimal(560000000), new Date()));
+        bebanList.add(new Beban("beban event", new BigDecimal(870000000), new Date()));
+        bebanList.add(new Beban("beban konsultasi", new BigDecimal(430000000), new Date()));
+        bebanList.add(new Beban("beban konsumsi", new BigDecimal(6000000), new Date()));
+        bebanList.add(new Beban("beban perbaikan", new BigDecimal(78000000), new Date()));
+        bebanList.add(new Beban("beban surat", new BigDecimal(634000000), new Date()));
+        bebanList.add(new Beban("beban operasional", new BigDecimal(654000000), new Date()));
+        bebanList.add(new Beban("beban perioritas", new BigDecimal(900000000), new Date()));
+        bebanList.add(new Beban("beban kesehatan", new BigDecimal(540000000), new Date()));
+        bebanList.add(new Beban("beban promo", new BigDecimal(796000000), new Date()));
+
         List<Kegiatan> kegitanList = new ArrayList<>();
         kegitanList.add(new Kegiatan("kegitan olahrage", new Beban(1),"cat1","suni", new BigDecimal(800000), new Date()));
         kegitanList.add(new Kegiatan("kegitan senam", new Beban(1),"cat1","julian", new BigDecimal(89000), new Date()));

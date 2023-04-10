@@ -9,7 +9,7 @@ import org.springframework.web.servlet.i18n.SessionLocaleResolver;
 import java.util.Locale;
 
 @SpringBootApplication
-public class ReporProjectBniApplication {
+public class ReportProjectBniApplication {
 
 	@Bean
 	public LocaleResolver localeResolver() {
@@ -19,6 +19,6 @@ public class ReporProjectBniApplication {
 	}
 
 	public static void main(String[] args) {
-		SpringApplication.run(ReporProjectBniApplication.class, args);
+		SpringApplication.run(ReportProjectBniApplication.class, args);
 	}
 }

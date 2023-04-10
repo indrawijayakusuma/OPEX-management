@@ -20,7 +20,7 @@ public class Beban {
     private Integer id;
     private String name;
     @JsonIgnore
-    @OneToMany(mappedBy="beban")
+    @OneToMany(mappedBy="beban", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Kegiatan> kegiatan;
     private BigDecimal budget;
     private BigDecimal sisa;
