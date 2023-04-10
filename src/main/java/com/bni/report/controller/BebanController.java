@@ -1,22 +1,15 @@
 package com.bni.report.controller;
 
 import com.bni.report.entities.Beban;
-import com.bni.report.entities.Kegiatan;
 import com.bni.report.service.BebanService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.function.Supplier;
-import java.util.stream.Collectors;
-import java.util.stream.IntStream;
-import java.util.stream.LongStream;
-import java.util.stream.Stream;
 
 @Controller
 public class BebanController {
@@ -55,6 +48,11 @@ public class BebanController {
         model.addAttribute("sortField", sortField);
         model.addAttribute("reverseDirection", sortDirection.equals("asc")?"desc":"asc");
 
+        // add form
+        Beban beban = new Beban();
+        model.addAttribute("bebansAdd", beban);
+
+
         return "index1";
     }
 
@@ -70,10 +68,12 @@ public class BebanController {
         bebanService.create(beban);
         return "redirect:/beban";
     }
+
     @PutMapping("/beban")
     public String formUpdateBeban1(Model model){
         return "redirect:/beban";
     }
+
     @GetMapping("/beban/update/{id}")
     public String formUpdateBeban(@PathVariable Integer id, Model model){
         Beban byId = bebanService.findById(id);
