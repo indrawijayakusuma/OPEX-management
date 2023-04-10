@@ -43,7 +43,7 @@
     <P class="text-base text-slate-400">List Mata Anggaran Realisasi</P>
   </div>
   <div class="md:flex lg:w-[90%] mx-auto justify-between mb-6 mt-9">
-    <form action="#">
+    <form th:action="@{'/beban/page/' + ${currentPage}}" method="get">
       <input placeholder="Search" type="text" class="p-6 border ml-8 h-11 md:w-96 rounded-2xl" name="keyword" id="keyword"/>
     </form>
     <label for="my-modal-3" class="btn lg:mr-8 rounded-xl mx-32 bg-orange-500 border-0 text-sm font-medium"><i class="fa-solid fa-square-plus"></i><span class="mx-2">Add New Beban</span></label>
