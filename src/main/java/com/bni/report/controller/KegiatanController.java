@@ -2,6 +2,7 @@ package com.bni.report.controller;
 
 import com.bni.report.entities.Beban;
 import com.bni.report.entities.Kegiatan;
+import com.bni.report.entities.Validator;
 import com.bni.report.service.BebanService;
 import com.bni.report.service.KegiatanService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,7 +28,7 @@ public class KegiatanController {
     public String getAll(Model model, @PathVariable(value = "id") Integer id){
         return paginateGetAll(null,id,1,"name", "asc",model);
     }
-    @GetMapping("/kegiatan/page/{id}/{no}")
+    @GetMapping("/kegiatan/page/{name}/{no}")
     public String paginateGetAll(
             @RequestParam(required = false) String keyword,
             @PathVariable(value = "id") Integer id,
@@ -49,10 +50,10 @@ public class KegiatanController {
 
         Beban beban = bebanService.findById(id);
         BigDecimal sisa = beban.getSisa();
-        String name = beban.getName();
+        String name1 = beban.getName();
 
         model.addAttribute("sisa", sisa);
-        model.addAttribute("nameBeban", name);
+        model.addAttribute("nameBeban", name1);
         model.addAttribute("currentPage", currPage);
         model.addAttribute("sortField", sortField);
         model.addAttribute("sortDirection", sortDirection);
@@ -62,7 +63,17 @@ public class KegiatanController {
         model.addAttribute("totalItems", kegiatanPage.getTotalElements());
         model.addAttribute("kegiatans", kegiatanList);
 
+        Validator validator = new Validator();
+        validator.setBeban(new Beban(id));
+        model.addAttribute("validatorsObject", validator);
+
         return "listKegiatan";
+    }
+
+    @PostMapping("/kegiatan")
+    public String create(Kegiatan kegiatan){
+        kegiatanService.create(kegiatan);
+        return "redirect:/kegiatan";
     }
 
     @PutMapping("/kegiatan")

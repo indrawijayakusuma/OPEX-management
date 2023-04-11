@@ -31,8 +31,8 @@ public class ValidatorController {
         model.addAttribute("validators", validator);
         return "formAddKegiatan";
     }
-    @PostMapping("/validator")
-    public String create(Validator validator){
+    @PostMapping("/validator/{id}")
+    public String create(@PathVariable Integer id, Validator validator){
         validatorService.create(validator);
         return "redirect:/beban";
     }

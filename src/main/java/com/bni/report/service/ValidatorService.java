@@ -16,6 +16,8 @@ public class ValidatorService {
     @Autowired
     private KegiatanRepository kegiatanRepository;
 
+
+
     public List<Validator> getAll(){
         return validatorRepository.findAll();
     }

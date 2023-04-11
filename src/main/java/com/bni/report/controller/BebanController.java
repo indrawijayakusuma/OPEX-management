@@ -53,7 +53,7 @@ public class BebanController {
         model.addAttribute("bebansAdd", beban);
 
 
-        return "index1";
+        return "index";
     }
 
     @GetMapping("/beban/addform")
@@ -66,11 +66,6 @@ public class BebanController {
     @PostMapping("/beban")
     public String add(Beban beban){
         bebanService.create(beban);
-        return "redirect:/beban";
-    }
-
-    @PutMapping("/beban")
-    public String formUpdateBeban1(Model model){
         return "redirect:/beban";
     }
 
