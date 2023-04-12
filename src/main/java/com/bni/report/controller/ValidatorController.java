@@ -9,6 +9,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.math.BigDecimal;
+import java.util.Date;
 import java.util.List;
 
 @Controller
@@ -31,8 +33,8 @@ public class ValidatorController {
         model.addAttribute("validators", validator);
         return "formAddKegiatan";
     }
-    @PostMapping("/validator/{id}")
-    public String create(@PathVariable Integer id, Validator validator){
+    @PostMapping("/validator")
+    public String add(Validator validator){
         validatorService.create(validator);
         return "redirect:/beban";
     }
@@ -43,15 +45,15 @@ public class ValidatorController {
         return "redirect:/validator";
     }
 
-    @GetMapping("/validator/{id}")
-    public ResponseEntity<Validator> getById(@PathVariable Integer id){
-        return ResponseEntity.ok().body(validatorService.findById(id));
-    }
-    @DeleteMapping("/validator/{id}")
-    public ResponseEntity<?> delete(@PathVariable Integer id){
-        validatorService.delete(id);
-        return ResponseEntity.ok().body("deleted");
-    }
+//    @GetMapping("/validator/{id}")
+//    public ResponseEntity<Validator> getById(@PathVariable Integer id){
+//        return ResponseEntity.ok().body(validatorService.findById(id));
+//    }
+//    @DeleteMapping("/validator/{id}")
+//    public ResponseEntity<?> delete(@PathVariable Integer id){
+//        validatorService.delete(id);
+//        return ResponseEntity.ok().body("deleted");
+//    }
     @PutMapping("/validator")
     public ResponseEntity<Validator> edit(@RequestBody Validator validator){
         return ResponseEntity.ok().body(validatorService.edit(validator));

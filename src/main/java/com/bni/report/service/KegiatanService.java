@@ -2,7 +2,9 @@ package com.bni.report.service;
 
 import com.bni.report.entities.Beban;
 import com.bni.report.entities.Kegiatan;
+import com.bni.report.entities.Validator;
 import com.bni.report.repositories.KegiatanRepository;
+import com.bni.report.repositories.ValidatorRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -15,12 +17,16 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 @Component @Slf4j
 public class KegiatanService {
 
     @Autowired
     private KegiatanRepository kegiatanRepository;
+
+    @Autowired
+    private ValidatorRepository validatorRepository;
 
     public Page<Kegiatan> getAll(Pageable pageable,Integer id){
         return kegiatanRepository.findByBebanId(id,pageable);
@@ -35,7 +41,7 @@ public class KegiatanService {
     public Page<Kegiatan> paginateSearchingGetAll(int currPage, int pageSize, String sortField, String sortDirection, String keyword){
         Sort sort = sortDirection.equalsIgnoreCase(Sort.Direction.ASC.name()) ? Sort.by(sortField).ascending() : Sort.by(sortField).descending();
         Pageable pageable = PageRequest.of(currPage-1, pageSize, sort);
-        return kegiatanRepository.search(keyword, pageable);
+        return kegiatanRepository.search(keyword,1,pageable);
     }
 
     public Kegiatan findById(Integer id){
@@ -44,9 +50,11 @@ public class KegiatanService {
     public Kegiatan create(Kegiatan kegiatan){
         return kegiatanRepository.save(kegiatan);
     }
-    public Kegiatan edit (Kegiatan kegiatan){
-        Kegiatan ObjectKegiatan = findById(kegiatan.getId());
-        return kegiatanRepository.save(kegiatan);
+    public void edit (Kegiatan kegiatan){
+        Kegiatan objectKegiatan = findById(kegiatan.getId());
+        Validator validator = Optional.of(objectKegiatan).map(Validator::new).get();
+        validatorRepository.save(validator);
+        kegiatanRepository.delete(objectKegiatan);
     }
     public void delete(Integer id){
         kegiatanRepository.deleteById(id);

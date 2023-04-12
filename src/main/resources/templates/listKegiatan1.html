@@ -11,7 +11,7 @@
 </head>
 <body>
 <!--  navbar-->
-<!--  <div th:replace="fragments/navbar :: header"></div>-->
+  <div th:replace="fragments/navbar :: header"></div>
 
 <!--text-->
   <div class="lg:ml-36 ml-3">
@@ -31,7 +31,7 @@
   </div>
 
 <!--  table-->
-  <div class="container shadow-lg p-8 lg:w-[90%] m-auto overflow-x-auto">
+  <div class="container shadow-lg p-8 lg:w-[90%] mb-9 mx-auto overflow-x-auto">
     <table class="outline outline-slate-200 outline-1 rounded-xl border-spacing-1 table-auto w-full m-auto">
       <thead>
       <tr class="border-b">
@@ -52,7 +52,7 @@
         <td>[[${#dates.format(kegiatan.date, 'dd/MM/yyyy')}]]</td>
         <td class="">
           <div class="flex-row space-x-4">
-            <a href="#"><i class="fa-solid fa-pen-to-square"></i></a>
+            <a th:href="@{'/kegiatan/update/' + ${kegiatan.id}}"><i class="fa-solid fa-pen-to-square"></i></a>
             <label for="my-modal-6" class="cursor-pointer"><i class="fa-solid fa-trash"></i></label>
           </div>
           <!--modal-->
@@ -99,7 +99,7 @@
       <label for="my-modal-3" class="btn btn-sm hover:bg-orange-400 bg-orange-500 border-0 btn-circle absolute right-2 top-2">✕</label>
       <div class="p-5">
         <h1 class="text-center text-lg font-bold mb-5">Add Mata Anggaran</h1>
-        <form th:action="@{'/validator/' + ${id}}" method="post" th:object="${validatorsObject}">
+        <form th:action="@{/validator}" method="post" th:object="${validatorsObject}">
           <input hidden="hidden" th:field="*{beban}">
           <div class="my-3">
             <input placeholder="Realisasi" type="text" class="p-6 border w-full h-11 rounded-xl" th:field="*{name}"/>

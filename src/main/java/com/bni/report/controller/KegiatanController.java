@@ -28,10 +28,10 @@ public class KegiatanController {
     public String getAll(Model model, @PathVariable(value = "id") Integer id){
         return paginateGetAll(null,id,1,"name", "asc",model);
     }
-    @GetMapping("/kegiatan/page/{name}/{no}")
+    @GetMapping("/kegiatan/page/{id}/{no}")
     public String paginateGetAll(
             @RequestParam(required = false) String keyword,
-            @PathVariable(value = "id") Integer id,
+            @PathVariable(value = "id") int id,
             @PathVariable(value = "no") int currPage,
             @RequestParam(defaultValue = "name") String sortField,
             @RequestParam(defaultValue = "asc") String sortDirection,
@@ -67,18 +67,26 @@ public class KegiatanController {
         validator.setBeban(new Beban(id));
         model.addAttribute("validatorsObject", validator);
 
-        return "listKegiatan";
+        return "listKegiatan1";
+    }
+
+//    @PostMapping("/kegiatan")
+//    public String create(Kegiatan kegiatan){
+//        kegiatanService.create(kegiatan);
+//        return "redirect:/kegiatan";
+//    }
+
+    @GetMapping("/kegiatan/update/{id}")
+    public String formUpdateKegiatan(@PathVariable Integer id, Model model){
+        Kegiatan byId = kegiatanService.findById(id);
+        model.addAttribute("kegiatans", byId);
+        return "formUpdateKegiatan";
     }
 
     @PostMapping("/kegiatan")
-    public String create(Kegiatan kegiatan){
-        kegiatanService.create(kegiatan);
-        return "redirect:/kegiatan";
-    }
-
-    @PutMapping("/kegiatan")
-    public ResponseEntity<Kegiatan> edit(@RequestBody Kegiatan kegiatan){
-        return ResponseEntity.ok().body(kegiatanService.edit(kegiatan));
+    public String update(Kegiatan kegiatan){
+        kegiatanService.edit(kegiatan);
+        return "redirect:/beban";
     }
     @GetMapping("/kegiatan/delete/{id}")
     public String delete(@PathVariable Integer id){

@@ -22,4 +22,22 @@ public class Validator {
     private BigDecimal nominal;
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date date;
+
+    public Validator(Kegiatan kegiatan) {
+        this.name =   kegiatan.getName();
+        this.beban =   kegiatan.getBeban();
+        this.cat =   kegiatan.getCat();
+        this.pic =   kegiatan.getPic();
+        this.nominal =   kegiatan.getNominal();
+        this.date =   kegiatan.getDate();
+    }
+
+    public Validator(String name, Beban beban, String cat, String pic, BigDecimal nominal, Date date) {
+        this.name = name;
+        this.beban = beban;
+        this.cat = cat;
+        this.pic = pic;
+        this.nominal = nominal;
+        this.date = date;
+    }
 }

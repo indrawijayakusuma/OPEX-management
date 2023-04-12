@@ -27,7 +27,6 @@ public class Beban {
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date date;
 
-
     public Beban(String name, BigDecimal budget, Date date) {
         this.name = name;
         this.budget = budget;

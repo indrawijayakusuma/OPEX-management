@@ -2,6 +2,7 @@ package com.bni.report.service;
 
 import com.bni.report.entities.Beban;
 import com.bni.report.entities.Kegiatan;
+import com.bni.report.entities.Validator;
 import com.bni.report.repositories.BebanRepository;
 import com.bni.report.repositories.KegiatanRepository;
 import jakarta.annotation.PostConstruct;
@@ -26,6 +27,9 @@ public class BebanService {
     private KegiatanRepository kegiatanRepository;
     @Autowired
     private KegiatanService kegiatanService;
+
+    @Autowired
+    private ValidatorService validatorService;
 
     public Page<Beban> getAll(Pageable pageable){
         Page<Beban> all = bebanRepository.findAll(pageable);
@@ -78,10 +82,6 @@ public class BebanService {
         bebanList.add(new Beban("beban sumbangan", new BigDecimal(800000000), new Date()));
 
 
-
-
-
-
         List<Kegiatan> kegitanList = new ArrayList<>();
         kegitanList.add(new Kegiatan("kegitan olahrage", new Beban(1),"cat1","suni", new BigDecimal(800000), new Date()));
         kegitanList.add(new Kegiatan("kegitan senam", new Beban(1),"cat1","julian", new BigDecimal(89000), new Date()));
@@ -95,5 +95,8 @@ public class BebanService {
 
         bebanRepository.saveAll(bebanList);
         kegiatanRepository.saveAll(kegitanList);
+
+//        validatorService.create(new Validator("test1", new Beban(1),"cat1","suni", new BigDecimal(800000), new Date()));
+//        validatorService.create(new Validator("test2", new Beban(1),"cat1","suni", new BigDecimal(800000), new Date()));
     }
 }
