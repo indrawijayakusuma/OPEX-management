@@ -80,6 +80,23 @@ public class BebanService {
         List<Beban> bebanList = new ArrayList<>();
         bebanList.add(new Beban("beban penyuluhan", new BigDecimal(900000000), new Date()));
         bebanList.add(new Beban("beban sumbangan", new BigDecimal(800000000), new Date()));
+        bebanList.add(new Beban("beban penyuluhan", new BigDecimal(900000000), new Date()));
+        bebanList.add(new Beban("beban sumbangan", new BigDecimal(800000000), new Date()));
+        bebanList.add(new Beban("beban penyuluhan", new BigDecimal(900000000), new Date()));
+        bebanList.add(new Beban("beban sumbangan", new BigDecimal(800000000), new Date()));
+        bebanList.add(new Beban("beban penyuluhan", new BigDecimal(900000000), new Date()));
+        bebanList.add(new Beban("beban sumbangan", new BigDecimal(800000000), new Date()));
+        bebanList.add(new Beban("beban penyuluhan", new BigDecimal(900000000), new Date()));
+        bebanList.add(new Beban("beban sumbangan", new BigDecimal(800000000), new Date()));
+        bebanList.add(new Beban("beban penyuluhan", new BigDecimal(900000000), new Date()));
+        bebanList.add(new Beban("beban sumbangan", new BigDecimal(800000000), new Date()));
+        bebanList.add(new Beban("beban penyuluhan", new BigDecimal(900000000), new Date()));
+        bebanList.add(new Beban("beban sumbangan", new BigDecimal(800000000), new Date()));
+        bebanList.add(new Beban("beban penyuluhan", new BigDecimal(900000000), new Date()));
+        bebanList.add(new Beban("beban sumbangan", new BigDecimal(800000000), new Date()));
+        bebanList.add(new Beban("beban penyuluhan", new BigDecimal(900000000), new Date()));
+        bebanList.add(new Beban("beban sumbangan", new BigDecimal(800000000), new Date()));
+
 
 
         List<Kegiatan> kegitanList = new ArrayList<>();
@@ -92,11 +109,13 @@ public class BebanService {
         kegitanList.add(new Kegiatan("kegitan senam", new Beban(2),"cat1","julian", new BigDecimal(89000), new Date()));
         kegitanList.add(new Kegiatan("kegitan gym", new Beban(2),"cat1","brian", new BigDecimal(324000), new Date()));
         kegitanList.add(new Kegiatan("kegitan kebugaran", new Beban(2),"cat1","hasim", new BigDecimal(24235000), new Date()));
+        kegitanList.add(new Kegiatan("kegitan olahrage", new Beban(2),"cat1","suni", new BigDecimal(800000), new Date()));
+        kegitanList.add(new Kegiatan("kegitan senam", new Beban(2),"cat1","julian", new BigDecimal(89000), new Date()));
+        kegitanList.add(new Kegiatan("kegitan gym", new Beban(2),"cat1","brian", new BigDecimal(324000), new Date()));
+        kegitanList.add(new Kegiatan("kegitan kebugaran", new Beban(2),"cat1","hasim", new BigDecimal(24235000), new Date()));
+
 
         bebanRepository.saveAll(bebanList);
         kegiatanRepository.saveAll(kegitanList);
-
-//        validatorService.create(new Validator("test1", new Beban(1),"cat1","suni", new BigDecimal(800000), new Date()));
-//        validatorService.create(new Validator("test2", new Beban(1),"cat1","suni", new BigDecimal(800000), new Date()));
     }
 }
