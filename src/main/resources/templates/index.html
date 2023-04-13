@@ -52,7 +52,7 @@
         <td>[[${#dates.format(beban.date, 'dd/MM/yyyy')}]]</td>
         <td class="">
           <div class="flex-row space-x-4">
-            <a th:href="@{'/beban/update/' + ${beban.id}}"><i class="fa-solid fa-pen-to-square"></i></a>
+            <a th:href="@{'/beban/update/' + ${beban.id}}"><i class="fa-solid fa-pen-to-square fa-lg"></i></a>
             <label for="my-modal-6" class="cursor-pointer"><i class="fa-solid fa-trash"></i></label>
             <a th:href="@{'/kegiatan/' + ${beban.id}}"><i class="fa-solid fa-eye"></i></a>
           </div>
@@ -83,13 +83,13 @@
     </span>
     <div class="inline-flex mt-2 xs:mt-0">
       <!-- Buttons -->
-      <a th:href="@{'/beban/page/' + ${currentPage-1} + '?' + 'sortField='+ ${sortField} +'&sortDirection=' + ${sortDirection}}" th:classappend="${currentPage == 1 ? 'pointer-events-none  ':''}" class="inline-flex items-center px-4 py-3 text-sm font-medium text-white bg-orange-500 rounded-l-xl hover:bg-gray-900">
+      <a th:href="@{'/beban/page/' + ${currentPage-1} + '?' + 'sortField='+ ${sortField} +'&sortDirection=' + ${sortDirection}}" th:classappend="${currentPage == 1 ? 'pointer-events-none  ':''}" class="inline-flex items-center px-4 py-3 text-sm font-medium text-white bg-orange-500 rounded-l-xl hover:bg-orange-400">
         Prev
       </a>
       <div th:each="page : ${#numbers.sequence(currentPage > 2 ? currentPage - 2 : 1, currentPage + 2 < totalPages ? currentPage + 2 : totalPages)}">
-        <a th:href="@{'/beban/page/' + ${page} + '?' + 'sortField='+ ${sortField} +'&sortDirection=' + ${sortDirection}}" th:text="${page}" th:classappend="${currentPage == page ? 'pointer-events-none bg-orange-400':'bg-orange-500'}" class="inline-flex items-center px-4 py-3 text-sm font-medium text-white hover:bg-gray-900">1</a>
+        <a th:href="@{'/beban/page/' + ${page} + '?' + 'sortField='+ ${sortField} +'&sortDirection=' + ${sortDirection}}" th:text="${page}" th:classappend="${currentPage == page ? 'pointer-events-none bg-orange-600':'bg-orange-500'}" class="inline-flex items-center px-4 py-3 text-sm font-medium text-white hover:bg-orange-400">1</a>
       </div>
-      <a th:href="@{'/beban/page/' + ${currentPage + 1} + '?' + 'sortField='+ ${sortField} +'&sortDirection=' + ${sortDirection}}" th:classappend="${currentPage == totalPages ? 'pointer-events-none  ':''}" class="inline-flex items-center px-4 py-3 text-sm font-medium text-white bg-orange-500 border-0 border-l border-orange-500 rounded-r-xl hover:bg-gray-900">Next</a>
+      <a th:href="@{'/beban/page/' + ${currentPage + 1} + '?' + 'sortField='+ ${sortField} +'&sortDirection=' + ${sortDirection}}" th:classappend="${currentPage == totalPages ? 'pointer-events-none  ':''}" class="inline-flex items-center px-4 py-3 text-sm font-medium text-white bg-orange-500 border-0 border-l border-orange-500 rounded-r-xl hover:bg-orange-400">Next</a>
     </div>
   </div>
 

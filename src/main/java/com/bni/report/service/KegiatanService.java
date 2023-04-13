@@ -54,7 +54,6 @@ public class KegiatanService {
         Kegiatan objectKegiatan = findById(kegiatan.getId());
         Validator validator = Optional.of(objectKegiatan).map(Validator::new).get();
         validatorRepository.save(validator);
-        kegiatanRepository.delete(objectKegiatan);
     }
     public void delete(Integer id){
         kegiatanRepository.deleteById(id);

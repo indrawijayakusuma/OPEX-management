@@ -85,8 +85,9 @@ public class KegiatanController {
 
     @PostMapping("/kegiatan")
     public String update(Kegiatan kegiatan){
+        kegiatanService.create(kegiatan);
         kegiatanService.edit(kegiatan);
-        return "redirect:/beban";
+        return "redirect:/kegiatan/delete/" + kegiatan.getId();
     }
     @GetMapping("/kegiatan/delete/{id}")
     public String delete(@PathVariable Integer id){

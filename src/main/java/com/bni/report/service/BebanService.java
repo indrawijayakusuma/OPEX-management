@@ -97,8 +97,6 @@ public class BebanService {
         bebanList.add(new Beban("beban penyuluhan", new BigDecimal(900000000), new Date()));
         bebanList.add(new Beban("beban sumbangan", new BigDecimal(800000000), new Date()));
 
-
-
         List<Kegiatan> kegitanList = new ArrayList<>();
         kegitanList.add(new Kegiatan("kegitan olahrage", new Beban(1),"cat1","suni", new BigDecimal(800000), new Date()));
         kegitanList.add(new Kegiatan("kegitan senam", new Beban(1),"cat1","julian", new BigDecimal(89000), new Date()));

@@ -24,6 +24,7 @@
         <div class="w-full">
             <form th:action="@{/kegiatan}" method="post" th:object="${kegiatans}">
                 <input hidden="hidden" th:field="*{id}">
+                <input hidden="hidden" th:field="*{beban.id}">
                 <div class="my-3">
                     <input placeholder="Realisasi" type="text" class="p-6 border w-full h-11 rounded-xl" th:field="*{name}"/>
                 </div>

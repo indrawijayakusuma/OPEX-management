@@ -23,7 +23,7 @@ public class ValidatorController {
     public String getAll(Model model){
         final List<Validator> all = validatorService.getAll();
         model.addAttribute("valids", all);
-        return "validasiList";
+        return "validasi1";
     }
 
     @GetMapping("/validator/addform/{id}")

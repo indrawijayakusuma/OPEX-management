@@ -25,9 +25,6 @@
     <form th:action="@{'/kegiatan/page/' + ${id} + '/' + ${currentPage}}" method="get">
       <input placeholder="Search" type="text" class="p-6 border ml-8 h-11 md:w-96 rounded-2xl" required name="keyword" th:value="${keyword}" id="keyword"/>
     </form>
-    <label for="my-modal-3" class="text-white hover:bg-orange-400 p-3 lg:mr-8 cursor-pointer rounded-full mx-32 bg-orange-500 border-0 text-sm font-medium">
-      <i class="ml-3 fa-solid fa-square-plus"></i><span class="mx-6">Add New Beban</span>
-    </label>
   </div>
 
 <!--  table-->
@@ -44,7 +41,7 @@
       </tr>
       </thead>
       <tbody class="text-center">
-      <tr class="border-b rounded-lg hover:shadow-lg group" th:each="kegiatan : ${kegiatans}">
+      <tr class="border-b rounded-lg hover:shadow-lg group" th:each="kegiatan : ${valids}">
         <td class="py-6">[[${kegiatan.name}]]</td>
         <td>[[${kegiatan.cat}]]</td>
         <td>[[${kegiatan.pic}]]</td>
@@ -52,20 +49,8 @@
         <td>[[${#dates.format(kegiatan.date, 'dd/MM/yyyy')}]]</td>
         <td class="">
           <div class="flex-row space-x-4">
-            <a th:href="@{'/kegiatan/update/' + ${kegiatan.id}}"><i class="fa-solid fa-pen-to-square "></i></a>
-            <label for="my-modal-6" class="cursor-pointer"><i class="fa-solid fa-trash"></i></label>
-          </div>
-          <!--modal-->
-          <input type="checkbox" id="my-modal-6" class="modal-toggle"/>
-          <div class="modal modal-bottom sm:modal-middle">
-            <div class="modal-box">
-              <h3 class="font-bold text-lg">Delete</h3>
-              <p class="py-4">Hapus beban ini?</p>
-              <div class="">
-                <a type="button" th:href="@{'/kegiatan/delete/' + ${kegiatan.id}}" class="py-3 p-16 rounded-full text-white text-sm font-medium hover:bg-red-400 bg-red-500 border-0">Ya</a>
-                <label for="my-modal-6" class="py-3 px-12 hover:bg-gray-100 cursor-pointer rounded-full border text-sm font-medium">Cencel</label>
-              </div>
-            </div>
+            <a th:href="@{'/kegiatan/update/' + ${kegiatan.id}}"><i class="fa-solid fa-pen-to-square fa-lg"></i></a>
+            <a th:href="@{'/validator/validate/' + ${kegiatan.id}}"><i class="fa-solid fa-square-check fa-lg"></i></a>
           </div>
         </td>
       </tr>
@@ -90,45 +75,6 @@
       <a th:href="@{'/kegiatan/page/' + ${currentPage + 1} + '?' + 'sortField='+ ${sortField} +'&sortDirection=' + ${sortDirection}}" th:classappend="${currentPage == totalPages ? 'pointer-events-none  ':''}" class="inline-flex items-center px-4 py-3 text-sm font-medium text-white bg-orange-500 border-0 border-l border-orange-500 rounded-r-xl hover:bg-orange-400">Next</a>
     </div>
   </div>
-
-<!--  modal-->
-  <input type="checkbox" id="my-modal-3" class="modal-toggle"/>
-  <div class="modal">
-    <div class="modal-box relative">
-      <label for="my-modal-3" class="btn btn-sm hover:bg-orange-400 bg-orange-500 border-0 btn-circle absolute right-2 top-2">✕</label>
-      <div class="p-5">
-        <h1 class="text-center text-lg font-bold mb-5">Add Mata Anggaran</h1>
-        <form th:action="@{/validator}" method="post" th:object="${validatorsObject}">
-          <input hidden="hidden" th:field="*{beban}">
-          <div class="my-3">
-            <input placeholder="Realisasi" type="text" class="p-6 border w-full h-11 rounded-xl" th:field="*{name}"/>
-          </div>
-          <div class="my-3">
-            <input placeholder="Category" type="text" class="p-6 border w-full h-11 rounded-xl" th:field="*{cat}"/>
-          </div>
-          <div class="my-3">
-            <input placeholder="Pic" type="text" class="p-6 border w-full h-11 rounded-xl" th:field="*{pic}"/>
-          </div>
-          <div class="my-3">
-            <input placeholder="Nominal" type="number" class="p-6 border w-full h-11 rounded-xl" th:field="*{nominal}" required/>
-          </div>
-          <div class="my-3">
-            <input placeholder="Date" type="date" class="p-6 border w-full h-11 rounded-xl" th:field="*{date}"/>
-          </div>
-          <div class="flex justify-center mt-5">
-            <button class="py-3 p-12 bg-orange-500 hover:bg-orange-400 border-0 text-white rounded-full" type="submit">Submit</button>
-          </div>
-        </form>
-      </div>
-    </div>
-  </div>
-
-<script>
-    $('button').click(function(){
-    // Do your job
-    $('#upload').modal('show');
-});
-</script>
 
 </body>
 </html>
