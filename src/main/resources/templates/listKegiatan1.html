@@ -13,11 +13,16 @@
 <!--  navbar-->
   <div th:replace="fragments/navbar :: header"></div>
 
+<!--button back-->
+  <div class="mt-14 mb-14">
+    <a th:href="@{/beban}" class="ml-20 py-3 px-4 hover:bg-orange-400 rounded-full bg-orange-500 text-white text-sm font-medium"><i class="fa-solid fa-chevron-left fa-xl"></i><span class="mx-5">Back</span></a>
+  </div>
+
 <!--text-->
   <div class="lg:ml-36 ml-3">
     <h1 class="text-4xl mb-1 font-bold">DCU</h1>
-    <h1 class="text-xl font-bold">Mata Anggaran</h1>
-    <P class="text-base text-slate-400">List Mata Anggaran Realisasi</P>
+    <h1 class="text-xl font-bold">Realisasi <span th:text="${nameBeban}"></span></h1>
+    <P class="text-base text-slate-400">List Realisasi <span th:text="${nameBeban}"></span></P>
   </div>
 
 <!--search and add-->
@@ -69,6 +74,14 @@
           </div>
         </td>
       </tr>
+      <tr class="bg-red-300">
+        <td class="bg-red-500">
+          <div class="flex flex-shrink-0">
+            <div class="flex items-center flex-grow w-0 h-10 px-2"><span>Footer 1</span></div>
+            <div class="flex items-center flex-grow w-0 h-10 px-2"><span>Footer 6</span></div>
+          </div>
+        </td>
+      </tr>
       </tbody>
     </table>
   </div>
@@ -81,13 +94,13 @@
     </span>
     <div class="inline-flex mt-2 xs:mt-0">
       <!-- Buttons -->
-      <a th:href="@{'/kegiatan/page/' + ${currentPage-1} + '?' + 'sortField='+ ${sortField} +'&sortDirection=' + ${sortDirection}}" th:classappend="${currentPage == 1 ? 'pointer-events-none  ':''}" class="inline-flex items-center px-4 py-3 text-sm font-medium text-white bg-orange-500 rounded-l-xl hover:bg-orange-400">
+      <a th:href="@{'/kegiatan/page/' + ${id} + '/' + ${currentPage-1} + '?' + 'sortField='+ ${sortField} +'&sortDirection=' + ${sortDirection}}" th:classappend="${currentPage == 1 ? 'pointer-events-none  ':''}" class="inline-flex items-center px-4 py-3 text-sm font-medium text-white bg-orange-500 rounded-l-xl hover:bg-orange-400">
         Prev
       </a>
       <div th:each="page : ${#numbers.sequence(currentPage > 2 ? currentPage - 2 : 1, currentPage + 2 < totalPages ? currentPage + 2 : totalPages)}">
-        <a th:href="@{'/kegiatan/page/' + ${page} + '?' + 'sortField='+ ${sortField} +'&sortDirection=' + ${sortDirection}}" th:text="${page}" th:classappend="${currentPage == page ? 'pointer-events-none bg-orange-600':'bg-orange-500'}" class="inline-flex items-center px-4 py-3 text-sm font-medium text-white hover:bg-orange-400">1</a>
+        <a th:href="@{'/kegiatan/page/' + ${id} + '/' + ${page} + '?' + 'sortField='+ ${sortField} +'&sortDirection=' + ${sortDirection}}" th:text="${page}" th:classappend="${currentPage == page ? 'pointer-events-none bg-orange-600':'bg-orange-500'}" class="inline-flex items-center px-4 py-3 text-sm font-medium text-white hover:bg-orange-400">1</a>
       </div>
-      <a th:href="@{'/kegiatan/page/' + ${currentPage + 1} + '?' + 'sortField='+ ${sortField} +'&sortDirection=' + ${sortDirection}}" th:classappend="${currentPage == totalPages ? 'pointer-events-none  ':''}" class="inline-flex items-center px-4 py-3 text-sm font-medium text-white bg-orange-500 border-0 border-l border-orange-500 rounded-r-xl hover:bg-orange-400">Next</a>
+      <a th:href="@{'/kegiatan/page/' + ${id} + '/' + ${currentPage + 1} + '?' + 'sortField='+ ${sortField} +'&sortDirection=' + ${sortDirection}}" th:classappend="${currentPage == totalPages ? 'pointer-events-none  ':''}" class="inline-flex items-center px-4 py-3 text-sm font-medium text-white bg-orange-500 border-0 border-l border-orange-500 rounded-r-xl hover:bg-orange-400">Next</a>
     </div>
   </div>
 
@@ -97,7 +110,7 @@
     <div class="modal-box relative">
       <label for="my-modal-3" class="btn btn-sm hover:bg-orange-400 bg-orange-500 border-0 btn-circle absolute right-2 top-2">✕</label>
       <div class="p-5">
-        <h1 class="text-center text-lg font-bold mb-5">Add Mata Anggaran</h1>
+        <h1 class="text-center text-lg font-bold mb-5">Add Realisasi</h1>
         <form th:action="@{/validator}" method="post" th:object="${validatorsObject}">
           <input hidden="hidden" th:field="*{beban}">
           <div class="my-3">
@@ -122,13 +135,5 @@
       </div>
     </div>
   </div>
-
-<script>
-    $('button').click(function(){
-    // Do your job
-    $('#upload').modal('show');
-});
-</script>
-
 </body>
 </html>

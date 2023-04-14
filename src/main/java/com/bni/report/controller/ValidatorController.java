@@ -1,15 +1,18 @@
 package com.bni.report.controller;
 
 import com.bni.report.entities.Beban;
+import com.bni.report.entities.Kegiatan;
 import com.bni.report.entities.Validator;
 import com.bni.report.service.ValidatorService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -21,8 +24,31 @@ public class ValidatorController {
 
     @GetMapping("/validator")
     public String getAll(Model model){
-        final List<Validator> all = validatorService.getAll();
-        model.addAttribute("valids", all);
+        return paginateGetAll(1, "name", "asc", model);
+    }
+
+    @GetMapping("/validator/page/{no}")
+    public String paginateGetAll (
+            @PathVariable(value = "no") int currPage,
+            @RequestParam(defaultValue = "name") String sortField,
+            @RequestParam(defaultValue = "asc") String sortDirection,
+            Model model
+    ){
+        int pageSize = 9;
+        Page<Validator> validators = validatorService.paginateGetALl(currPage, pageSize, sortDirection, sortField);
+
+        List<Validator> validatorList = new ArrayList<>();
+        validatorList = validators.getContent();
+
+        model.addAttribute("currentPage", currPage);
+        model.addAttribute("sortField", sortField);
+        model.addAttribute("sortDirection", sortDirection);
+        model.addAttribute("reverseDirection", sortDirection.equals("asc")?"desc":"asc");
+
+        model.addAttribute("totalPages", validators.getTotalPages());
+        model.addAttribute("totalItems", validators.getTotalElements());
+        model.addAttribute("validators", validatorList);
+
         return "validasi1";
     }
 
@@ -36,7 +62,7 @@ public class ValidatorController {
     @PostMapping("/validator")
     public String add(Validator validator){
         validatorService.create(validator);
-        return "redirect:/beban";
+        return "redirect:/kegiatan/" + validator.getBeban().getId();
     }
 
     @GetMapping("/validator/validate/{id}")
@@ -44,19 +70,17 @@ public class ValidatorController {
         validatorService.validate(id);
         return "redirect:/validator";
     }
+    @GetMapping("/validator/update/{id}")
+    public String formUpdateKegiatan(@PathVariable Integer id, Model model){
+        Validator byId = validatorService.findById(id);
+        model.addAttribute("kegiatans", byId);
+        return "formUpdateValidator";
+    }
 
-//    @GetMapping("/validator/{id}")
-//    public ResponseEntity<Validator> getById(@PathVariable Integer id){
-//        return ResponseEntity.ok().body(validatorService.findById(id));
-//    }
-//    @DeleteMapping("/validator/{id}")
-//    public ResponseEntity<?> delete(@PathVariable Integer id){
-//        validatorService.delete(id);
-//        return ResponseEntity.ok().body("deleted");
-//    }
-    @PutMapping("/validator")
-    public ResponseEntity<Validator> edit(@RequestBody Validator validator){
-        return ResponseEntity.ok().body(validatorService.edit(validator));
+    @PostMapping("/validator/update")
+    public String update(Validator validator){
+        validatorService.create(validator);
+        return "redirect:/validator";
     }
 
 }

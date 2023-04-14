@@ -18,7 +18,6 @@ public class BebanController {
 
     @GetMapping("/beban")
     public String getAll(Model model){
-
         return paginateGetAll(null,1,"name", "asc",model);
     }
     @GetMapping("/beban/page/{no}")
@@ -51,7 +50,6 @@ public class BebanController {
         // add form
         Beban beban = new Beban();
         model.addAttribute("bebansAdd", beban);
-
 
         return "index";
     }

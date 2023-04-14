@@ -5,6 +5,10 @@ import com.bni.report.entities.Validator;
 import com.bni.report.repositories.KegiatanRepository;
 import com.bni.report.repositories.ValidatorRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -16,10 +20,14 @@ public class ValidatorService {
     @Autowired
     private KegiatanRepository kegiatanRepository;
 
+    public Page<Validator> paginateGetALl(int currPage, int pageSize, String sortDirection, String sortField){
+        Sort sort = sortDirection.equalsIgnoreCase(Sort.Direction.ASC.name()) ? Sort.by(sortField).ascending() : Sort.by(sortField).descending();
+        Pageable pageable = PageRequest.of(currPage-1, pageSize, sort);
+        return getAll(pageable);
+    }
 
-
-    public List<Validator> getAll(){
-        return validatorRepository.findAll();
+    public Page<Validator> getAll(Pageable pageable){
+        return validatorRepository.findAll(pageable);
     }
     public Validator findById(Integer id){
         return validatorRepository.findById(id).orElseThrow(RuntimeException::new);

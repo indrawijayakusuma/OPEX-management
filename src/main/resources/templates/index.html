@@ -33,10 +33,10 @@
     <table class="outline outline-slate-200 outline-1 rounded-xl border-spacing-1 table-auto w-full m-auto">
       <thead>
       <tr class="border-b">
-        <th class=" py-3"><a class="hover:underline decoration-4 underline-offset-4 decoration-orange-500" href="#"><span class="mr-6">Nomer Rekening</span><i class="fa-solid fa-sort"></i></a></th>
+        <th class=" py-3"><a class="hover:underline decoration-4 underline-offset-4 decoration-orange-500" th:href="@{'/beban/page/' + ${currentPage} + '?' + 'sortField=nomerRekening&sortDirection=' + ${reverseDirection}}"><span class="mr-6">Nomer Rekening</span><i class="fa-solid fa-sort"></i></a></th>
         <th class=" py-3"><a th:class="${sortField == 'name' ? 'underline decoration-4 underline-offset-4 decoration-orange-500' : 'hover:underline decoration-4 underline-offset-4 decoration-orange-500'}" th:href="@{'/beban/page/' + ${currentPage} + '?' + 'sortField=name&sortDirection=' + ${reverseDirection}}"><span class="mr-6" >Mata Anggaran</span><i class="fa-solid fa-sort"></i></a></th>
         <th class=" py-3"><a th:class="${sortField == 'budget' ? 'underline decoration-4 underline-offset-4 decoration-orange-500' : 'hover:underline decoration-4 underline-offset-4 decoration-orange-500'}" th:href="@{'/beban/page/' + ${currentPage} + '?' + 'sortField=budget&sortDirection=' + ${reverseDirection}}"><span class="mr-6">Budget</span><i class="fa-solid fa-sort"></i></a></th>
-        <th class=" py-3"><a class="hover:underline decoration-4 underline-offset-4 decoration-orange-500" href="#"><span class="mr-6">Realisasi</span><i class="fa-solid fa-sort"></i></a></th>
+        <th class=" py-3"><a class="hover:underline decoration-4 underline-offset-4 decoration-orange-500" th:href="@{'/beban/page/' + ${currentPage} + '?' + 'sortField=realisasi&sortDirection=' + ${reverseDirection}}"><span class="mr-6">Realisasi</span><i class="fa-solid fa-sort"></i></a></th>
         <th class=" py-3"><a th:class="${sortField == 'sisa' ? 'underline decoration-4 underline-offset-4 decoration-orange-500' : 'hover:underline decoration-4 underline-offset-4 decoration-orange-500'}" th:href="@{'/beban/page/' + ${currentPage} + '?' + 'sortField=sisa&sortDirection=' + ${reverseDirection}}"><span class="mr-6">Sisa</span><i class="fa-solid fa-sort"></i></a></th>
         <th class=" py-3"><a th:class="${sortField == 'date' ? 'underline decoration-4 underline-offset-4 decoration-orange-500' : 'hover:underline decoration-4 underline-offset-4 decoration-orange-500'}" th:href="@{'/beban/page/' + ${currentPage} + '?' + 'sortField=date&sortDirection=' + ${reverseDirection}}"><span class="mr-6">Date</span><i class="fa-solid fa-sort"></i></a></th>
         <th class=" py-3"><a class="hover:underline decoration-4 underline-offset-4 decoration-orange-500" href="#"><span class="mr-6">Action</span><i class="fa-solid fa-sort"></i></a></th>
@@ -44,10 +44,10 @@
       </thead>
       <tbody class="text-center">
       <tr class="border-b rounded-lg hover:shadow-lg group" th:each="beban : ${bebans}">
-        <td class="py-6">743.434.5445</td>
+        <td class="py-6">[[${beban.nomerRekening}]]</td>
         <td>[[${beban.name}]]</td>
         <td>[[${#strings.replace(#numbers.formatCurrency(beban.budget), ',00','')}]]</td>
-        <td>Rp600.000.000</td>
+        <td>[[${#strings.replace(#numbers.formatCurrency(beban.realisasi), ',00','')}]]</td>
         <td>[[${#strings.replace(#numbers.formatCurrency(beban.sisa), ',00','')}]]</td>
         <td>[[${#dates.format(beban.date, 'dd/MM/yyyy')}]]</td>
         <td class="">
@@ -68,7 +68,6 @@
               </div>
             </div>
           </div>
-
         </td>
       </tr>
       </tbody>
@@ -102,7 +101,7 @@
         <h1 class="text-center text-lg font-bold mb-5">Add Mata Anggaran</h1>
         <form th:action="@{/beban}" method="post" th:object="${bebansAdd}">
           <div class="my-3">
-            <input placeholder="Nomer Rekening" type="text" class="p-6 border w-full h-11 rounded-xl" />
+            <input placeholder="Nomer Rekening" type="text" class="p-6 border w-full h-11 rounded-xl" th:field="*{nomerRekening}"/>
           </div>
           <div class="my-3">
             <input placeholder="Mata Anggaran" type="text" class="p-6 border w-full h-11 rounded-xl" th:field="*{name}"/>

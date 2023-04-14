@@ -70,12 +70,6 @@ public class KegiatanController {
         return "listKegiatan1";
     }
 
-//    @PostMapping("/kegiatan")
-//    public String create(Kegiatan kegiatan){
-//        kegiatanService.create(kegiatan);
-//        return "redirect:/kegiatan";
-//    }
-
     @GetMapping("/kegiatan/update/{id}")
     public String formUpdateKegiatan(@PathVariable Integer id, Model model){
         Kegiatan byId = kegiatanService.findById(id);
@@ -89,6 +83,7 @@ public class KegiatanController {
         kegiatanService.edit(kegiatan);
         return "redirect:/kegiatan/delete/" + kegiatan.getId();
     }
+
     @GetMapping("/kegiatan/delete/{id}")
     public String delete(@PathVariable Integer id){
         Integer idBeban = kegiatanService.findById(id).getBeban().getId();
