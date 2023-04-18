@@ -15,7 +15,7 @@
 
 <!--button back-->
   <div class="mt-14 mb-14">
-    <a th:href="@{/beban}" class="ml-20 py-3 px-4 hover:bg-orange-400 rounded-full bg-orange-500 text-white text-sm font-medium"><i class="fa-solid fa-chevron-left fa-xl"></i><span class="mx-5">Back</span></a>
+    <a th:href="@{'/beban/' + ${kelompokId}}" class="ml-20 py-3 px-4 hover:bg-orange-400 rounded-full bg-orange-500 text-white text-sm font-medium"><i class="fa-solid fa-chevron-left fa-xl"></i><span class="mx-5">Back</span></a>
   </div>
 
 <!--text-->
@@ -37,7 +37,7 @@
 
 <!--  table-->
   <div class="container shadow-lg p-8 lg:w-[90%] mb-9 mx-auto overflow-x-auto">
-    <table class="outline outline-slate-200 outline-1 rounded-xl border-spacing-1 table-auto w-full m-auto">
+    <table class="outline outline-slate-200 outline-1 rounded-t-xl border-spacing-1 table-auto w-full m-auto">
       <thead>
       <tr class="border-b">
         <th class=" py-3"><a th:class="${sortField == 'name' ? 'underline decoration-4 underline-offset-4 decoration-orange-500' : 'hover:underline decoration-4 underline-offset-4 decoration-orange-500'}" th:href="@{'/kegiatan/page/' + ${id} + '/' + ${currentPage} + '?' + ${keyword!=null && keyword!=''? 'keyword=' + keyword + '&' : ''} + 'sortField=name&sortDirection=' + ${reverseDirection}}"><span class="mr-6">Realisasi</span><i class="fa-solid fa-sort"></i></a></th>
@@ -48,8 +48,8 @@
         <th class=" py-3"><span class="mr-6">Action</span><i class="fa-solid fa-sort"></i></th>
       </tr>
       </thead>
-      <tbody class="text-center">
-      <tr class="border-b rounded-lg hover:shadow-lg group" th:each="kegiatan : ${kegiatans}">
+      <tbody class="text-center divide-y">
+      <tr class="rounded-lg hover:shadow-lg group" th:each="kegiatan : ${kegiatans}">
         <td class="py-6">[[${kegiatan.name}]]</td>
         <td>[[${kegiatan.cat}]]</td>
         <td>[[${kegiatan.pic}]]</td>
@@ -57,7 +57,7 @@
         <td>[[${#dates.format(kegiatan.date, 'dd/MM/yyyy')}]]</td>
         <td class="">
           <div class="flex-row space-x-4">
-            <a th:href="@{'/kegiatan/update/' + ${kegiatan.id}}"><i class="fa-solid fa-pen-to-square "></i></a>
+            <a th:href="@{'/kegiatan/update/' + ${kegiatan.id}}"><i class="fa-solid fa-pen-to-square"></i></a>
             <label for="my-modal-6" class="cursor-pointer"><i class="fa-solid fa-trash"></i></label>
           </div>
           <!--modal-->
@@ -76,9 +76,9 @@
       </tr>
       </tbody>
     </table>
-    <div class="flex flex-shrink-0">
-      <div class="flex items-center flex-grow w-0 h-10 px-2"><span>Footer 1</span></div>
-      <div class="flex items-center flex-grow w-0 h-10 px-2"><span>Footer 6</span></div>
+    <div class="flex py-3 bg-gray-100 outline-slate-200 outline-1 outline text-center text-base font-bold rounded-b-lg shadow-lg">
+      <div class="w-1/2"><span>Sisa</span></div>
+      <div class="w-1/2"><span>[[${#strings.replace(#numbers.formatCurrency(sisa), ',00','')}]]</span></div>
     </div>
   </div>
 

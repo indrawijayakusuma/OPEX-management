@@ -26,7 +26,7 @@ public class KegiatanController {
 
     @GetMapping("/kegiatan/{id}")
     public String getAll(Model model, @PathVariable(value = "id") Integer id){
-        return paginateGetAll(null,id,1,"name", "asc",model);
+        return paginateGetAll(null, id,1,"name", "asc",model);
     }
     @GetMapping("/kegiatan/page/{id}/{no}")
     public String paginateGetAll(
@@ -51,8 +51,10 @@ public class KegiatanController {
         Beban beban = bebanService.findById(id);
         BigDecimal sisa = beban.getSisa();
         String name1 = beban.getName();
+        Integer kelompokid = beban.getKelompok().getId();
 
         model.addAttribute("sisa", sisa);
+        model.addAttribute("kelompokId", kelompokid);
         model.addAttribute("nameBeban", name1);
         model.addAttribute("currentPage", currPage);
         model.addAttribute("sortField", sortField);
@@ -73,6 +75,8 @@ public class KegiatanController {
     @GetMapping("/kegiatan/update/{id}")
     public String formUpdateKegiatan(@PathVariable Integer id, Model model){
         Kegiatan byId = kegiatanService.findById(id);
+        Integer kelompokid = byId.getBeban().getKelompok().getId();
+        model.addAttribute("kelompokId", kelompokid);
         model.addAttribute("kegiatans", byId);
         return "formUpdateKegiatan";
     }

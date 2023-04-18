@@ -14,7 +14,7 @@ import java.util.Optional;
 public interface KegiatanRepository extends JpaRepository<Kegiatan, Integer> {
     Page<Kegiatan> findByBebanId(Integer id,Pageable pageable);
 
-    @Query("SELECT p FROM Kegiatan p WHERE CONCAT(p.name, p.cat, p.pic, p.nominal, p.date) LIKE CONCAT('%',:keyword,'%') AND p.beban.id = :test")
-    Page<Kegiatan> search(@Param("keyword") String keyword ,@Param("test") Integer id, Pageable pageable);
+    @Query("SELECT p FROM Kegiatan p WHERE CONCAT(p.name, p.cat, p.pic, p.nominal, p.date) LIKE CONCAT('%',:keyword,'%') AND p.beban.id = :id")
+    Page<Kegiatan> search(@Param("keyword") String keyword ,@Param("id") Integer id, Pageable pageable);
 
 }

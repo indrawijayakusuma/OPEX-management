@@ -16,9 +16,9 @@ public class BebanController {
     @Autowired
     private BebanService bebanService;
 
-    @GetMapping("/beban")
-    public String getAll(Model model){
-        return paginateGetAll(null,1,"name", "asc",model);
+    @GetMapping("/beban/{id}")
+    public String getAll(@PathVariable Integer id, Model model){
+        return paginateGetAll(null,1,"name", "asc", model, id);
     }
     @GetMapping("/beban/page/{no}")
     public String paginateGetAll(
@@ -26,14 +26,14 @@ public class BebanController {
             @PathVariable(value = "no") int currPage,
             @RequestParam(defaultValue = "name") String sortField,
             @RequestParam(defaultValue = "asc") String sortDirection,
-            Model model
+            Model model, Integer idKelompok
     ){
         int pageSize = 9;
         Page<Beban> bebanPage = null;
         if (keyword == null){
-            bebanPage = bebanService.paginateGetAll(currPage,pageSize,sortField,sortDirection);
+            bebanPage = bebanService.paginateGetAll(currPage,pageSize,sortField,sortDirection,idKelompok);
         }else{
-            bebanPage = bebanService.paginateSearchingGetAll(currPage,pageSize,sortField,sortDirection, keyword);
+            bebanPage = bebanService.paginateSearchingGetAll(currPage,pageSize,sortField,sortDirection, keyword,idKelompok);
         }
         List<Beban> bebanList = new ArrayList<>();
         bebanList = bebanPage.getContent();
@@ -64,23 +64,22 @@ public class BebanController {
     @PostMapping("/beban")
     public String add(Beban beban){
         bebanService.create(beban);
-        return "redirect:/beban";
+        return "redirect:/beban" + beban.getId();
     }
 
     @GetMapping("/beban/update/{id}")
     public String formUpdateBeban(@PathVariable Integer id, Model model){
         Beban byId = bebanService.findById(id);
+        Integer kelompokId = byId.getKelompok().getId();
         model.addAttribute("bebans", byId);
+        model.addAttribute("kelompokId", kelompokId);
         return "formUpdateBeban";
     }
     @GetMapping("/beban/delete/{id}")
     public String delete(@PathVariable Integer id){
+        Beban beban = bebanService.findById(id);
         bebanService.delete(id);
-        return "redirect:/beban";
+        return "redirect:/beban/" + beban.getKelompok().getId();
     }
 
-    @GetMapping("/test")
-    public String test(){
-        return "index1";
-    }
 }

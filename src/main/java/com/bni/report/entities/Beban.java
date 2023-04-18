@@ -22,19 +22,22 @@ public class Beban {
     @JsonIgnore
     @OneToMany(mappedBy="beban", cascade = CascadeType.ALL)
     private List<Kegiatan> kegiatan;
+    @ManyToOne
+    @JoinColumn(name="Kelompok_id", nullable=false)
+    private Kelompok kelompok;
     private BigDecimal budget;
     private BigDecimal realisasi;
     private BigDecimal sisa;
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date date;
 
-    public Beban(String nomerRekening, String name, BigDecimal budget, Date date) {
+    public Beban(String nomerRekening, String name, BigDecimal budget, Date date, Kelompok kelompok) {
         this.nomerRekening = nomerRekening;
         this.name = name;
         this.budget = budget;
         this.date = date;
+        this.kelompok = kelompok;
     }
-
     public Beban(Integer id){
         this.id = id;
     }
