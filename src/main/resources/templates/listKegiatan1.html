@@ -31,7 +31,7 @@
       <input placeholder="Search" type="text" class="p-6 border ml-8 h-11 md:w-96 rounded-2xl" required name="keyword" th:value="${keyword}" id="keyword"/>
     </form>
     <label for="my-modal-3" class="text-white hover:bg-orange-400 p-3 lg:mr-8 cursor-pointer rounded-full mx-32 bg-orange-500 border-0 text-sm font-medium">
-      <i class="ml-3 fa-solid fa-square-plus"></i><span class="mx-6">Add New Beban</span>
+      <i class="ml-3 fa-solid fa-square-plus"></i><span class="mx-6">Add New Realisasi</span>
     </label>
   </div>
 
@@ -58,20 +58,21 @@
         <td class="">
           <div class="flex-row space-x-4">
             <a th:href="@{'/kegiatan/update/' + ${kegiatan.id}}"><i class="fa-solid fa-pen-to-square"></i></a>
-            <label for="my-modal-6" class="cursor-pointer"><i class="fa-solid fa-trash"></i></label>
+            <a th:href="@{'/kegiatan/delete/' + ${kegiatan.id}}"><i class="fa-solid fa-trash"></i></a>
+<!--            <label for="my-modal-6" class="cursor-pointer"><i class="fa-solid fa-trash"></i></label>-->
           </div>
           <!--modal-->
-          <input type="checkbox" id="my-modal-6" class="modal-toggle"/>
-          <div class="modal modal-bottom sm:modal-middle">
-            <div class="modal-box">
-              <h3 class="font-bold text-lg">Delete</h3>
-              <p class="py-4">Hapus beban ini?</p>
-              <div class="">
-                <a type="button" th:href="@{'/kegiatan/delete/' + ${kegiatan.id}}" class="py-3 p-16 rounded-full text-white text-sm font-medium hover:bg-red-400 bg-red-500 border-0">Ya</a>
-                <label for="my-modal-6" class="py-3 px-12 hover:bg-gray-100 cursor-pointer rounded-full border text-sm font-medium">Cencel</label>
-              </div>
-            </div>
-          </div>
+<!--          <input type="checkbox" id="my-modal-6" class="modal-toggle"/>-->
+<!--          <div class="modal modal-bottom sm:modal-middle">-->
+<!--            <div class="modal-box">-->
+<!--              <h3 class="font-bold text-lg">Delete</h3>-->
+<!--              <p class="py-4">Hapus beban ini?</p>-->
+<!--              <div class="">-->
+<!--                <a type="button" th:href="@{'/kegiatan/delete/' + ${kegiatan.id}}" class="py-3 p-16 rounded-full text-white text-sm font-medium hover:bg-red-400 bg-red-500 border-0">Ya</a>-->
+<!--                <label for="my-modal-6" class="py-3 px-12 hover:bg-gray-100 cursor-pointer rounded-full border text-sm font-medium">Cencel</label>-->
+<!--              </div>-->
+<!--            </div>-->
+<!--          </div>-->
         </td>
       </tr>
       </tbody>
@@ -85,18 +86,18 @@
 <!--  pagination-->
   <div class="flex flex-col items-center mt-9 mb-16" th:if="${totalPages > 1}">
     <!-- Help text -->
-    <span class="text-sm text-gray-700">
-          Showing <span class="font-semibold">1</span> to <span class="font-semibold">10</span> of <span class="font-semibold">100</span> Entries
-    </span>
+<!--    <span class="text-sm text-gray-700">-->
+<!--          Showing <span class="font-semibold">1</span> to <span class="font-semibold">10</span> of <span class="font-semibold">100</span> Entries-->
+<!--    </span>-->
     <div class="inline-flex mt-2 xs:mt-0">
       <!-- Buttons -->
-      <a th:href="@{'/kegiatan/page/' + ${id} + '/' + ${currentPage-1} + '?' + 'sortField='+ ${sortField} +'&sortDirection=' + ${sortDirection}}" th:classappend="${currentPage == 1 ? 'pointer-events-none  ':''}" class="inline-flex items-center px-4 py-3 text-sm font-medium text-white bg-orange-500 rounded-l-xl hover:bg-orange-400">
+      <a th:href="@{'/kegiatan/page/' + ${id} + '/' + ${currentPage-1} + '?'+ ${keyword!=null && keyword!=''? 'keyword=' + keyword + '&' : ''} + 'sortField='+ ${sortField} +'&sortDirection=' + ${sortDirection}}" th:classappend="${currentPage == 1 ? 'pointer-events-none  ':''}" class="inline-flex items-center px-4 py-3 text-sm font-medium text-white bg-orange-500 rounded-l-xl hover:bg-orange-400">
         Prev
       </a>
       <div th:each="page : ${#numbers.sequence(currentPage > 2 ? currentPage - 2 : 1, currentPage + 2 < totalPages ? currentPage + 2 : totalPages)}">
-        <a th:href="@{'/kegiatan/page/' + ${id} + '/' + ${page} + '?' + 'sortField='+ ${sortField} +'&sortDirection=' + ${sortDirection}}" th:text="${page}" th:classappend="${currentPage == page ? 'pointer-events-none bg-orange-600':'bg-orange-500'}" class="inline-flex items-center px-4 py-3 text-sm font-medium text-white hover:bg-orange-400">1</a>
+        <a th:href="@{'/kegiatan/page/' + ${id} + '/' + ${page} + '?'+ ${keyword!=null && keyword!=''? 'keyword=' + keyword + '&' : ''} + 'sortField='+ ${sortField} +'&sortDirection=' + ${sortDirection}}" th:text="${page}" th:classappend="${currentPage == page ? 'pointer-events-none bg-orange-600':'bg-orange-500'}" class="inline-flex items-center px-4 py-3 text-sm font-medium text-white hover:bg-orange-400">1</a>
       </div>
-      <a th:href="@{'/kegiatan/page/' + ${id} + '/' + ${currentPage + 1} + '?' + 'sortField='+ ${sortField} +'&sortDirection=' + ${sortDirection}}" th:classappend="${currentPage == totalPages ? 'pointer-events-none  ':''}" class="inline-flex items-center px-4 py-3 text-sm font-medium text-white bg-orange-500 border-0 border-l border-orange-500 rounded-r-xl hover:bg-orange-400">Next</a>
+      <a th:href="@{'/kegiatan/page/' + ${id} + '/' + ${currentPage + 1} + '?'+ ${keyword!=null && keyword!=''? 'keyword=' + keyword + '&' : ''} + 'sortField='+ ${sortField} +'&sortDirection=' + ${sortDirection}}" th:classappend="${currentPage == totalPages ? 'pointer-events-none  ':''}" class="inline-flex items-center px-4 py-3 text-sm font-medium text-white bg-orange-500 border-0 border-l border-orange-500 rounded-r-xl hover:bg-orange-400">Next</a>
     </div>
   </div>
 

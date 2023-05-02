@@ -25,7 +25,6 @@ public class ValidatorService {
         Pageable pageable = PageRequest.of(currPage-1, pageSize, sort);
         return getAll(pageable);
     }
-
     public Page<Validator> getAll(Pageable pageable){
         return validatorRepository.findAll(pageable);
     }
@@ -45,7 +44,7 @@ public class ValidatorService {
     public void validate(Integer id){
         Kegiatan kegiatan = validatorRepository
                 .findById(id)
-                .map(Kegiatan::new).orElseThrow(() -> new RuntimeException());
+                .map(Kegiatan::new).orElseThrow(RuntimeException::new);
         kegiatanRepository.save(kegiatan);
         validatorRepository.deleteById(id);
     }

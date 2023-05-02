@@ -18,6 +18,9 @@ public class KelompokService {
     public List<Kelompok> getALl(){
         return kelompokRepository.findAll();
     }
+    public Kelompok findById(Integer id){
+        return kelompokRepository.findById(id).orElseThrow(RuntimeException::new);
+    }
     public Kelompok create(Kelompok kelompok){
         return kelompokRepository.save(kelompok);
     }

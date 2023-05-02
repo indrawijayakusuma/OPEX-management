@@ -37,12 +37,12 @@ public class KegiatanController {
             @RequestParam(defaultValue = "asc") String sortDirection,
             Model model
     ){
-        int pageSize = 9;
+        int pageSize = 15;
         Page<Kegiatan> kegiatanPage = null;
         if (keyword == null){
             kegiatanPage = kegiatanService.paginateGetALl(currPage, pageSize, sortDirection, sortField, id);
         }else{
-            kegiatanPage = kegiatanService.paginateSearchingGetAll(currPage,pageSize,sortField,sortDirection, keyword);
+            kegiatanPage = kegiatanService.paginateSearchingGetAll(currPage,pageSize,sortField,sortDirection, keyword, id);
         }
 
         List<Kegiatan> kegiatanList = new ArrayList<>();
@@ -53,6 +53,7 @@ public class KegiatanController {
         String name1 = beban.getName();
         Integer kelompokid = beban.getKelompok().getId();
 
+        model.addAttribute("keyword", keyword);
         model.addAttribute("sisa", sisa);
         model.addAttribute("kelompokId", kelompokid);
         model.addAttribute("nameBeban", name1);
