@@ -59,7 +59,7 @@ public class BebanController {
         Beban beban = new Beban();
         model.addAttribute("bebansAdd", beban);
 
-        return "index";
+        return "ListBeban";
     }
 
     @GetMapping("/beban/addform")

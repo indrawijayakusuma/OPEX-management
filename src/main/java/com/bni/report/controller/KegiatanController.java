@@ -70,7 +70,7 @@ public class KegiatanController {
         validator.setBeban(new Beban(id));
         model.addAttribute("validatorsObject", validator);
 
-        return "listKegiatan1";
+        return "listKegiatan";
     }
 
     @GetMapping("/kegiatan/update/{id}")

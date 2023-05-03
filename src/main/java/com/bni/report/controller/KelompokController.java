@@ -19,7 +19,7 @@ public class KelompokController {
     public String getAll(Model model){
         List<Kelompok> kelompokList = kelompokService.getALl();
         model.addAttribute("kelompoks", kelompokList);
-        return "index1";
+        return "index";
     }
 
 }
