@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 
 import java.io.IOException;
 
@@ -16,14 +17,14 @@ public class ReportExcelController {
     @Autowired
     private ReportExcelService reportExcelService;
 
-    @GetMapping("/excel")
-    public void generateExcel(HttpServletResponse response) throws IOException {
+    @GetMapping("/excel/{id}")
+    public void generateExcel(@PathVariable Integer id, HttpServletResponse response) throws IOException {
         response.setContentType("application/octet-stream");
 
         String headerKey ="Content-Disposition";
         String headerValue = "attachment;filename=test.xlsx";
 
         response.setHeader(headerKey,headerValue);
-        reportExcelService.generateExcel(response);
+        reportExcelService.generateExcel(response, id);
     }
 }

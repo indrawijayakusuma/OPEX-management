@@ -30,11 +30,12 @@
     <form th:action="@{'/kegiatan/page/' + ${id} + '/' + ${currentPage}}" method="get">
       <input placeholder="Search" type="text" class="p-6 border ml-8 h-11 md:w-96 rounded-2xl" required name="keyword" th:value="${keyword}" id="keyword"/>
     </form>
-    <label for="my-modal-3" class="text-white hover:bg-orange-400 p-3 lg:mr-8 cursor-pointer rounded-full mx-32 bg-orange-500 border-0 text-sm font-medium">
+    <label for="my-modal-3" class="ml-[30rem] text-white hover:bg-orange-400 p-3 lg:mr-8 cursor-pointer rounded-full mx-32 bg-orange-500 border-0 text-sm font-medium">
       <i class="ml-3 fa-solid fa-square-plus"></i><span class="mx-6">Add New Realisasi</span>
     </label>
-    <a href="">test</a>
+    <a th:href="@{'/excel/' + ${id}}" class="mr-5 py-3 px-4 hover:bg-orange-400 rounded-full bg-orange-500 text-white text-sm font-medium"><i class="ml-3 fa-solid fa-file-excel"></i><span class="mx-5">Generate</span></a>
   </div>
+
 
 <!--  table-->
   <div class="container shadow-lg p-8 lg:w-[90%] mb-9 mx-auto overflow-x-auto">

@@ -70,6 +70,9 @@ public class KegiatanController {
         validator.setBeban(new Beban(id));
         model.addAttribute("validatorsObject", validator);
 
+        //generate excel
+
+
         return "listKegiatan";
     }
 

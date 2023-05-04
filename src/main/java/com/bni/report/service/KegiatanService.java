@@ -24,6 +24,9 @@ public class KegiatanService {
     @Autowired
     private ValidatorRepository validatorRepository;
 
+    public List<Kegiatan> getsByBebanId(Integer id){
+        return kegiatanRepository.findByBebanId(id);
+    }
     public Page<Kegiatan> getAll(Pageable pageable,Integer id){
         return kegiatanRepository.findByBebanId(id,pageable);
     }
