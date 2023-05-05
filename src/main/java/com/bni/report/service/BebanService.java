@@ -1,13 +1,7 @@
 package com.bni.report.service;
 
-import com.bni.report.entities.Beban;
-import com.bni.report.entities.Kegiatan;
-import com.bni.report.entities.Kelompok;
-import com.bni.report.entities.Validator;
-import com.bni.report.repositories.BebanRepository;
-import com.bni.report.repositories.KegiatanRepository;
-import com.bni.report.repositories.KelompokRepository;
-import com.bni.report.repositories.ValidatorRepository;
+import com.bni.report.entities.*;
+import com.bni.report.repositories.*;
 import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -32,6 +26,9 @@ public class BebanService {
     private KelompokRepository kelompokRepository;
     @Autowired
     private ValidatorRepository validatorRepository;
+
+    @Autowired
+    private UserRepository userRepository;
     @Autowired
     private KegiatanService kegiatanService;
 
@@ -90,6 +87,11 @@ public class BebanService {
 
     @PostConstruct
     public void addbeban() {
+
+        List<User> users = new ArrayList<>();
+        users.add(new User(1,"validator","$2a$12$SfBMDogva22862CCfL0E9Oi3AUftOXbAfHcNs6UCDGQpq25P3GQMi","ADMIN"));
+        users.add(new User(2,"inputer","$2a$12$SfBMDogva22862CCfL0E9Oi3AUftOXbAfHcNs6UCDGQpq25P3GQMi","INPUTER"));
+        users.add(new User(3,"user","$2a$12$SfBMDogva22862CCfL0E9Oi3AUftOXbAfHcNs6UCDGQpq25P3GQMi","USER"));
 
         List<Kelompok> kelompokList = new ArrayList<>();
         kelompokList.add(new Kelompok("DCU"));
@@ -154,6 +156,7 @@ public class BebanService {
         kelompokRepository.saveAll(kelompokList);
         bebanRepository.saveAll(bebanList);
         kegiatanRepository.saveAll(kegitanList);
+        userRepository.saveAll(users);
 //        validatorRepository.saveAll(validatorList);
     }
 }

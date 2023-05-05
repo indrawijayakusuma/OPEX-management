@@ -30,7 +30,7 @@
     <form th:action="@{'/kegiatan/page/' + ${id} + '/' + ${currentPage}}" method="get">
       <input placeholder="Search" type="text" class="p-6 border ml-8 h-11 md:w-96 rounded-2xl" required name="keyword" th:value="${keyword}" id="keyword"/>
     </form>
-    <label for="my-modal-3" class="ml-[30rem] text-white hover:bg-orange-400 p-3 lg:mr-8 cursor-pointer rounded-full mx-32 bg-orange-500 border-0 text-sm font-medium">
+    <label sec:authorize="hasAnyAuthority('ADMIN','INPUTER')" for="my-modal-3" class="ml-[30rem] text-white hover:bg-orange-400 p-3 lg:mr-8 cursor-pointer rounded-full mx-32 bg-orange-500 border-0 text-sm font-medium">
       <i class="ml-3 fa-solid fa-square-plus"></i><span class="mx-6">Add New Realisasi</span>
     </label>
     <a th:href="@{'/excel/' + ${id}}" class="mr-5 py-3 px-4 hover:bg-orange-400 rounded-full bg-orange-500 text-white text-sm font-medium"><i class="ml-3 fa-solid fa-file-excel"></i><span class="mx-5">Generate</span></a>
@@ -47,7 +47,7 @@
         <th class=" py-3"><a th:class="${sortField == 'pic' ? 'underline decoration-4 underline-offset-4 decoration-orange-500' : 'hover:underline decoration-4 underline-offset-4 decoration-orange-500'}" th:href="@{'/kegiatan/page/' + ${id} + '/' + ${currentPage} + '?' + ${keyword!=null && keyword!=''? 'keyword=' + keyword + '&' : ''} + 'sortField=pic&sortDirection=' + ${reverseDirection}}"><span class="mr-6">Pic</span><i class="fa-solid fa-sort"></i></a></th>
         <th class=" py-3"><a th:class="${sortField == 'nominal' ? 'underline decoration-4 underline-offset-4 decoration-orange-500' : 'hover:underline decoration-4 underline-offset-4 decoration-orange-500'}" th:href="@{'/kegiatan/page/' + ${id} + '/' + ${currentPage} + '?' + ${keyword!=null && keyword!=''? 'keyword=' + keyword + '&' : ''} + 'sortField=nominal&sortDirection=' + ${reverseDirection}}"><span class="mr-6">Nominal</span><i class="fa-solid fa-sort"></i></a></th>
         <th class=" py-3"><a th:class="${sortField == 'date' ? 'underline decoration-4 underline-offset-4 decoration-orange-500' : 'hover:underline decoration-4 underline-offset-4 decoration-orange-500'}" th:href="@{'/kegiatan/page/' + ${id} + '/' + ${currentPage} + '?' + ${keyword!=null && keyword!=''? 'keyword=' + keyword + '&' : ''} + 'sortField=date&sortDirection=' + ${reverseDirection}}"><span class="mr-6">Date</span><i class="fa-solid fa-sort"></i></a></th>
-        <th class=" py-3"><span class="mr-6">Action</span><i class="fa-solid fa-sort"></i></th>
+        <th sec:authorize="hasAnyAuthority('ADMIN','INPUTER')" class=" py-3"><span class="mr-6">Action</span><i class="fa-solid fa-sort"></i></th>
       </tr>
       </thead>
       <tbody class="text-center divide-y">
@@ -59,8 +59,8 @@
         <td>[[${#dates.format(kegiatan.date, 'dd/MM/yyyy')}]]</td>
         <td class="">
           <div class="flex-row space-x-4">
-            <a th:href="@{'/kegiatan/update/' + ${kegiatan.id}}"><i class="fa-solid fa-pen-to-square"></i></a>
-            <a th:href="@{'/kegiatan/delete/' + ${kegiatan.id}}"><i class="fa-solid fa-trash"></i></a>
+            <a sec:authorize="hasAnyAuthority('ADMIN','INPUTER')" th:href="@{'/kegiatan/update/' + ${kegiatan.id}}"><i class="fa-solid fa-pen-to-square"></i></a>
+            <a sec:authorize="hasAnyAuthority('ADMIN','INPUTER')" th:href="@{'/kegiatan/delete/' + ${kegiatan.id}}"><i class="fa-solid fa-trash"></i></a>
 <!--            <label for="my-modal-6" class="cursor-pointer"><i class="fa-solid fa-trash"></i></label>-->
           </div>
           <!--modal-->

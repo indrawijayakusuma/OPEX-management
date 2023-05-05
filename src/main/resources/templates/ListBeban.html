@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html data-theme="light" lang="en" xmlns:th="https://www.thymeleaf.org">
+<html data-theme="light" lang="en" xmlns:th="https://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security" xmlns="http://www.w3.org/1999/xhtml">
 <head>
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -28,7 +28,7 @@
     <form th:action="@{'/beban/page/' + ${id} + '/' + ${currentPage}}" method="get">
       <input placeholder="Search" type="text" class="p-6 border ml-8 h-11 md:w-96 rounded-2xl" required name="keyword" th:value="${keyword}" id="keyword"/>
     </form>
-    <label for="my-modal-3" class="text-white hover:bg-orange-400 p-3 lg:mr-8 cursor-pointer rounded-full mx-32 bg-orange-500 border-0 text-sm font-medium">
+    <label sec:authorize="hasAnyAuthority('ADMIN','INPUTER')" for="my-modal-3" class="text-white hover:bg-orange-400 p-3 lg:mr-8 cursor-pointer rounded-full mx-32 bg-orange-500 border-0 text-sm font-medium">
       <i class="ml-3 fa-solid fa-square-plus"></i><span class="mx-6">Add New Beban</span>
     </label>
   </div>
@@ -57,8 +57,8 @@
         <td>[[${#dates.format(beban.date, 'dd/MM/yyyy')}]]</td>
         <td class="">
           <div class="flex-row space-x-4">
-            <a th:href="@{'/beban/update/' + ${beban.id}}"><i class="fa-solid fa-pen-to-square fa-lg"></i></a>
-            <a th:href="@{'/beban/delete/' + ${beban.id}}"><i class="fa-solid fa-solid fa-trash"></i></a>
+            <a sec:authorize="hasAnyAuthority('ADMIN','INPUTER')" th:href="@{'/beban/update/' + ${beban.id}}"><i class="fa-solid fa-pen-to-square fa-lg"></i></a>
+            <a sec:authorize="hasAuthority('ADMIN')" th:href="@{'/beban/delete/' + ${beban.id}}"><i class="fa-solid fa-solid fa-trash"></i></a>
 <!--            <label for="my-modal-6" class="cursor-pointer"><i class="fa-solid fa-trash"></i></label>-->
             <a th:href="@{'/kegiatan/' + ${beban.id}}"><i class="fa-solid fa-eye"></i></a>
           </div>
