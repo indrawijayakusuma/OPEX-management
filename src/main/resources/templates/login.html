@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html data-theme="light" lang="en" xmlns:th="https://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+</head>
+    <link href="https://cdn.jsdelivr.net/npm/daisyui@2.51.5/dist/full.css" rel="stylesheet" type="text/css" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://kit.fontawesome.com/b249ac0a69.js" crossorigin="anonymous"></script>
+    <title>Login</title>
+</head>
+<body class="pt-36 bg-gray-50">
+<!--    form login-->
+    <div class="flex mb-96 w-[55%] justify-center m-auto rounded-md shadow-lg h-[30rem]">
+        <div class="bg-orange-500 w-1/2 rounded-bl-lg rounded-l-lg text-center flex">
+            <p class="m-auto justify-center font-bold text-3xl text-white">Login Form</p>
+        </div>
+        <div class="p-14 w-1/2 bg-white">
+            <div class="mt-1">
+                <p class="m-auto font-bold text-xl">Account Login</p>
+                <p class="text-sm text-gray-400 mt-2">If you are already a member you can login with your name and password</p>
+                <form th:action="@{/process-login}" method="post" class="mt-9">
+                    <div class="my-3">
+                        <input placeholder="Name" type="text" name="username" class="p-6 border w-full h-11 rounded-xl" />
+                    </div>
+                    <div class="my-3">
+                        <input placeholder="Password" type="password" name="password" class="p-6 mt-2 border w-full h-11 rounded-xl"/>
+                    </div>
+                    <div class="flex justify-center mt-5">
+                        <button class="bg-orange-500 border-0 w-full text-white btn rounded-2xl" type="submit">Login</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

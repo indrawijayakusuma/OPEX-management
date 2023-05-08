@@ -26,7 +26,7 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
         return httpSecurity.csrf().disable()
                 .authorizeHttpRequests().anyRequest().authenticated()
-                .and().formLogin().defaultSuccessUrl("/").successHandler(successHandler())
+                .and().formLogin().loginPage("/login").loginProcessingUrl("/process-login").defaultSuccessUrl("/").successHandler(successHandler()).permitAll()
                 .and().logout(logout -> logout
                         .logoutUrl("/logout")
                         .logoutSuccessUrl("/login")
