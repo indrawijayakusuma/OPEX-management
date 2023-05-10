@@ -28,7 +28,7 @@ public class BebanService {
     private ValidatorRepository validatorRepository;
 
     @Autowired
-    private UserRepository userRepository;
+    private UserService userRepository;
     @Autowired
     private KegiatanService kegiatanService;
 
@@ -89,9 +89,10 @@ public class BebanService {
     public void addbeban() {
 
         List<User> users = new ArrayList<>();
-        users.add(new User(1,"validator","$2a$12$SfBMDogva22862CCfL0E9Oi3AUftOXbAfHcNs6UCDGQpq25P3GQMi","ADMIN"));
-        users.add(new User(2,"inputer","$2a$12$SfBMDogva22862CCfL0E9Oi3AUftOXbAfHcNs6UCDGQpq25P3GQMi","INPUTER"));
-        users.add(new User(3,"user","$2a$12$SfBMDogva22862CCfL0E9Oi3AUftOXbAfHcNs6UCDGQpq25P3GQMi","USER"));
+        users.add(new User(7,"validator","$2a$12$SfBMDogva22862CCfL0E9Oi3AUftOXbAfHcNs6UCDGQpq25P3GQMi","ADMIN"));
+        users.add(new User(5,"inputer","$2a$12$SfBMDogva22862CCfL0E9Oi3AUftOXbAfHcNs6UCDGQpq25P3GQMi","INPUTER"));
+        users.add(new User(7,"user","$2a$12$SfBMDogva22862CCfL0E9Oi3AUftOXbAfHcNs6UCDGQpq25P3GQMi","USER"));
+        userRepository.save(new User(8,"user1","test","USER"));
 
         List<Kelompok> kelompokList = new ArrayList<>();
         kelompokList.add(new Kelompok("DCU"));
