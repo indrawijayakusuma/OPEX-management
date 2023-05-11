@@ -59,21 +59,8 @@
           <div class="flex-row space-x-4">
             <a sec:authorize="hasAnyAuthority('ADMIN','INPUTER')" th:href="@{'/beban/update/' + ${beban.id}}"><i class="fa-solid fa-pen-to-square fa-lg"></i></a>
             <a sec:authorize="hasAuthority('ADMIN')" th:href="@{'/beban/delete/' + ${beban.id}}"><i class="fa-solid fa-solid fa-trash"></i></a>
-<!--            <label for="my-modal-6" class="cursor-pointer"><i class="fa-solid fa-trash"></i></label>-->
             <a th:href="@{'/kegiatan/' + ${beban.id}}"><i class="fa-solid fa-eye"></i></a>
           </div>
-          <!--modal-->
-<!--          <input type="checkbox" id="my-modal-6" class="modal-toggle" />-->
-<!--          <div class="modal modal-bottom sm:modal-middle">-->
-<!--            <div class="modal-box">-->
-<!--              <h3 class="font-bold text-lg">Delete</h3>-->
-<!--              <p class="py-4">Hapus beban ini?</p>-->
-<!--              <div class="">-->
-<!--                <a type="button" th:href="@{'/beban/delete/' + ${beban.id}}" class="py-3 p-16 rounded-full text-white text-sm font-medium hover:bg-red-400 bg-red-500 border-0">Ya</a>-->
-<!--                <label for="my-modal-6" class="py-3 px-12 hover:bg-gray-100 cursor-pointer rounded-full border text-sm font-medium">Cencel</label>-->
-<!--              </div>-->
-<!--            </div>-->
-<!--          </div>-->
         </td>
       </tr>
       </tbody>
@@ -121,5 +108,6 @@
       </div>
     </div>
   </div>
+
 </body>
 </html>

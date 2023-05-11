@@ -24,15 +24,15 @@
                 </div>
             </div>
         </label>
-        <label for="my-modal-2">
+        <a th:href="@{/users/1}">
             <div class="flex border mt-6 p-5 cursor-pointer">
                 <i class="fa-solid fa-people-group fa-5x mx-14" style="color: #FB923C;"></i>
                 <div>
-                    <h2 class="text-3xl font-semibold ml-16">Add New Team</h2>
-                    <h3 class="text-1xl mt-1 ml-16 text-slate-500">Team consumer product (CRP)</h3>
+                    <h2 class="text-3xl font-semibold ml-16">List Account</h2>
+                    <h3 class="text-1xl mt-1 ml-16 text-slate-500">Add or Remove Account</h3>
                 </div>
             </div>
-        </label>
+        </a>
     </div>
 
     <!--  modal-->
@@ -42,12 +42,19 @@
             <label for="my-modal-3" class="btn btn-sm hover:bg-orange-400 bg-orange-500 border-0 btn-circle absolute right-2 top-2">✕</label>
             <div class="p-5">
                 <h1 class="text-center text-lg font-bold mb-5">Add Account</h1>
-                <form th:action="@{/addUser}" method="post" th:object="${account}">
+                <form th:action="@{/admin}" method="post" th:object="${user}">
                     <div class="my-3">
-                        <input placeholder="Name" type="text" class="p-6 border w-full h-11 rounded-xl" th:field="*{name}"/>
+                        <input placeholder="Name" type="text" class="px-6 py-7 border w-full h-11 rounded-xl" th:field="*{name}"/>
                     </div>
                     <div class="my-3">
-                        <input placeholder="Name" type="text" class="p-6 border w-full h-11 rounded-xl" th:field="*{password}"/>
+                        <input placeholder="Password" type="password" class="px-6 py-7 border w-full h-11 rounded-xl" th:field="*{password}"/>
+                    </div>
+                    <div class="my-3">
+                        <select class="py-4 px-6 pr-8 rounded border w-full rounded-xl" th:field="*{roles}">
+                            <option th:value="USER">User</option>
+                            <option th:value="ADMIN">Validator</option>
+                            <option th:value="INPUTER">Inputer</option>
+                        </select>
                     </div>
                     <div class="flex justify-center mt-5">
                         <button class="py-3 p-12 bg-orange-500 hover:bg-orange-400 border-0 text-white rounded-full" type="submit">Submit</button>
@@ -56,24 +63,5 @@
             </div>
         </div>
     </div>
-
-    <input type="checkbox" id="my-modal-2" class="modal-toggle"/>
-    <div class="modal">
-        <div class="modal-box relative">
-            <label for="my-modal-2" class="btn btn-sm hover:bg-orange-400 bg-orange-500 border-0 btn-circle absolute right-2 top-2">✕</label>
-            <div class="p-5">
-                <h1 class="text-center text-lg font-bold mb-5">Add Team</h1>
-                <form th:action="@{/kelompok}" method="post" th:object="${kelompok}">
-                    <div class="my-3">
-                        <input placeholder="Name" type="text" class="p-6 border w-full h-11 rounded-xl" th:field="*{name}"/>
-                    </div>
-                    <div class="flex justify-center mt-5">
-                        <button class="py-3 p-12 bg-orange-500 hover:bg-orange-400 border-0 text-white rounded-full" type="submit">Submit</button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
-
 </body>
 </html>

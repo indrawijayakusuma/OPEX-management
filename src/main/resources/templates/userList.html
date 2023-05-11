@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html data-theme="light" lang="en" xmlns:th="https://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://cdn.jsdelivr.net/npm/daisyui@2.51.5/dist/full.css" rel="stylesheet" type="text/css" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://kit.fontawesome.com/b249ac0a69.js" crossorigin="anonymous"></script>
+  <title>test</title>
+</head>
+<body class="pb-20">
+<!--  navbar-->
+  <div th:replace="fragments/navbar :: header"></div>
+
+<!--button back-->
+  <div class="mt-14 mb-14">
+    <a th:href="@{/admin}" class="ml-20 py-3 px-4 hover:bg-orange-400 rounded-full bg-orange-500 text-white text-sm font-medium"><i class="fa-solid fa-chevron-left fa-xl"></i><span class="mx-5">Back</span></a>
+  </div>
+
+  <div class="md:flex lg:w-[90%] mx-auto justify-between mb-6 mt-9">
+    <form th:action="@{'/users/' + ${currentPage}}" method="get">
+      <input placeholder="Search" type="text" class="p-6 border ml-8 h-11 md:w-96 rounded-2xl" required name="keyword" th:value="${keyword}" id="keyword"/>
+    </form>
+  </div>
+
+<!--  table-->
+  <div class="container shadow-lg p-8 lg:w-[90%] m-auto overflow-x-auto">
+    <table class="outline outline-slate-200 outline-1 rounded-xl border-spacing-1 table-auto w-full m-auto">
+      <thead>
+      <tr class="border-b">
+        <th class=" py-3"><span class="mr-6">Name</span><i class="fa-solid fa-sort"></i></th>
+        <th class=" py-3"><span class="mr-6" >Password</span><i class="fa-solid fa-sort"></i></th>
+        <th class=" py-3"><span class="mr-6">Roles</span><i class="fa-solid fa-sort"></i></th>
+         <th class=" py-3"><span class="mr-6">Action</span><i class="fa-solid fa-sort"></i></th>
+      </tr>
+      </thead>
+      <tbody class="divide-y text-center">
+      <tr class="rounded-lg hover:shadow-lg group" th:each="user : ${users}">
+        <td class="py-6">[[${user.name}]]</td>
+        <td>[[${#strings.substring(user.password,0,13)}]]</td>
+        <td>[[${user.roles}]]</td>
+        <td class="">
+          <div class="flex-row space-x-4">
+            <a href="" ><i class="fa-solid fa-solid fa-trash"></i></a>
+          </div>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+
+<!--  pagination-->
+  <div class="flex flex-col items-center mt-9 mb-16" th:if="${totalPages > 1}">
+    <div class="inline-flex mt-2 xs:mt-0">
+      <!-- Buttons -->
+      <a th:href="@{'/users/' + ${currentPage-1} + '?' + ${keyword!=null && keyword!=''? 'keyword=' + keyword + '&' : ''}}" th:classappend="${currentPage == 1 ? 'pointer-events-none  ':''}" class="inline-flex items-center px-4 py-3 text-sm font-medium text-white bg-orange-500 rounded-l-xl hover:bg-orange-400">
+        Prev
+      </a>
+      <div th:each="page : ${#numbers.sequence(currentPage > 2 ? currentPage - 2 : 1, currentPage + 2 < totalPages ? currentPage + 2 : totalPages)}">
+        <a th:href="@{'/users/' + ${page} + '?' + ${keyword!=null && keyword!=''? 'keyword=' + keyword + '&' : ''}}" th:text="${page}" th:classappend="${currentPage == page ? 'pointer-events-none bg-orange-600':'bg-orange-500'}" class="inline-flex items-center px-4 py-3 text-sm font-medium text-white hover:bg-orange-400">1</a>
+      </div>
+      <a th:href="@{'/beban/page/'  + ${currentPage + 1} + '?' + ${keyword!=null && keyword!=''? 'keyword=' + keyword + '&' : ''}}" th:classappend="${currentPage == totalPages ? 'pointer-events-none  ':''}" class="inline-flex items-center px-4 py-3 text-sm font-medium text-white bg-orange-500 border-0 border-l border-orange-500 rounded-r-xl hover:bg-orange-400">Next</a>
+    </div>
+  </div>
+
+</body>
+</html>

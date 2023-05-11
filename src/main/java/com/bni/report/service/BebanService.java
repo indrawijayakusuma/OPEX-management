@@ -45,6 +45,18 @@ public class BebanService {
         return all;
     }
 
+    public Page<Beban> paginateGetAll(int currPage, int pageSize, String sortField, String sortDirection, Integer id){
+        Sort sort = sortDirection.equalsIgnoreCase(Sort.Direction.ASC.name()) ? Sort.by(sortField).ascending() : Sort.by(sortField).descending();
+        Pageable pageable = PageRequest.of(currPage-1, pageSize, sort);
+        return getAll(pageable, id);
+    }
+
+    public Page<Beban> paginateSearchingGetAll(int currPage, int pageSize, String sortField, String sortDirection, String keyword, Integer id){
+        Sort sort = sortDirection.equalsIgnoreCase(Sort.Direction.ASC.name()) ? Sort.by(sortField).ascending() : Sort.by(sortField).descending();
+        Pageable pageable = PageRequest.of(currPage-1, pageSize, sort);
+        return bebanRepository.search(keyword, pageable, id);
+    }
+
     public Beban findById(Integer id){
         countSisa(id);
         return bebanRepository.findById(id).orElseThrow(RuntimeException::new);
@@ -73,17 +85,6 @@ public class BebanService {
         bebanRepository.save(beban1);
     }
 
-    public Page<Beban> paginateGetAll(int currPage, int pageSize, String sortField, String sortDirection, Integer id){
-        Sort sort = sortDirection.equalsIgnoreCase(Sort.Direction.ASC.name()) ? Sort.by(sortField).ascending() : Sort.by(sortField).descending();
-        Pageable pageable = PageRequest.of(currPage-1, pageSize, sort);
-        return getAll(pageable, id);
-    }
-
-    public Page<Beban> paginateSearchingGetAll(int currPage, int pageSize, String sortField, String sortDirection, String keyword, Integer id){
-        Sort sort = sortDirection.equalsIgnoreCase(Sort.Direction.ASC.name()) ? Sort.by(sortField).ascending() : Sort.by(sortField).descending();
-        Pageable pageable = PageRequest.of(currPage-1, pageSize, sort);
-        return bebanRepository.search(keyword, pageable, id);
-    }
 
     @PostConstruct
     public void addbeban() {
@@ -92,6 +93,7 @@ public class BebanService {
         users.add(new User(7,"validator","$2a$12$SfBMDogva22862CCfL0E9Oi3AUftOXbAfHcNs6UCDGQpq25P3GQMi","ADMIN"));
         users.add(new User(5,"inputer","$2a$12$SfBMDogva22862CCfL0E9Oi3AUftOXbAfHcNs6UCDGQpq25P3GQMi","INPUTER"));
         users.add(new User(7,"user","$2a$12$SfBMDogva22862CCfL0E9Oi3AUftOXbAfHcNs6UCDGQpq25P3GQMi","USER"));
+        users.add(new User(7,"super admin","$2a$12$SfBMDogva22862CCfL0E9Oi3AUftOXbAfHcNs6UCDGQpq25P3GQMi","SUPER_ADMIN"));
         userRepository.save(new User(8,"user1","test","USER"));
 
         List<Kelompok> kelompokList = new ArrayList<>();

@@ -2,8 +2,11 @@ package com.bni.report.service;
 
 import com.bni.report.entities.User;
 import com.bni.report.repositories.UserRepository;
-import org.apache.xmlbeans.impl.xb.xsdschema.Attribute;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
@@ -28,5 +31,20 @@ public class UserService {
 
     public List<User> saveAll(List<User> users){
         return userRepository.saveAll(users);
+    }
+
+    public Pageable page(int currPage, int pageSize){
+        Pageable pageable = PageRequest.of(currPage - 1, pageSize);
+        return pageable;
+    }
+
+    public Page<User> getAllSearch(int currPage, int pageSize, String keyword){
+        Pageable page = page(currPage, pageSize);
+        return userRepository.findByName(keyword, page);
+    }
+
+    public Page<User> getAll(int currPage, int pageSize){
+        Pageable page = page(currPage, pageSize);
+        return userRepository.findAll(page);
     }
 }

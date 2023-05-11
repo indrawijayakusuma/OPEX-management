@@ -6,7 +6,8 @@
           <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h7" /></svg>
         </label>
         <ul tabindex="0" class="menu menu-compact dropdown-content mt-3 p-2 shadow bg-base-100 rounded-box w-52">
-          <li><a href="/" class="active:bg-orange-500">Homepage</a></li>
+          <li><a href="/" class="active:bg-orange-500">Home Page</a></li>
+          <li sec:authorize="hasAuthority('SUPER_ADMIN')"><a href="/admin" class="active:bg-orange-500">Admin Page</a></li>
           <li sec:authorize="hasAuthority('ADMIN')"><a href="/validator" class="active:bg-orange-500">Valiadasi</a></li>
           <li><a class="active:bg-orange-500">About</a></li>
         </ul>

@@ -53,6 +53,7 @@ public class SuccessHandeler implements AuthenticationSuccessHandler {
         boolean isUser = false;
         boolean isValidator = false;
         boolean isInputer = false;
+        boolean isSuperAdmin = false;
         Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
         for (GrantedAuthority grantedAuthority : authorities) {
             if (grantedAuthority.getAuthority().equals("ADMIN")) {
@@ -64,10 +65,13 @@ public class SuccessHandeler implements AuthenticationSuccessHandler {
             } else if (grantedAuthority.getAuthority().equals("INPUTER")) {
                 isInputer = true;
                 break;
+            } else if (grantedAuthority.getAuthority().equals("SUPER_ADMIN")) {
+                isSuperAdmin = true;
+                break;
             }
         }
 
-        if (isAdmin || isUser || isInputer) {
+        if (isAdmin || isUser || isInputer || isSuperAdmin) {
             return "/";
         }else {
             throw new IllegalStateException();
