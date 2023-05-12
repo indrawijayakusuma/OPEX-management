@@ -90,11 +90,10 @@ public class BebanService {
     public void addbeban() {
 
         List<User> users = new ArrayList<>();
-        users.add(new User(7,"validator","$2a$12$SfBMDogva22862CCfL0E9Oi3AUftOXbAfHcNs6UCDGQpq25P3GQMi","ADMIN"));
-        users.add(new User(5,"inputer","$2a$12$SfBMDogva22862CCfL0E9Oi3AUftOXbAfHcNs6UCDGQpq25P3GQMi","INPUTER"));
-        users.add(new User(7,"user","$2a$12$SfBMDogva22862CCfL0E9Oi3AUftOXbAfHcNs6UCDGQpq25P3GQMi","USER"));
-        users.add(new User(7,"super admin","$2a$12$SfBMDogva22862CCfL0E9Oi3AUftOXbAfHcNs6UCDGQpq25P3GQMi","SUPER_ADMIN"));
-        userRepository.save(new User(8,"user1","test","USER"));
+        users.add(new User(7,"validator","$2a$12$SfBMDogva22862CCfL0E9Oi3AUftOXbAfHcNs6UCDGQpq25P3GQMi","ADMIN", new Kelompok(1)));
+        users.add(new User(5,"inputer","$2a$12$SfBMDogva22862CCfL0E9Oi3AUftOXbAfHcNs6UCDGQpq25P3GQMi","INPUTER",  new Kelompok(1)));
+        users.add(new User(7,"user","$2a$12$SfBMDogva22862CCfL0E9Oi3AUftOXbAfHcNs6UCDGQpq25P3GQMi","USER",  new Kelompok(1)));
+        users.add(new User(7,"super admin","$2a$12$SfBMDogva22862CCfL0E9Oi3AUftOXbAfHcNs6UCDGQpq25P3GQMi","SUPER_ADMIN",  new Kelompok(1)));
 
         List<Kelompok> kelompokList = new ArrayList<>();
         kelompokList.add(new Kelompok("DCU"));
@@ -140,26 +139,25 @@ public class BebanService {
         kegitanList.add(new Kegiatan("kegitan test1 kebugaran3", new Beban(2),"cat1","hasim", new BigDecimal(24235000), new Date()));
 
 
-
         List<Validator> validatorList = new ArrayList<>();
-        validatorList.add(new Validator("kegitan olahrage", new Beban(2),"cat1","suni", new BigDecimal(800000), new Date()));
-        validatorList.add(new Validator("kegitan olahrage", new Beban(2),"cat1","suni", new BigDecimal(800000), new Date()));
-        validatorList.add(new Validator("kegitan olahrage", new Beban(2),"cat1","suni", new BigDecimal(800000), new Date()));
-        validatorList.add(new Validator("kegitan olahrage", new Beban(2),"cat1","suni", new BigDecimal(800000), new Date()));
-        validatorList.add(new Validator("kegitan olahrage", new Beban(2),"cat1","suni", new BigDecimal(800000), new Date()));
-        validatorList.add(new Validator("kegitan olahrage", new Beban(2),"cat1","suni", new BigDecimal(800000), new Date()));
-        validatorList.add(new Validator("kegitan olahrage", new Beban(2),"cat1","suni", new BigDecimal(800000), new Date()));
-        validatorList.add(new Validator("kegitan olahrage", new Beban(2),"cat1","suni", new BigDecimal(800000), new Date()));
-        validatorList.add(new Validator("kegitan olahrage", new Beban(2),"cat1","suni", new BigDecimal(800000), new Date()));
-        validatorList.add(new Validator("kegitan olahrage", new Beban(2),"cat1","suni", new BigDecimal(800000), new Date()));
-        validatorList.add(new Validator("kegitan olahrage", new Beban(2),"cat1","suni", new BigDecimal(800000), new Date()));
-        validatorList.add(new Validator("kegitan olahrage", new Beban(2),"cat1","suni", new BigDecimal(800000), new Date()));
-        validatorList.add(new Validator("kegitan olahrage", new Beban(2),"cat1","suni", new BigDecimal(800000), new Date()));
+        validatorList.add(new Validator("kegitan olahrage", new Beban(4),"cat1","suni", new BigDecimal(800000), new Date()));
+        validatorList.add(new Validator("kegitan olahrage", new Beban(4),"cat1","suni", new BigDecimal(800000), new Date()));
+        validatorList.add(new Validator("kegitan olahrage", new Beban(4),"cat1","suni", new BigDecimal(800000), new Date()));
+        validatorList.add(new Validator("kegitan olahrage", new Beban(4),"cat1","suni", new BigDecimal(800000), new Date()));
+        validatorList.add(new Validator("kegitan olahrage", new Beban(4),"cat1","suni", new BigDecimal(800000), new Date()));
+        validatorList.add(new Validator("kegitan olahrage", new Beban(4),"cat1","suni", new BigDecimal(800000), new Date()));
+        validatorList.add(new Validator("kegitan olahrage", new Beban(4),"cat1","suni", new BigDecimal(800000), new Date()));
+        validatorList.add(new Validator("kegitan olahrage", new Beban(4),"cat1","suni", new BigDecimal(800000), new Date()));
+        validatorList.add(new Validator("kegitan olahrage", new Beban(4),"cat1","suni", new BigDecimal(800000), new Date()));
+        validatorList.add(new Validator("kegitan olahrage", new Beban(4),"cat1","suni", new BigDecimal(800000), new Date()));
+        validatorList.add(new Validator("kegitan olahrage", new Beban(4),"cat1","suni", new BigDecimal(800000), new Date()));
+        validatorList.add(new Validator("kegitan olahrage", new Beban(4),"cat1","suni", new BigDecimal(800000), new Date()));
+        validatorList.add(new Validator("kegitan olahrage", new Beban(4),"cat1","suni", new BigDecimal(800000), new Date()));
 
         kelompokRepository.saveAll(kelompokList);
         bebanRepository.saveAll(bebanList);
         kegiatanRepository.saveAll(kegitanList);
         userRepository.saveAll(users);
-//        validatorRepository.saveAll(validatorList);
+        validatorRepository.saveAll(validatorList);
     }
 }

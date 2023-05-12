@@ -2,17 +2,23 @@ package com.bni.report.controller;
 
 import com.bni.report.entities.Beban;
 import com.bni.report.entities.Kegiatan;
+import com.bni.report.entities.User;
 import com.bni.report.entities.Validator;
+import com.bni.report.repositories.ValidatorRepository;
 import com.bni.report.service.ValidatorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.math.BigDecimal;
+import java.security.Principal;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -22,6 +28,9 @@ public class ValidatorController {
 
     @Autowired
     private ValidatorService validatorService;
+
+    @Autowired
+    ValidatorRepository validatorRepository;
 
     @GetMapping("/validator")
     @PreAuthorize("hasAuthority('ADMIN')")
@@ -38,7 +47,8 @@ public class ValidatorController {
             Model model
     ){
         int pageSize = 9;
-        Page<Validator> validators = validatorService.paginateGetALl(currPage, pageSize, sortDirection, sortField);
+
+        Page<Validator> validators = validatorService.paginateGetALl(currPage, pageSize, sortDirection, sortField, 1);
 
         List<Validator> validatorList = new ArrayList<>();
         validatorList = validators.getContent();

@@ -6,5 +6,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface ValidatorRepository extends JpaRepository<Validator, Integer> {
-
+    Validator findByName(String name);
 }
