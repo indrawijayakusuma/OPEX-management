@@ -7,6 +7,7 @@ import com.bni.report.service.ValidatorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -23,11 +24,13 @@ public class ValidatorController {
     private ValidatorService validatorService;
 
     @GetMapping("/validator")
+    @PreAuthorize("hasAuthority('ADMIN')")
     public String getAll(Model model){
         return paginateGetAll(1, "name", "asc", model);
     }
 
     @GetMapping("/validator/page/{no}")
+    @PreAuthorize("hasAuthority('ADMIN')")
     public String paginateGetAll (
             @PathVariable(value = "no") int currPage,
             @RequestParam(defaultValue = "name") String sortField,
@@ -53,6 +56,7 @@ public class ValidatorController {
     }
 
     @GetMapping("/validator/addform/{id}")
+    @PreAuthorize("hasAuthority('ADMIN')")
     public String addForm(@PathVariable Integer id, Model model){
         Validator validator = new Validator();
         validator.setBeban(new Beban(id));
@@ -60,17 +64,20 @@ public class ValidatorController {
         return "formAddKegiatan";
     }
     @PostMapping("/validator")
+    @PreAuthorize("hasAuthority('ADMIN')")
     public String add(Validator validator){
         validatorService.create(validator);
         return "redirect:/kegiatan/" + validator.getBeban().getId();
     }
 
     @GetMapping("/validator/validate/{id}")
+    @PreAuthorize("hasAuthority('ADMIN')")
     public String validate(@PathVariable Integer id){
         validatorService.validate(id);
         return "redirect:/validator";
     }
     @GetMapping("/validator/update/{id}")
+    @PreAuthorize("hasAuthority('ADMIN')")
     public String formUpdateKegiatan(@PathVariable Integer id, Model model){
         Validator byId = validatorService.findById(id);
         model.addAttribute("kegiatans", byId);
@@ -78,6 +85,7 @@ public class ValidatorController {
     }
 
     @PostMapping("/validator/update")
+    @PreAuthorize("hasAuthority('ADMIN')")
     public String update(Validator validator){
         validatorService.create(validator);
         return "redirect:/validator";

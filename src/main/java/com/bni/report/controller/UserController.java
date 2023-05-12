@@ -6,6 +6,7 @@ import com.bni.report.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.Banner;
 import org.springframework.data.domain.Page;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -25,6 +26,7 @@ public class UserController {
     private UserService userService;
 
     @GetMapping("/users/{no}")
+    @PreAuthorize("hasAuthority('SUPER_ADMIN')")
     public String getUsers(
             @PathVariable(value = "no") int currPage,
             @RequestParam(required = false) String keyword,
@@ -57,6 +59,7 @@ public class UserController {
     }
 
     @GetMapping("/admin")
+    @PreAuthorize("hasAuthority('SUPER_ADMIN')")
     public String adminPage(Model model){
         model.addAttribute("user", new User());
         model.addAttribute("kelompok", new Kelompok());
@@ -65,6 +68,7 @@ public class UserController {
     }
 
     @PostMapping("/admin")
+    @PreAuthorize("hasAuthority('SUPER_ADMIN')")
     public String add(User user){
         userService.save(user);
         return "redirect:/admin";
