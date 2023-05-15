@@ -14,6 +14,7 @@ import java.util.stream.Collectors;
 public class CustomUserDetail implements UserDetails {
     private String name;
     private String password;
+    private Integer id;
     private List<GrantedAuthority> authorities;
 
     public CustomUserDetail(User user) {
@@ -22,6 +23,7 @@ public class CustomUserDetail implements UserDetails {
         authorities = Arrays.stream(user.getRoles().split(","))
                 .map(SimpleGrantedAuthority::new)
                 .collect(Collectors.toList());
+        id = user.getKelompok().getId();
     }
 
     @Override
@@ -57,5 +59,9 @@ public class CustomUserDetail implements UserDetails {
     @Override
     public boolean isEnabled() {
         return true;
+    }
+
+    public Integer getId() {
+        return id;
     }
 }

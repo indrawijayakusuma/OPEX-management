@@ -62,7 +62,6 @@ public class UserController {
     @PreAuthorize("hasAuthority('SUPER_ADMIN')")
     public String adminPage(Model model){
         model.addAttribute("user", new User());
-        model.addAttribute("kelompok", new Kelompok());
 
         return "/admin";
     }

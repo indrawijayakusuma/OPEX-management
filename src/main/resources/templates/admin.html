@@ -13,7 +13,7 @@
     <!--  navbar-->
     <div th:replace="fragments/navbar :: header"></div>
 
-    <div class="p-8 flex-row mb-96 w-[55%] justify-center mt-20 m-auto rounded-md shadow-md h-[30rem]">
+    <div class="p-8 flex-row w-[55%] justify-center mt-20 m-auto rounded-md shadow-md h-[30rem]">
         <h1 class="font-bold mb-14 text-center text-slate-700 text-5xl">ADMINISTRATOR (CRP)</h1>
         <label for="my-modal-3">
             <div class="flex border mt-6 p-5 cursor-pointer">
@@ -54,6 +54,16 @@
                             <option th:value="USER">User</option>
                             <option th:value="ADMIN">Validator</option>
                             <option th:value="INPUTER">Inputer</option>
+                        </select>
+                    </div>
+                    <div class="my-3">
+                        <select class="py-4 px-6 pr-8 rounded border w-full rounded-xl" th:field="*{kelompok}">
+                            <option th:value="1">DCU</option>
+                            <option th:value="2">DEP</option>
+                            <option th:value="3">FPM</option>
+                            <option th:value="4">FPD1</option>
+                            <option th:value="5">FPD2</option>
+                            <option th:value="6">FPD3</option>
                         </select>
                     </div>
                     <div class="flex justify-center mt-5">

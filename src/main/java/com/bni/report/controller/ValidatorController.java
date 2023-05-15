@@ -1,11 +1,9 @@
 package com.bni.report.controller;
 
-import com.bni.report.entities.Beban;
-import com.bni.report.entities.Kegiatan;
-import com.bni.report.entities.User;
-import com.bni.report.entities.Validator;
+import com.bni.report.entities.*;
 import com.bni.report.repositories.ValidatorRepository;
 import com.bni.report.service.ValidatorService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
@@ -23,7 +21,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-@Controller
+@Controller @Slf4j
 public class ValidatorController {
 
     @Autowired
@@ -34,8 +32,8 @@ public class ValidatorController {
 
     @GetMapping("/validator")
     @PreAuthorize("hasAuthority('ADMIN')")
-    public String getAll(Model model){
-        return paginateGetAll(1, "name", "asc", model);
+    public String getAll(Model model, Authentication authentication){
+        return paginateGetAll(1, "name", "asc", model, authentication);
     }
 
     @GetMapping("/validator/page/{no}")
@@ -44,14 +42,16 @@ public class ValidatorController {
             @PathVariable(value = "no") int currPage,
             @RequestParam(defaultValue = "name") String sortField,
             @RequestParam(defaultValue = "asc") String sortDirection,
-            Model model
+            Model model, Authentication authentication
     ){
         int pageSize = 9;
-
-        Page<Validator> validators = validatorService.paginateGetALl(currPage, pageSize, sortDirection, sortField, 1);
+        String user = authentication.getName();
+        Page<Validator> validators = validatorService.paginateGetALl(currPage, pageSize, sortDirection, sortField, user);
 
         List<Validator> validatorList = new ArrayList<>();
         validatorList = validators.getContent();
+
+
 
         model.addAttribute("currentPage", currPage);
         model.addAttribute("sortField", sortField);
