@@ -21,7 +21,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-@Controller @Slf4j
+@Controller
 public class ValidatorController {
 
     @Autowired
@@ -74,7 +74,7 @@ public class ValidatorController {
         return "formAddKegiatan";
     }
     @PostMapping("/validator")
-    @PreAuthorize("hasAuthority('ADMIN')")
+    @PreAuthorize("hasAnyAuthority('ADMIN','INPUTER')")
     public String add(Validator validator){
         validatorService.create(validator);
         return "redirect:/kegiatan/" + validator.getBeban().getId();

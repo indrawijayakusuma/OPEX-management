@@ -16,7 +16,6 @@ import java.util.List;
 import java.util.Optional;
 
 @Controller
-@Slf4j
 public class KelompokController {
 
     @Autowired
@@ -30,7 +29,6 @@ public class KelompokController {
         Integer id = byName.getKelompok().getId();
         List<Kelompok> kelompokList = kelompokService.getALl();
         model.addAttribute("kelompoks", kelompokList);
-        log.info(String.valueOf(id));
         return "index";
     }
 

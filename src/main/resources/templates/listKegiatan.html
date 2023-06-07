@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html data-theme="light" lang="en" xmlns:th="https://www.thymeleaf.org">
+<html data-theme="light" lang="en" xmlns:th="https://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security" xmlns="http://www.w3.org/1999/xhtml">
 <head>
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -9,7 +9,7 @@
   <script src="https://kit.fontawesome.com/b249ac0a69.js" crossorigin="anonymous"></script>
   <title>test</title>
 </head>
-<body>
+<body class="pb-20">
 <!--  navbar-->
   <div th:replace="fragments/navbar :: header"></div>
 
@@ -51,7 +51,7 @@
       </tr>
       </thead>
       <tbody class="text-center divide-y">
-      <tr class="rounded-lg hover:shadow-lg group" th:each="kegiatan : ${kegiatans}">
+      <tr class="rounded-lg hover:shadow-lg group" th:each="kegiatan, status : ${kegiatans}">
         <td class="py-6">[[${kegiatan.name}]]</td>
         <td>[[${kegiatan.cat}]]</td>
         <td>[[${kegiatan.pic}]]</td>
@@ -59,22 +59,23 @@
         <td>[[${#dates.format(kegiatan.date, 'dd/MM/yyyy')}]]</td>
         <td class="">
           <div class="flex-row space-x-4">
-            <a sec:authorize="hasAnyAuthority('ADMIN','INPUTER')" th:href="@{'/kegiatan/update/' + ${kegiatan.id}}"><i class="fa-solid fa-pen-to-square"></i></a>
-            <a sec:authorize="hasAnyAuthority('ADMIN','INPUTER')" th:href="@{'/kegiatan/delete/' + ${kegiatan.id}}"><i class="fa-solid fa-trash"></i></a>
-<!--            <label for="my-modal-6" class="cursor-pointer"><i class="fa-solid fa-trash"></i></label>-->
+            <a sec:authorize="hasAnyAuthority('ADMIN','INPUTER' ,'SUPER_ADMIN')" th:href="@{'/kegiatan/update/' + ${kegiatan.id}}"><i class="fa-solid fa-pen-to-square"></i></a>
+            <label sec:authorize="hasAnyAuthority('ADMIN', 'SUPER_ADMIN')" th:for="|my-modal${status.index}}|" class="cursor-pointer"><i class="fa-solid fa-trash"></i></label>
           </div>
-          <!--modal-->
-<!--          <input type="checkbox" id="my-modal-6" class="modal-toggle"/>-->
-<!--          <div class="modal modal-bottom sm:modal-middle">-->
-<!--            <div class="modal-box">-->
-<!--              <h3 class="font-bold text-lg">Delete</h3>-->
-<!--              <p class="py-4">Hapus beban ini?</p>-->
-<!--              <div class="">-->
-<!--                <a type="button" th:href="@{'/kegiatan/delete/' + ${kegiatan.id}}" class="py-3 p-16 rounded-full text-white text-sm font-medium hover:bg-red-400 bg-red-500 border-0">Ya</a>-->
-<!--                <label for="my-modal-6" class="py-3 px-12 hover:bg-gray-100 cursor-pointer rounded-full border text-sm font-medium">Cencel</label>-->
-<!--              </div>-->
-<!--            </div>-->
-<!--          </div>-->
+
+<!-- modal-->
+          <input type="checkbox" th:id="|my-modal${status.index}}|" class="modal-toggle" tabindex="-1"/>
+          <div class="modal modal-bottom sm:modal-middle">
+            <div class="modal-box">
+              <h3 class="font-bold text-lg">Delete</h3>
+              <p class="py-4">Hapus Realisasi ini?</p>
+              <div class="">
+                <a type="button" th:href="@{'/kegiatan/delete/' + ${kegiatan.id}}" class="py-3 p-16 rounded-full text-white text-sm font-medium hover:bg-red-400 bg-red-500 border-0">Ya</a>
+                <label th:for="|my-modal${status.index}}|" class="py-3 px-12 hover:bg-gray-100 cursor-pointer rounded-full border text-sm font-medium">Cencel</label>
+              </div>
+            </div>
+          </div>
+
         </td>
       </tr>
       </tbody>

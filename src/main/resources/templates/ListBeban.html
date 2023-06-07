@@ -9,9 +9,25 @@
   <script src="https://kit.fontawesome.com/b249ac0a69.js" crossorigin="anonymous"></script>
   <title>test</title>
 </head>
-<body>
+<body class="pb-20">
 <!--  navbar-->
   <div th:replace="fragments/navbar :: header"></div>
+
+<div class="p-5">
+  <h1 class="text-center text-lg font-bold mb-5">Add Mata anggaran</h1>
+  <form th:action="@{'/mataanggaran/' + ${id}}" method="post" th:object="${mataAnggaranAdd}">
+    <div class="my-3">
+      <input placeholder="Nomer Rekening" type="number" class="p-6 border w-full h-11 rounded-xl" th:field="*{nomerRekening}"/>
+      <p class="error" th:if="${#fields.hasErrors('nomerRekening')}" th:errors="*{nomerRekening}"></p>
+    </div>
+    <div class="my-3">
+      <input placeholder="Mata Anggaran" type="text" class="p-6 border w-full h-11 rounded-xl" th:field="*{mataAnggaran}"/>
+    </div>
+    <div class="flex justify-center mt-5">
+      <button class="py-3 p-12 bg-orange-500 hover:bg-orange-400 border-0 text-white rounded-full" type="submit">Submit</button>
+    </div>
+  </form>
+</div>
 
 <!--button back-->
   <div class="mt-14 mb-14">
@@ -28,9 +44,14 @@
     <form th:action="@{'/beban/page/' + ${id} + '/' + ${currentPage}}" method="get">
       <input placeholder="Search" type="text" class="p-6 border ml-8 h-11 md:w-96 rounded-2xl" required name="keyword" th:value="${keyword}" id="keyword"/>
     </form>
-    <label sec:authorize="hasAnyAuthority('ADMIN','INPUTER')" for="my-modal-3" class="text-white hover:bg-orange-400 p-3 lg:mr-8 cursor-pointer rounded-full mx-32 bg-orange-500 border-0 text-sm font-medium">
-      <i class="ml-3 fa-solid fa-square-plus"></i><span class="mx-6">Add New Beban</span>
-    </label>
+    <div class="my-auto">
+      <label sec:authorize="hasAnyAuthority('ADMIN','INPUTER')" for="my-modal-4" class="text-white hover:bg-orange-400 p-4 lg:mr-8 cursor-pointer rounded-full  bg-orange-500 border-0 text-sm font-medium">
+        <i class="ml-3 fa-solid fa-square-plus"></i><span class="mx-6">Add Mata Anggaran</span>
+      </label>
+      <label sec:authorize="hasAnyAuthority('ADMIN','INPUTER')" for="my-modal-3" class="text-white hover:bg-orange-400 p-4 lg:mr-8 cursor-pointer rounded-full  bg-orange-500 border-0 text-sm font-medium">
+        <i class="ml-3 fa-solid fa-square-plus"></i><span class="mx-6">Add Budget Mata anggaran</span>
+      </label>
+    </div>
   </div>
 
 <!--  table-->
@@ -48,7 +69,7 @@
       </tr>
       </thead>
       <tbody class="divide-y text-center">
-      <tr class="rounded-lg hover:shadow-lg group" th:each="beban : ${bebans}">
+      <tr class="rounded-lg hover:shadow-lg group" th:each="beban, status : ${bebans}">
         <td class="py-6">[[${beban.nomerRekening}]]</td>
         <td>[[${beban.name}]]</td>
         <td>[[${#strings.replace(#numbers.formatCurrency(beban.budget), ',00','')}]]</td>
@@ -57,10 +78,24 @@
         <td>[[${#dates.format(beban.date, 'dd/MM/yyyy')}]]</td>
         <td class="">
           <div class="flex-row space-x-4">
-            <a sec:authorize="hasAnyAuthority('ADMIN','INPUTER')" th:href="@{'/beban/update/' + ${beban.id}}"><i class="fa-solid fa-pen-to-square fa-lg"></i></a>
-            <a sec:authorize="hasAuthority('ADMIN')" th:href="@{'/beban/delete/' + ${beban.id}}"><i class="fa-solid fa-solid fa-trash"></i></a>
+            <a sec:authorize="hasAnyAuthority('ADMIN','INPUTER', 'SUPER_ADMIN')" th:href="@{'/beban/update/' + ${beban.id}}"><i class="fa-solid fa-pen-to-square fa-lg"></i></a>
+            <label sec:authorize="hasAnyAuthority('ADMIN','SUPER_ADMIN')" th:for="|my-modal${status.index}}|" class="cursor-pointer"><i class="fa-solid fa-trash"></i></label>
             <a th:href="@{'/kegiatan/' + ${beban.id}}"><i class="fa-solid fa-eye"></i></a>
           </div>
+
+          <!-- modal-->
+          <input type="checkbox" th:id="|my-modal${status.index}}|" class="modal-toggle" tabindex="-1"/>
+          <div class="modal modal-bottom sm:modal-middle">
+            <div class="modal-box">
+              <h3 class="font-bold text-lg">Delete</h3>
+              <p class="py-4">Hapus Mata Anggaran ini?</p>
+              <div class="">
+                <a type="button" th:href="@{'/beban/delete/' + ${beban.id}}" class="py-3 p-16 rounded-full text-white text-sm font-medium hover:bg-red-400 bg-red-500 border-0">Ya</a>
+                <label th:for="|my-modal${status.index}}|" class="py-3 px-12 hover:bg-gray-100 cursor-pointer rounded-full border text-sm font-medium">Cencel</label>
+              </div>
+            </div>
+          </div>
+
         </td>
       </tr>
       </tbody>
@@ -87,8 +122,8 @@
     <div class="modal-box relative">
       <label for="my-modal-3" class="btn btn-sm hover:bg-orange-400 bg-orange-500 border-0 btn-circle absolute right-2 top-2">✕</label>
       <div class="p-5">
-        <h1 class="text-center text-lg font-bold mb-5">Add Mata Anggaran</h1>
-        <form th:action="@{/beban}" method="post" th:object="${bebansAdd}">
+        <h1 class="text-center text-lg font-bold mb-5">Add Budget Mata anggaran</h1>
+        <form th:action="@{'/beban/ ' + ${id}}" method="post" th:object="${bebansAdd}">
           <div class="my-3">
             <input placeholder="Nomer Rekening" type="text" class="p-6 border w-full h-11 rounded-xl" th:field="*{nomerRekening}"/>
           </div>
@@ -100,6 +135,29 @@
           </div>
           <div class="my-3">
             <input placeholder="Date" type="date" class="p-6 border w-full h-11 rounded-xl" th:field="*{date}"/>
+          </div>
+          <div class="flex justify-center mt-5">
+            <button class="py-3 p-12 bg-orange-500 hover:bg-orange-400 border-0 text-white rounded-full" type="submit">Submit</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!--  modal-->
+  <input type="checkbox" id="my-modal-4" class="modal-toggle"/>
+  <div class="modal">
+    <div class="modal-box relative">
+      <label for="my-modal-4" class="btn btn-sm hover:bg-orange-400 bg-orange-500 border-0 btn-circle absolute right-2 top-2">✕</label>
+      <div class="p-5">
+        <h1 class="text-center text-lg font-bold mb-5">Add Mata anggaran</h1>
+        <form th:action="@{'/mataanggaran/' + ${id}}" method="post" th:object="${mataAnggaranAdd}">
+          <div class="my-3">
+            <input placeholder="Nomer Rekening" type="number" class="p-6 border w-full h-11 rounded-xl" th:field="*{nomerRekening}"/>
+
+          </div>
+          <div class="my-3">
+            <input placeholder="Mata Anggaran" type="text" class="p-6 border w-full h-11 rounded-xl" th:field="*{mataAnggaran}"/>
           </div>
           <div class="flex justify-center mt-5">
             <button class="py-3 p-12 bg-orange-500 hover:bg-orange-400 border-0 text-white rounded-full" type="submit">Submit</button>

@@ -47,4 +47,8 @@ public class UserService {
         Pageable page = page(currPage, pageSize);
         return userRepository.findAll(page);
     }
+
+    public void delete(Integer id){
+        userRepository.deleteById(id);
+    }
 }

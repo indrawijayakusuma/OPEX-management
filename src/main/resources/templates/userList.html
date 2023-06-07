@@ -36,14 +36,28 @@
       </tr>
       </thead>
       <tbody class="divide-y text-center">
-      <tr class="rounded-lg hover:shadow-lg group" th:each="user : ${users}">
+      <tr class="rounded-lg hover:shadow-lg group" th:each="user, status : ${users}">
         <td class="py-6">[[${user.name}]]</td>
         <td>[[${#strings.substring(user.password,0,13)}]]</td>
         <td>[[${user.roles}]]</td>
         <td class="">
           <div class="flex-row space-x-4">
-            <a href="" ><i class="fa-solid fa-solid fa-trash"></i></a>
+            <label th:for="|my-modal${status.index}}|" class="cursor-pointer"><i class="fa-solid fa-trash"></i></label>
           </div>
+
+<!-- modal-->
+          <input type="checkbox" th:id="|my-modal${status.index}}|" class="modal-toggle" tabindex="-1"/>
+          <div class="modal modal-bottom sm:modal-middle">
+            <div class="modal-box">
+              <h3 class="font-bold text-lg">Delete</h3>
+              <p class="py-4">Hapus Account ini?</p>
+              <div class="">
+                <a type="button" th:href="@{'/admin/delete/' + ${user.id}}" class="py-3 p-16 rounded-full text-white text-sm font-medium hover:bg-red-400 bg-red-500 border-0">Ya</a>
+                <label th:for="|my-modal${status.index}}|" class="py-3 px-12 hover:bg-gray-100 cursor-pointer rounded-full border text-sm font-medium">Cencel</label>
+              </div>
+            </div>
+          </div>
+
         </td>
       </tr>
       </tbody>

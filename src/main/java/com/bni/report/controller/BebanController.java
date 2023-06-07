@@ -1,8 +1,12 @@
 package com.bni.report.controller;
 
 import com.bni.report.entities.Beban;
+import com.bni.report.entities.Kelompok;
+import com.bni.report.entities.MataAnggaran;
 import com.bni.report.service.BebanService;
 import com.bni.report.service.KelompokService;
+import lombok.extern.flogger.Flogger;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
@@ -12,7 +16,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.ArrayList;
 import java.util.List;
 
-@Controller
+@Controller @Slf4j
 public class BebanController {
     @Autowired
     private BebanService bebanService;
@@ -58,6 +62,9 @@ public class BebanController {
         // add form
         Beban beban = new Beban();
         model.addAttribute("bebansAdd", beban);
+        MataAnggaran anggaran = new MataAnggaran();
+        log.info(String.valueOf(anggaran));
+        model.addAttribute("mataAnggaranAdd",anggaran);
 
         return "ListBeban";
     }
@@ -69,10 +76,18 @@ public class BebanController {
         return "formAddBeban";
     }
 
-    @PostMapping("/beban")
-    public String add(Beban beban){
+//    @PostMapping("/beban")
+//    public String add(Beban beban){
+//        beban.setKelompok(new Kelompok(1));
+//        bebanService.create(beban);
+//        return "redirect:/beban/" + beban.getId();
+//    }
+
+    @PostMapping("/beban/{id}")
+    public String add(Beban beban, @PathVariable Integer id){
+        beban.setKelompok(new Kelompok(id));
         bebanService.create(beban);
-        return "redirect:/beban" + beban.getId();
+        return "redirect:/beban/" + id;
     }
 
     @GetMapping("/beban/update/{id}")
