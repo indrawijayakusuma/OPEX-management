@@ -1,5 +1,6 @@
 package com.bni.report.controller;
 
+import com.bni.report.entities.Kelompok;
 import com.bni.report.entities.MataAnggaran;
 import com.bni.report.service.MataAnggaranService;
 import jakarta.validation.Valid;
@@ -18,19 +19,20 @@ public class MataAnggaranController {
     @Autowired
     private MataAnggaranService mataAnggaranService;
 
-    @GetMapping("/mataanggaran/form")
-    public String addForm(Model model){
+    @GetMapping("/mataanggaran/form/{kelompokId}")
+    public String addForm(Model model, @PathVariable int kelompokId){
         model.addAttribute("mataAnggaran", new MataAnggaran());
-        return "test";
+        return "AddMataAnggaran";
     }
 
-    @PostMapping("/mataanggaran/{kelompok}")
-    public String add(@Valid @ModelAttribute(value="mataAnggaranAdd") MataAnggaran mataAnggaran, BindingResult result, @PathVariable Integer kelompok){
+    @PostMapping("/mataanggaran/{kelompokId}")
+    public String add(@Valid @ModelAttribute(value="mataAnggaran") MataAnggaran mataAnggaran, BindingResult result, @PathVariable Integer kelompokId){
         if(result.hasErrors()){
-            return "/beban/" + kelompok;
+            return "addMataAnggaran";
         }
         log.info(String.valueOf(mataAnggaran));
+        mataAnggaran.setKelompok(new Kelompok(kelompokId));
         MataAnggaran anggaran = mataAnggaranService.create(mataAnggaran);
-        return "redirect:/beban/" + kelompok;
+        return "redirect:/beban/" + kelompokId;
     }
 }

@@ -13,22 +13,6 @@
 <!--  navbar-->
   <div th:replace="fragments/navbar :: header"></div>
 
-<div class="p-5">
-  <h1 class="text-center text-lg font-bold mb-5">Add Mata anggaran</h1>
-  <form th:action="@{'/mataanggaran/' + ${id}}" method="post" th:object="${mataAnggaranAdd}">
-    <div class="my-3">
-      <input placeholder="Nomer Rekening" type="number" class="p-6 border w-full h-11 rounded-xl" th:field="*{nomerRekening}"/>
-      <p class="error" th:if="${#fields.hasErrors('nomerRekening')}" th:errors="*{nomerRekening}"></p>
-    </div>
-    <div class="my-3">
-      <input placeholder="Mata Anggaran" type="text" class="p-6 border w-full h-11 rounded-xl" th:field="*{mataAnggaran}"/>
-    </div>
-    <div class="flex justify-center mt-5">
-      <button class="py-3 p-12 bg-orange-500 hover:bg-orange-400 border-0 text-white rounded-full" type="submit">Submit</button>
-    </div>
-  </form>
-</div>
-
 <!--button back-->
   <div class="mt-14 mb-14">
     <a th:href="@{/}" class="ml-20 py-3 px-4 hover:bg-orange-400 rounded-full bg-orange-500 text-white text-sm font-medium"><i class="fa-solid fa-chevron-left fa-xl"></i><span class="mx-5">Back</span></a>
@@ -45,9 +29,9 @@
       <input placeholder="Search" type="text" class="p-6 border ml-8 h-11 md:w-96 rounded-2xl" required name="keyword" th:value="${keyword}" id="keyword"/>
     </form>
     <div class="my-auto">
-      <label sec:authorize="hasAnyAuthority('ADMIN','INPUTER')" for="my-modal-4" class="text-white hover:bg-orange-400 p-4 lg:mr-8 cursor-pointer rounded-full  bg-orange-500 border-0 text-sm font-medium">
+      <a sec:authorize="hasAnyAuthority('ADMIN','INPUTER')" th:href="@{'/mataanggaran/form/' + ${id}}" class="text-white hover:bg-orange-400 p-4 lg:mr-8 cursor-pointer rounded-full  bg-orange-500 border-0 text-sm font-medium">
         <i class="ml-3 fa-solid fa-square-plus"></i><span class="mx-6">Add Mata Anggaran</span>
-      </label>
+      </a>
       <label sec:authorize="hasAnyAuthority('ADMIN','INPUTER')" for="my-modal-3" class="text-white hover:bg-orange-400 p-4 lg:mr-8 cursor-pointer rounded-full  bg-orange-500 border-0 text-sm font-medium">
         <i class="ml-3 fa-solid fa-square-plus"></i><span class="mx-6">Add Budget Mata anggaran</span>
       </label>
@@ -125,10 +109,9 @@
         <h1 class="text-center text-lg font-bold mb-5">Add Budget Mata anggaran</h1>
         <form th:action="@{'/beban/ ' + ${id}}" method="post" th:object="${bebansAdd}">
           <div class="my-3">
-            <input placeholder="Nomer Rekening" type="text" class="p-6 border w-full h-11 rounded-xl" th:field="*{nomerRekening}"/>
-          </div>
-          <div class="my-3">
-            <input placeholder="Mata Anggaran" type="text" class="p-6 border w-full h-11 rounded-xl" th:field="*{name}"/>
+            <select class="py-3 px-6 pr-8 rounded border w-full rounded-xl" th:field="*{name}">
+              <option th:each="mataAnggaran : ${mataAnggarans}" th:value="${mataAnggaran}" th:text="${mataAnggaran}"></option>
+            </select>
           </div>
           <div class="my-3">
             <input placeholder="Budget" type="number" class="p-6 border w-full h-11 rounded-xl" th:field="*{budget}" required/>
@@ -154,7 +137,6 @@
         <form th:action="@{'/mataanggaran/' + ${id}}" method="post" th:object="${mataAnggaranAdd}">
           <div class="my-3">
             <input placeholder="Nomer Rekening" type="number" class="p-6 border w-full h-11 rounded-xl" th:field="*{nomerRekening}"/>
-
           </div>
           <div class="my-3">
             <input placeholder="Mata Anggaran" type="text" class="p-6 border w-full h-11 rounded-xl" th:field="*{mataAnggaran}"/>

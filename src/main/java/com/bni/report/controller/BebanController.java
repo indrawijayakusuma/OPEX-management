@@ -5,6 +5,7 @@ import com.bni.report.entities.Kelompok;
 import com.bni.report.entities.MataAnggaran;
 import com.bni.report.service.BebanService;
 import com.bni.report.service.KelompokService;
+import com.bni.report.service.MataAnggaranService;
 import lombok.extern.flogger.Flogger;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Controller @Slf4j
 public class BebanController {
@@ -22,6 +24,9 @@ public class BebanController {
     private BebanService bebanService;
     @Autowired
     private KelompokService kelompokService;
+
+    @Autowired
+    private MataAnggaranService mataAnggaranService;
 
     @GetMapping("/beban/{id}")
     public String getAll(@PathVariable Integer id, Model model){
@@ -48,6 +53,10 @@ public class BebanController {
 
         String nameKelompok = kelompokService.findById(idKelompok).getName();
 
+        List<String> all = mataAnggaranService.getAll(idKelompok).stream()
+                .map(MataAnggaran::getMataAnggaran)
+                .collect(Collectors.toList());
+
         model.addAttribute("currentPage", currPage);
         model.addAttribute("totalPages", bebanPage.getTotalPages());
         model.addAttribute("totalItems", bebanPage.getTotalElements());
@@ -58,13 +67,9 @@ public class BebanController {
         model.addAttribute("reverseDirection", sortDirection.equals("asc")?"desc":"asc");
         model.addAttribute("nameKelompok", nameKelompok);
         model.addAttribute("keyword", keyword);
-
-        // add form
-        Beban beban = new Beban();
-        model.addAttribute("bebansAdd", beban);
-        MataAnggaran anggaran = new MataAnggaran();
-        log.info(String.valueOf(anggaran));
-        model.addAttribute("mataAnggaranAdd",anggaran);
+        model.addAttribute("bebansAdd", new Beban());
+        model.addAttribute("mataAnggaranAdd",new MataAnggaran());
+        model.addAttribute("mataAnggarans", all);
 
         return "ListBeban";
     }
@@ -83,13 +88,14 @@ public class BebanController {
 //        return "redirect:/beban/" + beban.getId();
 //    }
 
-    @PostMapping("/beban/{id}")
-    public String add(Beban beban, @PathVariable Integer id){
-        beban.setKelompok(new Kelompok(id));
+    @PostMapping("/beban/{kelompokId}")
+    public String add(Beban beban, @PathVariable Integer kelompokId){
+        String nomerRekening = mataAnggaranService.getNomerRekening(beban.getName());
+        beban.setKelompok(new Kelompok(kelompokId));
+        beban.setNomerRekening(nomerRekening);
         bebanService.create(beban);
-        return "redirect:/beban/" + id;
+        return "redirect:/beban/" + kelompokId;
     }
-
     @GetMapping("/beban/update/{id}")
     public String formUpdateBeban(@PathVariable Integer id, Model model){
         Beban byId = bebanService.findById(id);

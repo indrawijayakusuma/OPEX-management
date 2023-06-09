@@ -16,6 +16,9 @@ public class Kelompok {
     @OneToMany(mappedBy = "kelompok", cascade = CascadeType.ALL)
     private List<Beban> beban;
 
+    @OneToMany(mappedBy = "kelompok", cascade = CascadeType.ALL)
+    private List<MataAnggaran> mataAnggaran;
+
     public Kelompok(String name) {
         this.name = name;
     }

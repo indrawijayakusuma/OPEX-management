@@ -1,10 +1,42 @@
 <!DOCTYPE html>
-<html lang="en">
+<html data-theme="light" lang="en" xmlns:th="https://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+</head>
+<link href="https://cdn.jsdelivr.net/npm/daisyui@2.51.5/dist/full.css" rel="stylesheet" type="text/css" />
+<script src="https://cdn.tailwindcss.com"></script>
+<script src="https://kit.fontawesome.com/b249ac0a69.js" crossorigin="anonymous"></script>
+<title>update</title>
 </head>
 <body>
+<!--  navbar-->
+<div th:replace="fragments/navbar :: header"></div>
+<div class="mt-14">
+    <div class="">
+        <a th:href="@{'/beban/' + ${kelompokId}}" class="ml-56 py-3 px-4 hover:bg-orange-400 rounded-full bg-orange-500 text-white text-sm font-medium"><i class="fa-solid fa-chevron-left fa-xl"></i><span class="mx-5">Back</span></a>
+    </div>
+</div>
+<div class="p-5 container mt-16 mx-auto w-[40%]">
+    <h1 class="text-center text-2xl font-bold mb-5">Add Mata Anggaran</h1>
+    <div class="w-full mt-9">
+        <form th:action="@{'/mataanggaran/'+ ${kelompokId}}" method="post" th:object="${mataAnggaran}">
+            <div class="my-3">
+                <input placeholder="Nomer Rekening" required type="number" th:classappend="${#fields.hasErrors('nomerRekening')} ? border-red-500 :''" class="p-6 border w-full h-11 rounded-xl" th:field="*{nomerRekening}"/>
+                <p th:if="${#fields.hasErrors('nomerRekening')}" class="text-red-500 mt-3 ml-4" th:errors="*{nomerRekening}"/>
+            </div>
+            <div class="my-5">
+                <input placeholder="Mata Anggaran" type="text" required class="p-6 border w-full h-11 rounded-xl" th:field="*{mataAnggaran}"/>
+            </div>
+            <div class="flex justify-center mt-7">
+                <button class="bg-orange-500 border-0 py-3 hover:bg-orange-400 px-8 text-sm font-medium text-white rounded-full" type="submit">Submit</button>
+            </div>
+        </form>
+    </div>
+</div>
 
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha2/dist/js/bootstrap.bundle.min.js" integrity="sha384-qKXV1j0HvMUeCBQ+QVp7JcfGl760yU08IQ+GpUo5hlbpg51QRiuqHAJz8+BrxE/N" crossorigin="anonymous"></script>
 </body>
 </html>
