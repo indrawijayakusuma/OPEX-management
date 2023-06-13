@@ -24,7 +24,6 @@ public class KelompokService {
     public Kelompok create(Kelompok kelompok){
         return kelompokRepository.save(kelompok);
     }
-
     public Kelompok save(Kelompok kelompok){
         return kelompokRepository.save(kelompok);
     }

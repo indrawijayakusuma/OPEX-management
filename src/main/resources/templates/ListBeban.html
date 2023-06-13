@@ -64,7 +64,7 @@
           <div class="flex-row space-x-4">
             <a sec:authorize="hasAnyAuthority('ADMIN','INPUTER', 'SUPER_ADMIN')" th:href="@{'/beban/update/' + ${beban.id}}"><i class="fa-solid fa-pen-to-square fa-lg"></i></a>
             <label sec:authorize="hasAnyAuthority('ADMIN','SUPER_ADMIN')" th:for="|my-modal${status.index}}|" class="cursor-pointer"><i class="fa-solid fa-trash"></i></label>
-            <a th:href="@{'/kegiatan/' + ${beban.id}}"><i class="fa-solid fa-eye"></i></a>
+            <a th:href="@{'/program/' + ${beban.id}}"><i class="fa-solid fa-eye"></i></a>
           </div>
 
           <!-- modal-->

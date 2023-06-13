@@ -24,6 +24,8 @@ public class Beban {
     @ManyToOne
     @JoinColumn(name="Kelompok_id", nullable=false)
     private Kelompok kelompok;
+    @OneToMany(mappedBy="beban", cascade = CascadeType.ALL)
+    private List<Program> program;
     private BigDecimal budget;
     private BigDecimal realisasi;
     private BigDecimal sisa;

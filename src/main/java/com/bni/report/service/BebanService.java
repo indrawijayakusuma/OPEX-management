@@ -26,14 +26,14 @@ public class BebanService {
     private KelompokRepository kelompokRepository;
     @Autowired
     private ValidatorRepository validatorRepository;
-
     @Autowired
     private UserService userRepository;
     @Autowired
     private KegiatanService kegiatanService;
-
     @Autowired
     private ValidatorService validatorService;
+    @Autowired
+    private ProgramService programService;
 
     public Page<Beban> getAll(Pageable pageable,Integer id){
         Page<Beban> all = bebanRepository.findByKelompokId(id, pageable);
@@ -44,39 +44,32 @@ public class BebanService {
         }).collect(Collectors.toList());
         return all;
     }
-
     public Page<Beban> paginateGetAll(int currPage, int pageSize, String sortField, String sortDirection, Integer id){
         Sort sort = sortDirection.equalsIgnoreCase(Sort.Direction.ASC.name()) ? Sort.by(sortField).ascending() : Sort.by(sortField).descending();
         Pageable pageable = PageRequest.of(currPage-1, pageSize, sort);
         return getAll(pageable, id);
     }
-
     public Page<Beban> paginateSearchingGetAll(int currPage, int pageSize, String sortField, String sortDirection, String keyword, Integer id){
         Sort sort = sortDirection.equalsIgnoreCase(Sort.Direction.ASC.name()) ? Sort.by(sortField).ascending() : Sort.by(sortField).descending();
         Pageable pageable = PageRequest.of(currPage-1, pageSize, sort);
         return bebanRepository.search(keyword, pageable, id);
     }
-
     public Beban findById(Integer id){
         countSisa(id);
         return bebanRepository.findById(id).orElseThrow(RuntimeException::new);
     }
-
     public Beban create(Beban beban){
         return bebanRepository.save(beban);
     }
-
     public Beban edit(Beban beban){
         return bebanRepository.save(beban);
     }
-
     public void delete(Integer id){
         bebanRepository.deleteById(id);
     }
-
     public void countSisa(Integer id){
         Beban beban1 = bebanRepository.findById(id).orElse(new Beban());
-        BigDecimal jumlahNominalKegiatan = kegiatanService.addNominalKegiatan(id);
+        BigDecimal jumlahNominalKegiatan = programService.addNominalProgram(id);
         BigDecimal budget = beban1.getBudget();
         MathContext mc = new MathContext(10);
         beban1.setId(id);
@@ -84,11 +77,8 @@ public class BebanService {
         beban1.setSisa(budget.subtract(jumlahNominalKegiatan, mc));
         bebanRepository.save(beban1);
     }
-
-
     @PostConstruct
     public void addbeban() {
-
         List<User> users = new ArrayList<>();
         users.add(new User(7,"validator","$2a$12$SfBMDogva22862CCfL0E9Oi3AUftOXbAfHcNs6UCDGQpq25P3GQMi","ADMIN", new Kelompok(1)));
         users.add(new User(5,"inputer","$2a$12$SfBMDogva22862CCfL0E9Oi3AUftOXbAfHcNs6UCDGQpq25P3GQMi","INPUTER",  new Kelompok(1)));

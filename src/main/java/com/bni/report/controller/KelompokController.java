@@ -31,11 +31,9 @@ public class KelompokController {
         model.addAttribute("kelompoks", kelompokList);
         return "index";
     }
-
     @PostMapping("/kelompok")
     public String add(Kelompok kelompok){
         kelompokService.save(kelompok);
         return "admin";
     }
-
 }

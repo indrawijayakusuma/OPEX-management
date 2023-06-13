@@ -67,13 +67,9 @@ public class KegiatanController {
         Validator validator = new Validator();
         validator.setBeban(new Beban(id));
         model.addAttribute("validatorsObject", validator);
-
         //generate excel
-
-
         return "listKegiatan";
     }
-
     @GetMapping("/kegiatan/update/{id}")
     public String formUpdateKegiatan(@PathVariable Integer id, Model model){
         Kegiatan byId = kegiatanService.findById(id);
@@ -82,14 +78,12 @@ public class KegiatanController {
         model.addAttribute("kegiatans", byId);
         return "formUpdateKegiatan";
     }
-
     @PostMapping("/kegiatan")
     public String update(Kegiatan kegiatan){
         kegiatanService.create(kegiatan);
         kegiatanService.edit(kegiatan);
         return "redirect:/kegiatan/delete/" + kegiatan.getId();
     }
-
     @GetMapping("/kegiatan/delete/{id}")
     public String delete(@PathVariable Integer id){
         Integer idBeban = kegiatanService.findById(id).getBeban().getId();

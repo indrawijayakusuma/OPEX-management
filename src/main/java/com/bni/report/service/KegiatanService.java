@@ -30,19 +30,16 @@ public class KegiatanService {
     public Page<Kegiatan> getAll(Pageable pageable,Integer id){
         return kegiatanRepository.findByBebanId(id,pageable);
     }
-
     public Page<Kegiatan> paginateGetALl(int currPage, int pageSize, String sortDirection, String sortField, Integer id){
         Sort sort = sortDirection.equalsIgnoreCase(Sort.Direction.ASC.name()) ? Sort.by(sortField).ascending() : Sort.by(sortField).descending();
         Pageable pageable = PageRequest.of(currPage-1, pageSize,sort);
         return getAll(pageable, id);
     }
-
     public Page<Kegiatan> paginateSearchingGetAll(int currPage, int pageSize, String sortField, String sortDirection, String keyword, int id){
         Sort sort = sortDirection.equalsIgnoreCase(Sort.Direction.ASC.name()) ? Sort.by(sortField).ascending() : Sort.by(sortField).descending();
         Pageable pageable = PageRequest.of(currPage-1, pageSize, sort);
         return kegiatanRepository.search(keyword,id,pageable);
     }
-
     public Kegiatan findById(Integer id){
         return kegiatanRepository.findById(id).orElseThrow(RuntimeException::new);
     }
@@ -57,7 +54,6 @@ public class KegiatanService {
     public void delete(Integer id){
         kegiatanRepository.deleteById(id);
     }
-
     public BigDecimal addNominalKegiatan(Integer id){
         List<Kegiatan> all = kegiatanRepository.findAll();
         return all.stream()
@@ -65,5 +61,4 @@ public class KegiatanService {
                 .map(kegiatan -> kegiatan.getNominal())
                 .reduce(BigDecimal.valueOf(0), (a, b) -> a.add(b));
     }
-
 }

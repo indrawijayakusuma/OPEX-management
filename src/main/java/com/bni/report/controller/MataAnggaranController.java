@@ -24,7 +24,6 @@ public class MataAnggaranController {
         model.addAttribute("mataAnggaran", new MataAnggaran());
         return "AddMataAnggaran";
     }
-
     @PostMapping("/mataanggaran/{kelompokId}")
     public String add(@Valid @ModelAttribute(value="mataAnggaran") MataAnggaran mataAnggaran, BindingResult result, @PathVariable Integer kelompokId){
         if(result.hasErrors()){

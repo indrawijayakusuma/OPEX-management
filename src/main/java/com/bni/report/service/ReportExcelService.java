@@ -137,7 +137,6 @@ public class ReportExcelService {
         numberFormat.cloneStyleFrom(cellStyle);
         numberFormat.setDataFormat(creationHelper.createDataFormat().getFormat("#,##0"));
 
-
         CellRangeAddress cellAddresses = new CellRangeAddress(size + 1, size + 1, 0, 2);
         CellRangeAddress cellAddresses1 = new CellRangeAddress(size + 1, size + 1, 3, 5);
         sheet.addMergedRegion(cellAddresses);
@@ -163,8 +162,6 @@ public class ReportExcelService {
         XSSFCell cellnumber5 = row.createCell(5);
         cellnumber5.setCellValue("");
         cellnumber5.setCellStyle(cellStyle);
-
-
     }
 
     public void generateExcel(HttpServletResponse response, Integer id) throws IOException {

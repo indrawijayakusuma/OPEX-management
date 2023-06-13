@@ -57,7 +57,6 @@ public class UserController {
         }
         return "redirect:/";
     }
-
     @GetMapping("/admin")
     @PreAuthorize("hasAuthority('SUPER_ADMIN')")
     public String adminPage(Model model){
@@ -65,18 +64,15 @@ public class UserController {
 
         return "/admin";
     }
-
     @PostMapping("/admin")
     @PreAuthorize("hasAuthority('SUPER_ADMIN')")
     public String add(User user){
         userService.save(user);
         return "redirect:/admin";
     }
-
     @GetMapping("/admin/delete/{id}")
     public String delete(@PathVariable Integer id){
         userService.delete(id);
         return "redirect:/users/1";
     }
-
 }

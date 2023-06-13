@@ -29,7 +29,6 @@ public class ValidatorService {
         Sort sort = sortDirection.equalsIgnoreCase(Sort.Direction.ASC.name()) ? Sort.by(sortField).ascending() : Sort.by(sortField).descending();
         Pageable pageable = PageRequest.of(currPage-1, pageSize, sort);
         return getAll(pageable,id);
-
     }
     public Page<Validator> getAll(Pageable pageable, int kelompok){
         List<Validator> collect = validatorRepository.findAll().stream()
@@ -37,7 +36,6 @@ public class ValidatorService {
                 .collect(Collectors.toList());
         return new PageImpl<>(collect);
     }
-
     public Validator findById(Integer id){
         return validatorRepository.findById(id).orElseThrow(RuntimeException::new);
     }

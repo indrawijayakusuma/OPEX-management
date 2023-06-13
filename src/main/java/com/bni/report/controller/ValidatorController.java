@@ -64,7 +64,6 @@ public class ValidatorController {
 
         return "validasi1";
     }
-
     @GetMapping("/validator/addform/{id}")
     @PreAuthorize("hasAuthority('ADMIN')")
     public String addForm(@PathVariable Integer id, Model model){
@@ -79,7 +78,6 @@ public class ValidatorController {
         validatorService.create(validator);
         return "redirect:/kegiatan/" + validator.getBeban().getId();
     }
-
     @GetMapping("/validator/validate/{id}")
     @PreAuthorize("hasAuthority('ADMIN')")
     public String validate(@PathVariable Integer id){
@@ -93,12 +91,10 @@ public class ValidatorController {
         model.addAttribute("kegiatans", byId);
         return "formUpdateValidator";
     }
-
     @PostMapping("/validator/update")
     @PreAuthorize("hasAuthority('ADMIN')")
     public String update(Validator validator){
         validatorService.create(validator);
         return "redirect:/validator";
     }
-
 }

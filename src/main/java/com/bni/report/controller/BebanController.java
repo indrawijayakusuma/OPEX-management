@@ -24,7 +24,6 @@ public class BebanController {
     private BebanService bebanService;
     @Autowired
     private KelompokService kelompokService;
-
     @Autowired
     private MataAnggaranService mataAnggaranService;
 
@@ -80,14 +79,12 @@ public class BebanController {
         model.addAttribute("bebans", beban);
         return "formAddBeban";
     }
-
 //    @PostMapping("/beban")
 //    public String add(Beban beban){
 //        beban.setKelompok(new Kelompok(1));
 //        bebanService.create(beban);
 //        return "redirect:/beban/" + beban.getId();
 //    }
-
     @PostMapping("/beban/{kelompokId}")
     public String add(Beban beban, @PathVariable Integer kelompokId){
         String nomerRekening = mataAnggaranService.getNomerRekening(beban.getName());
@@ -110,5 +107,4 @@ public class BebanController {
         bebanService.delete(id);
         return "redirect:/beban/" + beban.getKelompok().getId();
     }
-
 }
