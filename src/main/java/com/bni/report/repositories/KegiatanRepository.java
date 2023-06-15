@@ -12,11 +12,11 @@ import java.util.List;
 import java.util.Optional;
 
 public interface KegiatanRepository extends JpaRepository<Kegiatan, Integer> {
-    Page<Kegiatan> findByBebanId(Integer id,Pageable pageable);
+    Page<Kegiatan> findByProgramId(String id,Pageable pageable);
 
-    List<Kegiatan> findByBebanId(Integer id);
+    List<Kegiatan> findByProgramId(String id);
 
-    @Query("SELECT p FROM Kegiatan p WHERE CONCAT(p.name, p.cat, p.pic, p.nominal, p.date) LIKE CONCAT('%',:keyword,'%') AND p.beban.id = :id")
-    Page<Kegiatan> search(@Param("keyword") String keyword ,@Param("id") Integer id, Pageable pageable);
+    @Query("SELECT p FROM Kegiatan p WHERE CONCAT(p.budget) LIKE CONCAT('%',:keyword,'%') AND p.program.id = :id")
+    Page<Kegiatan> search(@Param("keyword") String keyword ,@Param("id") String id, Pageable pageable);
 
 }

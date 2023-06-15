@@ -15,12 +15,9 @@ import java.util.List;
 @Entity @Data @AllArgsConstructor @NoArgsConstructor
 public class Beban {
     @Id @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "beban_id")
     private Integer id;
     private String nomerRekening;
     private String name;
-    @OneToMany(mappedBy="beban", cascade = CascadeType.ALL)
-    private List<Kegiatan> kegiatan;
     @ManyToOne
     @JoinColumn(name="Kelompok_id", nullable=false)
     private Kelompok kelompok;

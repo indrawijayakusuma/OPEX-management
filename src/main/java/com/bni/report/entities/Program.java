@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 import org.hibernate.annotations.GenericGenerator;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 @Entity @Data @AllArgsConstructor @NoArgsConstructor
 public class Program {
@@ -19,7 +20,13 @@ public class Program {
     private BigDecimal budget;
     private String pic;
     private String noUsulan;
+    @OneToMany(mappedBy="program", cascade = CascadeType.ALL)
+    private List<Kegiatan> kegiatan;
     @ManyToOne
     @JoinColumn(name="Beban_id", nullable=false)
     private Beban beban;
+
+    public Program(String id) {
+        this.id = id;
+    }
 }

@@ -2,11 +2,14 @@ package com.bni.report.controller;
 
 import com.bni.report.entities.Beban;
 import com.bni.report.entities.Kegiatan;
+import com.bni.report.entities.Program;
 import com.bni.report.entities.Validator;
 import com.bni.report.service.BebanService;
 import com.bni.report.service.KegiatanService;
+import com.bni.report.service.ProgramService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -20,18 +23,18 @@ public class KegiatanController {
     @Autowired
     private KegiatanService kegiatanService;
     @Autowired
-    private BebanService bebanService;
+    private ProgramService programService;
 
     @GetMapping("/kegiatan/{id}")
-    public String getAll(Model model, @PathVariable(value = "id") Integer id){
-        return paginateGetAll(null, id,1,"name", "asc",model);
+    public String getAll(Model model, @PathVariable(value = "id") String id){
+        return paginateGetAll(null, id,1,"budget", "asc",model);
     }
     @GetMapping("/kegiatan/page/{id}/{no}")
     public String paginateGetAll(
             @RequestParam(required = false) String keyword,
-            @PathVariable(value = "id") int id,
+            @PathVariable(value = "id") String id,
             @PathVariable(value = "no") int currPage,
-            @RequestParam(defaultValue = "name") String sortField,
+            @RequestParam(defaultValue = "budget") String sortField,
             @RequestParam(defaultValue = "asc") String sortDirection,
             Model model
     ){
@@ -46,15 +49,13 @@ public class KegiatanController {
         List<Kegiatan> kegiatanList = new ArrayList<>();
         kegiatanList = kegiatanPage.getContent();
 
-        Beban beban = bebanService.findById(id);
-        BigDecimal sisa = beban.getSisa();
-        String name1 = beban.getName();
-        Integer kelompokid = beban.getKelompok().getId();
+        Program program = programService.getById(id);
+        Integer bebanId = program.getBeban().getId();
 
         model.addAttribute("keyword", keyword);
-        model.addAttribute("sisa", sisa);
-        model.addAttribute("kelompokId", kelompokid);
-        model.addAttribute("nameBeban", name1);
+        model.addAttribute("sisa", 9000000);
+        model.addAttribute("bebanId",bebanId);
+        model.addAttribute("nameBeban", "name1");
         model.addAttribute("currentPage", currPage);
         model.addAttribute("sortField", sortField);
         model.addAttribute("sortDirection", sortDirection);
@@ -64,19 +65,23 @@ public class KegiatanController {
         model.addAttribute("totalItems", kegiatanPage.getTotalElements());
         model.addAttribute("kegiatans", kegiatanList);
 
-        Validator validator = new Validator();
-        validator.setBeban(new Beban(id));
-        model.addAttribute("validatorsObject", validator);
-        //generate excel
+        model.addAttribute("kegiatan", new Kegiatan());
+
         return "listKegiatan";
     }
     @GetMapping("/kegiatan/update/{id}")
     public String formUpdateKegiatan(@PathVariable Integer id, Model model){
         Kegiatan byId = kegiatanService.findById(id);
-        Integer kelompokid = byId.getBeban().getKelompok().getId();
-        model.addAttribute("kelompokId", kelompokid);
+//        Integer kelompokid = byId.getBeban().getKelompok().getId();
+        model.addAttribute("kelompokId", 1);
         model.addAttribute("kegiatans", byId);
         return "formUpdateKegiatan";
+    }
+    @PostMapping("/kegiatan/{idProgram}")
+    public String add(@PathVariable String idProgram, Kegiatan kegiatan){
+        kegiatan.setProgram(new Program(idProgram));
+        kegiatanService.create(kegiatan);
+        return "redirect:/kegiatan/" + idProgram;
     }
     @PostMapping("/kegiatan")
     public String update(Kegiatan kegiatan){
@@ -86,8 +91,8 @@ public class KegiatanController {
     }
     @GetMapping("/kegiatan/delete/{id}")
     public String delete(@PathVariable Integer id){
-        Integer idBeban = kegiatanService.findById(id).getBeban().getId();
+//        Integer idBeban = kegiatanService.findById(id).getBeban().getId();
         kegiatanService.delete(id);
-        return "redirect:/kegiatan/" + idBeban ;
+        return "redirect:/kegiatan/" + 1 ;
     }
 }

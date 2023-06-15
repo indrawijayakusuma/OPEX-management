@@ -30,7 +30,7 @@
     </form>
     <div class="my-auto">
         <label sec:authorize="hasAnyAuthority('ADMIN','INPUTER')" for="my-modal-3" class="text-white hover:bg-orange-400 p-4 lg:mr-8 cursor-pointer rounded-full  bg-orange-500 border-0 text-sm font-medium">
-            <i class="ml-3 fa-solid fa-square-plus"></i><span class="mx-6">Add Budget Mata anggaran</span>
+            <i class="ml-3 fa-solid fa-square-plus"></i><span class="mx-6">Add Program</span>
         </label>
     </div>
 </div>
@@ -57,7 +57,7 @@
                 <div class="flex-row space-x-4">
                     <a sec:authorize="hasAnyAuthority('ADMIN','INPUTER', 'SUPER_ADMIN')" th:href="@{'/program/update/' + ${program.id}}"><i class="fa-solid fa-pen-to-square fa-lg"></i></a>
                     <label sec:authorize="hasAnyAuthority('ADMIN','SUPER_ADMIN')" th:for="|my-modal${status.index}}|" class="cursor-pointer"><i class="fa-solid fa-trash"></i></label>
-<!--                    <a th:href="@{'/kegiatan/' + ${beban.id}}"><i class="fa-solid fa-eye"></i></a>-->
+                    <a th:href="@{'/kegiatan/' + ${program.id}}"><i class="fa-solid fa-eye"></i></a>
                 </div>
 
                 <!-- modal-->
@@ -98,7 +98,7 @@
     <div class="modal-box relative">
         <label for="my-modal-3" class="btn btn-sm hover:bg-orange-400 bg-orange-500 border-0 btn-circle absolute right-2 top-2">✕</label>
         <div class="p-5">
-            <h1 class="text-center text-lg font-bold mb-5">Add Budget Mata anggaran</h1>
+            <h1 class="text-center text-lg font-bold mb-5">Add Program</h1>
             <form th:action="@{'/program/' + ${IdBeban}}" method="post" th:object="${programAdd}">
                 <div class="my-3">
                     <input placeholder="Nama program" type="text" class="p-6 border w-full h-11 rounded-xl" th:field="*{name}" required/>

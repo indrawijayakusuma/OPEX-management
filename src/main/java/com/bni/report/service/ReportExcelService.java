@@ -102,21 +102,21 @@ public class ReportExcelService {
             cellDate.setCellValue(kegiatan.getDate());
             cellDate.setCellStyle(cellDateStyle);
 
-            XSSFCell cell = row.createCell(2);
-            cell.setCellValue(kegiatan.getName());
-            cell.setCellStyle(cellStyleRight);
+//            XSSFCell cell = row.createCell(2);
+//            cell.setCellValue(kegiatan.getName());
+//            cell.setCellStyle(cellStyleRight);
 
-            XSSFCell cellCategory = row.createCell(3);
-            cellCategory.setCellValue(kegiatan.getCat());
-            cellCategory.setCellStyle(cellStyle);
-
-            XSSFCell cellPic = row.createCell(4);
-            cellPic.setCellValue(kegiatan.getPic());
-            cellPic.setCellStyle(cellStyle);
-
-            XSSFCell cellNominal = row.createCell(5);
-            cellNominal.setCellValue(kegiatan.getNominal().doubleValue());
-            cellNominal.setCellStyle(cellStyleLeft);
+//            XSSFCell cellCategory = row.createCell(3);
+//            cellCategory.setCellValue(kegiatan.getCat());
+//            cellCategory.setCellStyle(cellStyle);
+//
+//            XSSFCell cellPic = row.createCell(4);
+//            cellPic.setCellValue(kegiatan.getPic());
+//            cellPic.setCellStyle(cellStyle);
+//
+//            XSSFCell cellNominal = row.createCell(5);
+//            cellNominal.setCellValue(kegiatan.getNominal().doubleValue());
+//            cellNominal.setCellStyle(cellStyleLeft);
 
             counter.getAndIncrement();
             number.getAndIncrement();
@@ -164,10 +164,10 @@ public class ReportExcelService {
         cellnumber5.setCellStyle(cellStyle);
     }
 
-    public void generateExcel(HttpServletResponse response, Integer id) throws IOException {
-        List<Kegiatan> kegiatans = kegiatanService.getsByBebanId(id);
+    public void generateExcel(HttpServletResponse response, String id) throws IOException {
+        List<Kegiatan> kegiatans = kegiatanService.getByProgramId(id);
         int size = kegiatans.size();
-        BigDecimal sisa = bebanService.findById(id).getSisa();
+        BigDecimal sisa = bebanService.findById(1).getSisa();
 
         XSSFWorkbook workbook =  new XSSFWorkbook();
         XSSFSheet sheet = workbook.createSheet("TEST ");

@@ -24,11 +24,6 @@ public class Validator {
     private Date date;
 
     public Validator(Kegiatan kegiatan) {
-        this.name =   kegiatan.getName();
-        this.beban =   kegiatan.getBeban();
-        this.cat =   kegiatan.getCat();
-        this.pic =   kegiatan.getPic();
-        this.nominal =   kegiatan.getNominal();
         this.date =   kegiatan.getDate();
     }
 

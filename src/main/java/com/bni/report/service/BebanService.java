@@ -146,8 +146,8 @@ public class BebanService {
 
         kelompokRepository.saveAll(kelompokList);
         bebanRepository.saveAll(bebanList);
-        kegiatanRepository.saveAll(kegitanList);
+//        kegiatanRepository.saveAll(kegitanList);
         userRepository.saveAll(users);
-        validatorRepository.saveAll(validatorList);
+//        validatorRepository.saveAll(validatorList);
     }
 }

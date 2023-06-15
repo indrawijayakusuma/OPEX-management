@@ -72,12 +72,7 @@ public class ValidatorController {
         model.addAttribute("validators", validator);
         return "formAddKegiatan";
     }
-    @PostMapping("/validator")
-    @PreAuthorize("hasAnyAuthority('ADMIN','INPUTER')")
-    public String add(Validator validator){
-        validatorService.create(validator);
-        return "redirect:/kegiatan/" + validator.getBeban().getId();
-    }
+
     @GetMapping("/validator/validate/{id}")
     @PreAuthorize("hasAuthority('ADMIN')")
     public String validate(@PathVariable Integer id){

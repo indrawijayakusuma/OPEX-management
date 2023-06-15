@@ -16,7 +16,7 @@ public class ReportExcelController {
     private ReportExcelService reportExcelService;
 
     @GetMapping("/excel/{id}")
-    public void generateExcel(@PathVariable Integer id, HttpServletResponse response) throws IOException {
+    public void generateExcel(@PathVariable String id, HttpServletResponse response) throws IOException {
         response.setContentType("application/octet-stream");
 
         String headerKey ="Content-Disposition";
