@@ -19,6 +19,9 @@
   </div>
 
 <!--text-->
+  <div th:if="${errorMessage}">
+    <p>Error: <span th:text="${errorMessage}"></span></p>
+  </div>
   <div class="lg:ml-36 ml-3">
     <h1 class="text-4xl mb-1 font-bold">DCU</h1>
     <h1 class="text-xl font-bold">Realisasi <span th:text="${nameBeban}"></span></h1>
