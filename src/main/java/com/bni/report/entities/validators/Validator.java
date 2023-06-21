@@ -1,6 +1,8 @@
-package com.bni.report.entities;
+package com.bni.report.entities.validators;
 
-import com.bni.report.entities.validators.Validator;
+import com.bni.report.entities.Beban;
+import com.bni.report.entities.Kegiatan;
+import com.bni.report.entities.Program;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -11,7 +13,7 @@ import java.math.BigDecimal;
 import java.util.Date;
 
 @Entity @Data @AllArgsConstructor @NoArgsConstructor
-public class Kegiatan {
+public class Validator {
     @Id @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
     @ManyToOne
@@ -23,15 +25,18 @@ public class Kegiatan {
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date date;
 
-    public Kegiatan(Validator validator) {
-        this.budget = validator.getBudget();
-        this.realisasi = validator.getRealisasi();
-        this.sisa = validator.getSisa();
-        this.program = validator.getProgram();
-        this.date = validator.getDate();
+    public Validator(Kegiatan kegiatan) {
+        this.budget = kegiatan.getBudget();
+        this.realisasi = kegiatan.getRealisasi();
+        this.sisa = kegiatan.getSisa();
+        this.program = kegiatan.getProgram();
+        this.date = kegiatan.getDate();
     }
 
-    public Kegiatan(String name, Beban beban, String cat, String pic, BigDecimal nominal, Date date) {
+    public Validator(BigDecimal budget, BigDecimal realisasi, BigDecimal sisa, Date date) {
+        this.budget = budget;
+        this.realisasi = realisasi;
+        this.sisa = sisa;
         this.date = date;
     }
 }

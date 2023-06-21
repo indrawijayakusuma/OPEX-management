@@ -77,8 +77,8 @@ public class ProgramController {
     @GetMapping("/program/update/{id}")
     public String formUpdateKegiatan(@PathVariable String id, Model model){
         Program byId = programService.getById(id);
-        Integer kelompokid = byId.getBeban().getKelompok().getId();
-        model.addAttribute("kelompokId", kelompokid);
+        Integer bebanId = byId.getBeban().getId();
+        model.addAttribute("bebanId", bebanId);
         model.addAttribute("program", byId);
         return "formUpdateProgram";
     }

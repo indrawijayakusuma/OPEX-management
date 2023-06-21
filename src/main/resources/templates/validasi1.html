@@ -19,35 +19,45 @@
     <P class="text-base text-slate-400">List Validasi Realisasi</P>
   </div>
 
-<!--  table-->
-  <div class="container shadow-lg p-8 lg:w-[90%] mb-9 mx-auto overflow-x-auto">
-    <table class="outline outline-slate-200 outline-1 rounded-xl border-spacing-1 table-auto w-full m-auto">
-      <thead>
-      <tr class="border-b">
-        <th class=" py-3"><a th:class="${sortField == 'name' ? 'underline decoration-4 underline-offset-4 decoration-orange-500' : 'hover:underline decoration-4 underline-offset-4 decoration-orange-500'}" th:href="@{'/validator/page/' + ${currentPage} + '?' + ${keyword!=null && keyword!=''? 'keyword=' + keyword + '&' : ''} + 'sortField=name&sortDirection=' + ${reverseDirection}}"><span class="mr-6">Realisasi</span><i class="fa-solid fa-sort"></i></a></th>
-        <th class=" py-3"><a th:class="${sortField == 'cat' ? 'underline decoration-4 underline-offset-4 decoration-orange-500' : 'hover:underline decoration-4 underline-offset-4 decoration-orange-500'}" th:href="@{'/validator/page/' + ${currentPage} + '?' + ${keyword!=null && keyword!=''? 'keyword=' + keyword + '&' : ''} + 'sortField=cat&sortDirection=' + ${reverseDirection}}"><span class="mr-6" >Category</span><i class="fa-solid fa-sort"></i></a></th>
-        <th class=" py-3"><a th:class="${sortField == 'pic' ? 'underline decoration-4 underline-offset-4 decoration-orange-500' : 'hover:underline decoration-4 underline-offset-4 decoration-orange-500'}" th:href="@{'/validator/page/' + ${currentPage} + '?' + ${keyword!=null && keyword!=''? 'keyword=' + keyword + '&' : ''} + 'sortField=pic&sortDirection=' + ${reverseDirection}}"><span class="mr-6">Pic</span><i class="fa-solid fa-sort"></i></a></th>
-        <th class=" py-3"><a th:class="${sortField == 'nominal' ? 'underline decoration-4 underline-offset-4 decoration-orange-500' : 'hover:underline decoration-4 underline-offset-4 decoration-orange-500'}" th:href="@{'/validator/page/' + ${currentPage} + '?' + ${keyword!=null && keyword!=''? 'keyword=' + keyword + '&' : ''} + 'sortField=nominal&sortDirection=' + ${reverseDirection}}"><span class="mr-6">Nominal</span><i class="fa-solid fa-sort"></i></a></th>
-        <th class=" py-3"><a th:class="${sortField == 'date' ? 'underline decoration-4 underline-offset-4 decoration-orange-500' : 'hover:underline decoration-4 underline-offset-4 decoration-orange-500'}" th:href="@{'/validator/page/'+ ${currentPage} + '?' + ${keyword!=null && keyword!=''? 'keyword=' + keyword + '&' : ''} + 'sortField=date&sortDirection=' + ${reverseDirection}}"><span class="mr-6">Date</span><i class="fa-solid fa-sort"></i></a></th>
-        <th class=" py-3"><span class="mr-6">Action</span><i class="fa-solid fa-sort"></i></th>
-      </tr>
-      </thead>
-      <tbody class="text-center">
-      <tr class="border-b rounded-lg hover:shadow-lg group" th:each="kegiatan : ${validators}">
-        <td class="py-6">[[${kegiatan.name}]]</td>
-        <td>[[${kegiatan.cat}]]</td>
-        <td>[[${kegiatan.pic}]]</td>
-        <td>[[${#strings.replace(#numbers.formatCurrency(kegiatan.nominal), ',00','')}]]</td>
-        <td>[[${#dates.format(kegiatan.date, 'dd/MM/yyyy')}]]</td>
-        <td class="">
-          <div class="flex-row space-x-4">
-            <a th:href="@{'/validator/update/' + ${kegiatan.id}}"><i class="fa-solid fa-pen-to-square fa-lg"></i></a>
-            <a th:href="@{'/validator/validate/' + ${kegiatan.id}}"><i class="fa-solid fa-square-check fa-lg"></i></a>
-          </div>
-        </td>
-      </tr>
-      </tbody>
-    </table>
+  <div class="flex flex-row px-14 mt-7">
+    <div class="flex flex-col rounded-md shadow-lg px-6 mb-9 mr-8 text-center divide-y">
+      <a class="p-5" href="">Mata Anggaran</a>
+      <a class="p-5" href="">Budget Mata Anggaran</a>
+      <a class="p-5" href="">Program</a>
+      <a class="p-5" href="">Realisasi</a>
+    </div>
+    <!--  table-->
+    <div class="basis-10/12">
+      <div class="container shadow-lg p-8 lg:w-full mb-9 mx-auto overflow-x-auto">
+        <table class="outline outline-slate-200 outline-1 rounded-xl border-spacing-1 table-auto w-full m-auto">
+          <thead>
+          <tr class="border-b">
+            <th class=" py-3"><span class="mr-6">Nama Program</span><i class="fa-solid fa-sort"></i></th>
+            <th class=" py-3"><span class="mr-6">No Usulan</span><i class="fa-solid fa-sort"></i></th>
+            <th class=" py-3"><span class="mr-6" >Realisasi Program</span><i class="fa-solid fa-sort"></i></th>
+            <th class=" py-3"><span class="mr-6">PIC</span><i class="fa-solid fa-sort"></i></th>
+            <th class=" py-3"><span class="mr-6">Date</span><i class="fa-solid fa-sort"></i></a></th>
+            <th class=" py-3"><span class="mr-6">Action</span><i class="fa-solid fa-sort"></i></th>
+          </tr>
+          </thead>
+          <tbody class="text-center">
+          <tr class="border-b rounded-lg hover:shadow-lg group" th:each="kegiatan : ${validators}">
+            <td class="py-6">[[${kegiatan.program.name}]]</td>
+            <td class="py-6">[[${kegiatan.program.noUsulan}]]</td>
+            <td>[[${#strings.replace(#numbers.formatCurrency(kegiatan.realisasi), ',00','')}]]</td>
+            <td>[[${kegiatan.program.pic}]]</td>
+            <td>[[${#dates.format(kegiatan.date, 'dd/MM/yyyy')}]]</td>
+            <td class="">
+              <div class="flex-row space-x-4">
+                <a th:href="@{'/validator/update/' + ${kegiatan.id}}"><i class="fa-solid fa-pen-to-square fa-lg"></i></a>
+                <a th:href="@{'/validator/validate/' + ${kegiatan.id}}"><i class="fa-solid fa-square-check fa-lg"></i></a>
+              </div>
+            </td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
   </div>
 
 <!--  pagination-->

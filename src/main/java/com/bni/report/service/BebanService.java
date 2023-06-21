@@ -1,6 +1,7 @@
 package com.bni.report.service;
 
 import com.bni.report.entities.*;
+import com.bni.report.entities.validators.Validator;
 import com.bni.report.repositories.*;
 import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,7 +13,6 @@ import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
 import java.math.MathContext;
-import java.text.NumberFormat;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -130,19 +130,19 @@ public class BebanService {
 
 
         List<Validator> validatorList = new ArrayList<>();
-        validatorList.add(new Validator("kegitan olahrage", new Beban(4),"cat1","suni", new BigDecimal(800000), new Date()));
-        validatorList.add(new Validator("kegitan olahrage", new Beban(4),"cat1","suni", new BigDecimal(800000), new Date()));
-        validatorList.add(new Validator("kegitan olahrage", new Beban(4),"cat1","suni", new BigDecimal(800000), new Date()));
-        validatorList.add(new Validator("kegitan olahrage", new Beban(4),"cat1","suni", new BigDecimal(800000), new Date()));
-        validatorList.add(new Validator("kegitan olahrage", new Beban(4),"cat1","suni", new BigDecimal(800000), new Date()));
-        validatorList.add(new Validator("kegitan olahrage", new Beban(4),"cat1","suni", new BigDecimal(800000), new Date()));
-        validatorList.add(new Validator("kegitan olahrage", new Beban(4),"cat1","suni", new BigDecimal(800000), new Date()));
-        validatorList.add(new Validator("kegitan olahrage", new Beban(4),"cat1","suni", new BigDecimal(800000), new Date()));
-        validatorList.add(new Validator("kegitan olahrage", new Beban(4),"cat1","suni", new BigDecimal(800000), new Date()));
-        validatorList.add(new Validator("kegitan olahrage", new Beban(4),"cat1","suni", new BigDecimal(800000), new Date()));
-        validatorList.add(new Validator("kegitan olahrage", new Beban(4),"cat1","suni", new BigDecimal(800000), new Date()));
-        validatorList.add(new Validator("kegitan olahrage", new Beban(4),"cat1","suni", new BigDecimal(800000), new Date()));
-        validatorList.add(new Validator("kegitan olahrage", new Beban(4),"cat1","suni", new BigDecimal(800000), new Date()));
+//        validatorList.add(new Validator("kegitan olahrage", new Beban(4),"cat1","suni", new BigDecimal(800000), new Date()));
+//        validatorList.add(new Validator("kegitan olahrage", new Beban(4),"cat1","suni", new BigDecimal(800000), new Date()));
+//        validatorList.add(new Validator("kegitan olahrage", new Beban(4),"cat1","suni", new BigDecimal(800000), new Date()));
+//        validatorList.add(new Validator("kegitan olahrage", new Beban(4),"cat1","suni", new BigDecimal(800000), new Date()));
+//        validatorList.add(new Validator("kegitan olahrage", new Beban(4),"cat1","suni", new BigDecimal(800000), new Date()));
+//        validatorList.add(new Validator("kegitan olahrage", new Beban(4),"cat1","suni", new BigDecimal(800000), new Date()));
+//        validatorList.add(new Validator("kegitan olahrage", new Beban(4),"cat1","suni", new BigDecimal(800000), new Date()));
+//        validatorList.add(new Validator("kegitan olahrage", new Beban(4),"cat1","suni", new BigDecimal(800000), new Date()));
+//        validatorList.add(new Validator("kegitan olahrage", new Beban(4),"cat1","suni", new BigDecimal(800000), new Date()));
+//        validatorList.add(new Validator("kegitan olahrage", new Beban(4),"cat1","suni", new BigDecimal(800000), new Date()));
+//        validatorList.add(new Validator("kegitan olahrage", new Beban(4),"cat1","suni", new BigDecimal(800000), new Date()));
+//        validatorList.add(new Validator("kegitan olahrage", new Beban(4),"cat1","suni", new BigDecimal(800000), new Date()));
+//        validatorList.add(new Validator("kegitan olahrage", new Beban(4),"cat1","suni", new BigDecimal(800000), new Date()));
 
         kelompokRepository.saveAll(kelompokList);
         bebanRepository.saveAll(bebanList);

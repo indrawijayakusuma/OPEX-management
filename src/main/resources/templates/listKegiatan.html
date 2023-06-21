@@ -29,14 +29,11 @@
   </div>
 
 <!--search and add-->
-  <div class="md:flex lg:w-[90%] mx-auto justify-between mb-6 mt-9">
-    <form th:action="@{'/kegiatan/page/' + ${id} + '/' + ${currentPage}}" method="get">
-      <input placeholder="Search" type="text" class="p-6 border ml-8 h-11 md:w-96 rounded-2xl" required name="keyword" th:value="${keyword}" id="keyword"/>
-    </form>
-    <label sec:authorize="hasAnyAuthority('ADMIN','INPUTER')" for="my-modal-3" class="ml-[30rem] text-white hover:bg-orange-400 p-3 lg:mr-8 cursor-pointer rounded-full mx-32 bg-orange-500 border-0 text-sm font-medium">
+  <div class="md:flex lg:w-[90%] mx-auto justify-end mb-6 mt-9">
+    <label sec:authorize="hasAnyAuthority('ADMIN','INPUTER')" for="my-modal-3" class="ml-[30rem] text-white hover:bg-orange-400 p-4 lg:mr-8 cursor-pointer rounded-full mx-32 bg-orange-500 border-0 text-sm font-medium">
       <i class="ml-3 fa-solid fa-square-plus"></i><span class="mx-6">Add New Realisasi</span>
     </label>
-    <a th:href="@{'/excel/' + ${id}}" class="mr-5 py-3 px-4 hover:bg-orange-400 rounded-full bg-orange-500 text-white text-sm font-medium"><i class="ml-3 fa-solid fa-file-excel"></i><span class="mx-5">Generate</span></a>
+    <a th:href="@{'/excel/' + ${id}}" class="mr-5 p-4 hover:bg-orange-400 rounded-full bg-orange-500 text-white text-sm font-medium"><i class="ml-3 fa-solid fa-file-excel"></i><span class="mx-5">Generate</span></a>
   </div>
 
 
@@ -47,11 +44,11 @@
       <tr class="border-b">
         <th class=" py-3"><span class="mr-6">Nama Program</span><i class="fa-solid fa-sort"></i></th>
         <th class=" py-3"><span class="mr-6">No Usulan</span><i class="fa-solid fa-sort"></i></th>
-        <th class=" py-3"><a th:class="${sortField == 'budget' ? 'underline decoration-4 underline-offset-4 decoration-orange-500' : 'hover:underline decoration-4 underline-offset-4 decoration-orange-500'}" th:href="@{'/kegiatan/page/' + ${id} + '/' + ${currentPage} + '?' + ${keyword!=null && keyword!=''? 'keyword=' + keyword + '&' : ''} + 'sortField=budget&sortDirection=' + ${reverseDirection}}"><span class="mr-6">Budget Program</span><i class="fa-solid fa-sort"></i></a></th>
-        <th class=" py-3"><a th:class="${sortField == 'realisasi' ? 'underline decoration-4 underline-offset-4 decoration-orange-500' : 'hover:underline decoration-4 underline-offset-4 decoration-orange-500'}" th:href="@{'/kegiatan/page/' + ${id} + '/' + ${currentPage} + '?' + ${keyword!=null && keyword!=''? 'keyword=' + keyword + '&' : ''} + 'sortField=realisasi&sortDirection=' + ${reverseDirection}}"><span class="mr-6" >Realisasi Program</span><i class="fa-solid fa-sort"></i></a></th>
-        <th class=" py-3"><a th:class="${sortField == 'sisa' ? 'underline decoration-4 underline-offset-4 decoration-orange-500' : 'hover:underline decoration-4 underline-offset-4 decoration-orange-500'}" th:href="@{'/kegiatan/page/' + ${id} + '/' + ${currentPage} + '?' + ${keyword!=null && keyword!=''? 'keyword=' + keyword + '&' : ''} + 'sortField=sisa&sortDirection=' + ${reverseDirection}}"><span class="mr-6">Sisa Budget</span><i class="fa-solid fa-sort"></i></a></th>
+        <th class=" py-3"><span class="mr-6">Budget Program</span><i class="fa-solid fa-sort"></i></th>
+        <th class=" py-3"><span class="mr-6" >Realisasi Program</span><i class="fa-solid fa-sort"></i></th>
+        <th class=" py-3"><span class="mr-6">Sisa Budget</span><i class="fa-solid fa-sort"></i></th>
         <th class=" py-3"><span class="mr-6">PIC</span><i class="fa-solid fa-sort"></i></th>
-        <th class=" py-3"><a th:class="${sortField == 'date' ? 'underline decoration-4 underline-offset-4 decoration-orange-500' : 'hover:underline decoration-4 underline-offset-4 decoration-orange-500'}" th:href="@{'/kegiatan/page/' + ${id} + '/' + ${currentPage} + '?' + ${keyword!=null && keyword!=''? 'keyword=' + keyword + '&' : ''} + 'sortField=date&sortDirection=' + ${reverseDirection}}"><span class="mr-6">Date</span><i class="fa-solid fa-sort"></i></a></th>
+        <th class=" py-3"><span class="mr-6">Date</span><i class="fa-solid fa-sort"></i></a></th>
         <th sec:authorize="hasAnyAuthority('ADMIN','INPUTER')" class=" py-3"><span class="mr-6">Action</span><i class="fa-solid fa-sort"></i></th>
       </tr>
       </thead>
@@ -69,7 +66,6 @@
             <a sec:authorize="hasAnyAuthority('ADMIN','INPUTER' ,'SUPER_ADMIN')" th:href="@{'/kegiatan/update/' + ${kegiatan.id}}"><i class="fa-solid fa-pen-to-square"></i></a>
             <label sec:authorize="hasAnyAuthority('ADMIN', 'SUPER_ADMIN')" th:for="|my-modal${status.index}}|" class="cursor-pointer"><i class="fa-solid fa-trash"></i></label>
           </div>
-
 <!-- modal-->
           <input type="checkbox" th:id="|my-modal${status.index}}|" class="modal-toggle" tabindex="-1"/>
           <div class="modal modal-bottom sm:modal-middle">
@@ -82,7 +78,6 @@
               </div>
             </div>
           </div>
-
         </td>
       </tr>
       </tbody>
@@ -101,13 +96,13 @@
 <!--    </span>-->
     <div class="inline-flex mt-2 xs:mt-0">
       <!-- Buttons -->
-      <a th:href="@{'/kegiatan/page/' + ${id} + '/' + ${currentPage-1} + '?'+ ${keyword!=null && keyword!=''? 'keyword=' + keyword + '&' : ''} + 'sortField='+ ${sortField} +'&sortDirection=' + ${sortDirection}}" th:classappend="${currentPage == 1 ? 'pointer-events-none  ':''}" class="inline-flex items-center px-4 py-3 text-sm font-medium text-white bg-orange-500 rounded-l-xl hover:bg-orange-400">
+      <a th:href="@{'/kegiatan/page/' + ${id} + '/' + ${currentPage-1}}" th:classappend="${currentPage == 1 ? 'pointer-events-none  ':''}" class="inline-flex items-center px-4 py-3 text-sm font-medium text-white bg-orange-500 rounded-l-xl hover:bg-orange-400">
         Prev
       </a>
       <div th:each="page : ${#numbers.sequence(currentPage > 2 ? currentPage - 2 : 1, currentPage + 2 < totalPages ? currentPage + 2 : totalPages)}">
-        <a th:href="@{'/kegiatan/page/' + ${id} + '/' + ${page} + '?'+ ${keyword!=null && keyword!=''? 'keyword=' + keyword + '&' : ''} + 'sortField='+ ${sortField} +'&sortDirection=' + ${sortDirection}}" th:text="${page}" th:classappend="${currentPage == page ? 'pointer-events-none bg-orange-600':'bg-orange-500'}" class="inline-flex items-center px-4 py-3 text-sm font-medium text-white hover:bg-orange-400">1</a>
+        <a th:href="@{'/kegiatan/page/' + ${id} + '/' + ${page}}" th:text="${page}" th:classappend="${currentPage == page ? 'pointer-events-none bg-orange-600':'bg-orange-500'}" class="inline-flex items-center px-4 py-3 text-sm font-medium text-white hover:bg-orange-400">1</a>
       </div>
-      <a th:href="@{'/kegiatan/page/' + ${id} + '/' + ${currentPage + 1} + '?'+ ${keyword!=null && keyword!=''? 'keyword=' + keyword + '&' : ''} + 'sortField='+ ${sortField} +'&sortDirection=' + ${sortDirection}}" th:classappend="${currentPage == totalPages ? 'pointer-events-none  ':''}" class="inline-flex items-center px-4 py-3 text-sm font-medium text-white bg-orange-500 border-0 border-l border-orange-500 rounded-r-xl hover:bg-orange-400">Next</a>
+      <a th:href="@{'/kegiatan/page/' + ${id} + '/' + ${currentPage + 1}}" th:classappend="${currentPage == totalPages ? 'pointer-events-none  ':''}" class="inline-flex items-center px-4 py-3 text-sm font-medium text-white bg-orange-500 border-0 border-l border-orange-500 rounded-r-xl hover:bg-orange-400">Next</a>
     </div>
   </div>
 
@@ -120,10 +115,10 @@
         <h1 class="text-center text-lg font-bold mb-5">Add Realisasi</h1>
         <form th:action="@{'/kegiatan/' + ${id}}" method="post" th:object="${kegiatan}">
           <div class="my-3">
-            <input placeholder="realisasi" type="number" class="p-6 border w-full h-11 rounded-xl" th:field="*{realisasi}"/>
+            <input placeholder="realisasi" type="number" required class="p-6 border w-full h-11 rounded-xl" th:field="*{realisasi}"/>
           </div>
           <div class="my-3">
-            <input placeholder="Date" type="date" class="p-6 border w-full h-11 rounded-xl" th:field="*{date}"/>
+            <input placeholder="Date" type="date" required class="p-6 border w-full h-11 rounded-xl" th:field="*{date}"/>
           </div>
           <div class="flex justify-center mt-5">
             <button class="py-3 p-12 bg-orange-500 hover:bg-orange-400 border-0 text-white rounded-full" type="submit">Submit</button>

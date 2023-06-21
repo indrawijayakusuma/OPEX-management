@@ -2,9 +2,8 @@ package com.bni.report.service;
 
 import com.bni.report.entities.Kegiatan;
 import com.bni.report.entities.User;
-import com.bni.report.entities.Validator;
+import com.bni.report.entities.validators.Validator;
 import com.bni.report.repositories.KegiatanRepository;
-import com.bni.report.repositories.UserRepository;
 import com.bni.report.repositories.ValidatorRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.*;
@@ -32,7 +31,7 @@ public class ValidatorService {
     }
     public Page<Validator> getAll(Pageable pageable, int kelompok){
         List<Validator> collect = validatorRepository.findAll().stream()
-                .filter(validator -> validator.getBeban().getKelompok().getId() == kelompok)
+                .filter(validator -> validator.getProgram().getBeban().getKelompok().getId() == kelompok)
                 .collect(Collectors.toList());
         return new PageImpl<>(collect);
     }
@@ -50,10 +49,12 @@ public class ValidatorService {
         validatorRepository.deleteById(id);
     }
     public void validate(Integer id){
-        Kegiatan kegiatan = validatorRepository
+        Optional<Kegiatan> kegiatan = validatorRepository
                 .findById(id)
-                .map(Kegiatan::new).orElseThrow(RuntimeException::new);
-        kegiatanRepository.save(kegiatan);
-        validatorRepository.deleteById(id);
+                .map(Kegiatan::new);
+        if (kegiatan.isPresent()){
+            kegiatanRepository.save(kegiatan.get());
+            validatorRepository.deleteById(id);
+        }
     }
 }

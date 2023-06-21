@@ -1,23 +1,21 @@
 package com.bni.report.controller;
 
-import com.bni.report.entities.Beban;
 import com.bni.report.entities.Kegiatan;
 import com.bni.report.entities.Program;
-import com.bni.report.entities.Validator;
-import com.bni.report.service.BebanService;
+import com.bni.report.entities.validators.Validator;
 import com.bni.report.service.KegiatanService;
 import com.bni.report.service.ProgramService;
+import com.bni.report.service.ValidatorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Controller
 public class KegiatanController {
@@ -25,42 +23,34 @@ public class KegiatanController {
     private KegiatanService kegiatanService;
     @Autowired
     private ProgramService programService;
+    @Autowired
+    private ValidatorService validatorService;
 
     @GetMapping("/kegiatan/{id}")
     public String getAll(Model model, @PathVariable(value = "id") String id ){
-        return paginateGetAll(null, id,1,"budget", "asc",model);
+        return paginateGetAll(id,1,model);
     }
     @GetMapping("/kegiatan/page/{id}/{no}")
     public String paginateGetAll(
-            @RequestParam(required = false) String keyword,
             @PathVariable(value = "id") String id,
             @PathVariable(value = "no") int currPage,
-            @RequestParam(defaultValue = "budget") String sortField,
-            @RequestParam(defaultValue = "asc") String sortDirection,
             Model model
     ){
         int pageSize = 15;
         Page<Kegiatan> kegiatanPage = null;
-        if (keyword == null){
-            kegiatanPage = kegiatanService.paginateGetALl(currPage, pageSize, sortDirection, sortField, id);
-        }else{
-            kegiatanPage = kegiatanService.paginateSearchingGetAll(currPage,pageSize,sortField,sortDirection, keyword, id);
-        }
+        kegiatanPage = kegiatanService.paginateGetALl(currPage, pageSize, id);
 
         List<Kegiatan> kegiatanList = new ArrayList<>();
         kegiatanList = kegiatanPage.getContent();
 
         Program program = programService.getById(id);
         Integer bebanId = program.getBeban().getId();
+        BigDecimal sisaAkhir = kegiatanService.getSisa(id);
 
-        model.addAttribute("keyword", keyword);
-        model.addAttribute("sisa", 9000000);
+        model.addAttribute("sisa", sisaAkhir);
         model.addAttribute("bebanId",bebanId);
         model.addAttribute("nameBeban", "name1");
         model.addAttribute("currentPage", currPage);
-        model.addAttribute("sortField", sortField);
-        model.addAttribute("sortDirection", sortDirection);
-        model.addAttribute("reverseDirection", sortDirection.equals("asc")?"desc":"asc");
 
         model.addAttribute("totalPages", kegiatanPage.getTotalPages());
         model.addAttribute("totalItems", kegiatanPage.getTotalElements());
@@ -81,7 +71,8 @@ public class KegiatanController {
     @PostMapping("/kegiatan/{idProgram}")
     public String add(@PathVariable String idProgram, Kegiatan kegiatan){
         kegiatan.setProgram(new Program(idProgram));
-        kegiatanService.create(kegiatan);
+        Validator validator = Optional.of(kegiatan).map(Validator::new).get();
+        validatorService.create(validator);
         return "redirect:/kegiatan/" + idProgram;
     }
     @PostMapping("/kegiatan")
