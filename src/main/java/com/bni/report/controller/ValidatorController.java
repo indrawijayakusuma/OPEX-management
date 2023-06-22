@@ -1,8 +1,7 @@
 package com.bni.report.controller;
 
-import com.bni.report.entities.*;
 import com.bni.report.entities.validators.Validator;
-import com.bni.report.repositories.ValidatorRepository;
+import com.bni.report.service.KegiatanService;
 import com.bni.report.service.ValidatorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -21,8 +20,7 @@ public class ValidatorController {
     @Autowired
     private ValidatorService validatorService;
 
-    @Autowired
-    ValidatorRepository validatorRepository;
+    private KegiatanService kegiatanService;
 
     @GetMapping("/validator")
     @PreAuthorize("hasAuthority('ADMIN')")
@@ -58,15 +56,6 @@ public class ValidatorController {
 
         return "validasi1";
     }
-    @GetMapping("/validator/addform/{id}")
-    @PreAuthorize("hasAuthority('ADMIN')")
-    public String addForm(@PathVariable Integer id, Model model){
-        Validator validator = new Validator();
-//        validator.setBeban(new Beban(id));
-        model.addAttribute("validators", validator);
-        return "formAddKegiatan";
-    }
-
     @GetMapping("/validator/validate/{id}")
     @PreAuthorize("hasAuthority('ADMIN')")
     public String validate(@PathVariable Integer id){

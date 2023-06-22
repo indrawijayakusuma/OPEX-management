@@ -71,14 +71,15 @@ public class KegiatanService {
     public Kegiatan create(Kegiatan kegiatan){
         return kegiatanRepository.save(kegiatan);
     }
-    public void edit (Kegiatan kegiatan){
-        Kegiatan objectKegiatan = findById(kegiatan.getId());
-        Validator validator = Optional.of(objectKegiatan).map(Validator::new).get();
-        validatorRepository.save(validator);
-    }
     public void delete(Integer id){
         kegiatanRepository.deleteById(id);
     }
+
+    //    public void edit (Kegiatan kegiatan){
+//        Kegiatan objectKegiatan = findById(kegiatan.getId());
+//        Validator validator = Optional.of(objectKegiatan).map(Validator::new).get();
+//        validatorRepository.save(validator);
+//    }
 
 //    public BigDecimal addNominalKegiatan(Integer id){
 //        List<Kegiatan> a  ll = kegiatanRepository.findAll();

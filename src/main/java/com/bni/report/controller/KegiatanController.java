@@ -77,14 +77,18 @@ public class KegiatanController {
     }
     @PostMapping("/kegiatan")
     public String update(Kegiatan kegiatan){
-        kegiatanService.create(kegiatan);
-        kegiatanService.edit(kegiatan);
-        return "redirect:/kegiatan/delete/" + kegiatan.getId();
+        Optional<Validator> validatorOpt = Optional.of(kegiatan).map(Validator::new);
+        validatorOpt.ifPresent(value -> {
+            Validator validator = value;
+            validatorService.create(validator);
+            kegiatanService.delete(kegiatan.getId());
+        });
+        return "redirect:/kegiatan/" + kegiatan.getProgram().getId();
     }
     @GetMapping("/kegiatan/delete/{id}")
     public String delete(@PathVariable Integer id){
-//        Integer idBeban = kegiatanService.findById(id).getBeban().getId();
+        String idProgram = kegiatanService.findById(id).getProgram().getId();
         kegiatanService.delete(id);
-        return "redirect:/kegiatan/" + 1 ;
+        return "redirect:/kegiatan/" + idProgram ;
     }
 }
