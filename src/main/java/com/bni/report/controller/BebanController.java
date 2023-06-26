@@ -3,9 +3,11 @@ package com.bni.report.controller;
 import com.bni.report.entities.Beban;
 import com.bni.report.entities.Kelompok;
 import com.bni.report.entities.MataAnggaran;
+import com.bni.report.entities.validators.ValidatorBeban;
 import com.bni.report.service.BebanService;
 import com.bni.report.service.KelompokService;
 import com.bni.report.service.MataAnggaranService;
+import com.bni.report.service.ValidatorBebanService;
 import lombok.extern.flogger.Flogger;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +18,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Controller @Slf4j
@@ -26,6 +29,8 @@ public class BebanController {
     private KelompokService kelompokService;
     @Autowired
     private MataAnggaranService mataAnggaranService;
+    @Autowired
+    private ValidatorBebanService validatorBebanService;
 
     @GetMapping("/beban/{id}")
     public String getAll(@PathVariable Integer id, Model model){
@@ -79,18 +84,15 @@ public class BebanController {
         model.addAttribute("bebans", beban);
         return "formAddBeban";
     }
-//    @PostMapping("/beban")
-//    public String add(Beban beban){
-//        beban.setKelompok(new Kelompok(1));
-//        bebanService.create(beban);
-//        return "redirect:/beban/" + beban.getId();
-//    }
     @PostMapping("/beban/{kelompokId}")
     public String add(Beban beban, @PathVariable Integer kelompokId){
         String nomerRekening = mataAnggaranService.getNomerRekening(beban.getName());
         beban.setKelompok(new Kelompok(kelompokId));
         beban.setNomerRekening(nomerRekening);
-        bebanService.create(beban);
+        Optional.of(beban).map(ValidatorBeban::new).ifPresent(beban1 -> {
+            validatorBebanService.create(beban1);
+            bebanService.delete(beban1.getId());
+        });
         return "redirect:/beban/" + kelompokId;
     }
     @GetMapping("/beban/update/{id}")

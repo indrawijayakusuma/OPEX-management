@@ -1,6 +1,7 @@
 package com.bni.report.entities;
 
 import com.bni.report.entities.validators.Validator;
+import com.bni.report.entities.validators.ValidatorProgram;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;

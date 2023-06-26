@@ -1,5 +1,7 @@
 package com.bni.report.entities;
 
+import com.bni.report.entities.validators.ValidatorBeban;
+import com.bni.report.entities.validators.ValidatorProgram;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -23,6 +25,8 @@ public class Beban {
     private Kelompok kelompok;
     @OneToMany(mappedBy="beban", cascade = CascadeType.ALL)
     private List<Program> program;
+    @OneToMany(mappedBy="beban", cascade = CascadeType.ALL)
+    private List<ValidatorProgram> validatorPrograms;
     private BigDecimal budget;
     private BigDecimal realisasi;
     private BigDecimal sisa;
@@ -36,6 +40,18 @@ public class Beban {
         this.date = date;
         this.kelompok = kelompok;
     }
+
+    public Beban(ValidatorBeban beban){
+        this.id = beban.getId();
+        this.nomerRekening = beban.getNomerRekening();
+        this.name = beban.getName();
+        this.kelompok = beban.getKelompok();
+        this.budget = beban.getBudget();
+        this.realisasi = beban.getRealisasi();
+        this.sisa = beban.getSisa();
+        this.date = beban.getDate();
+    }
+
     public Beban(Integer id){
         this.id = id;
     }

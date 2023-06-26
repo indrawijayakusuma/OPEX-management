@@ -15,7 +15,7 @@
 
 <!--button back-->
   <div class="mt-14 mb-14">
-    <a th:href="@{/}" class="ml-20 py-3 px-4 hover:bg-orange-400 rounded-full bg-orange-500 text-white text-sm font-medium"><i class="fa-solid fa-chevron-left fa-xl"></i><span class="mx-5">Back</span></a>
+    <a th:href="@{/}" class="ml-20 py-3 px-4 hover:bg-orange-400 rounded-full bg-[#FF6600] text-white text-sm font-medium"><i class="fa-solid fa-chevron-left fa-xl"></i><span class="mx-5">Back</span></a>
   </div>
 
 <!--text-->
@@ -29,10 +29,10 @@
       <input placeholder="Search" type="text" class="p-6 border ml-8 h-11 md:w-96 rounded-2xl" required name="keyword" th:value="${keyword}" id="keyword"/>
     </form>
     <div class="my-auto">
-      <a sec:authorize="hasAnyAuthority('ADMIN','INPUTER')" th:href="@{'/mataanggaran/form/' + ${id}}" class="text-white hover:bg-orange-400 p-4 lg:mr-8 cursor-pointer rounded-full  bg-orange-500 border-0 text-sm font-medium">
+      <a sec:authorize="hasAnyAuthority('ADMIN','INPUTER')" th:href="@{'/mataanggaran/form/' + ${id}}" class="text-white hover:bg-orange-400 p-4 lg:mr-8 cursor-pointer rounded-full bg-[#FF6600] border-0 text-sm font-medium">
         <i class="ml-3 fa-solid fa-square-plus"></i><span class="mx-6">Add Mata Anggaran</span>
       </a>
-      <label sec:authorize="hasAnyAuthority('ADMIN','INPUTER')" for="my-modal-3" class="text-white hover:bg-orange-400 p-4 lg:mr-8 cursor-pointer rounded-full  bg-orange-500 border-0 text-sm font-medium">
+      <label sec:authorize="hasAnyAuthority('ADMIN','INPUTER')" for="my-modal-3" class="text-white hover:bg-orange-400 p-4 lg:mr-8 cursor-pointer rounded-full bg-[#FF6600] border-0 text-sm font-medium">
         <i class="ml-3 fa-solid fa-square-plus"></i><span class="mx-6">Add Budget Mata anggaran</span>
       </label>
     </div>
@@ -120,7 +120,7 @@
             <input placeholder="Date" type="date" class="p-6 border w-full h-11 rounded-xl" th:field="*{date}"/>
           </div>
           <div class="flex justify-center mt-5">
-            <button class="py-3 p-12 bg-orange-500 hover:bg-orange-400 border-0 text-white rounded-full" type="submit">Submit</button>
+            <button class="py-3 p-12 bg-[#FF6600] hover:bg-orange-400 border-0 text-white rounded-full" type="submit">Submit</button>
           </div>
         </form>
       </div>
@@ -142,7 +142,7 @@
             <input placeholder="Mata Anggaran" type="text" class="p-6 border w-full h-11 rounded-xl" th:field="*{mataAnggaran}"/>
           </div>
           <div class="flex justify-center mt-5">
-            <button class="py-3 p-12 bg-orange-500 hover:bg-orange-400 border-0 text-white rounded-full" type="submit">Submit</button>
+            <button class="py-3 p-12 bg-[#FF6600] hover:bg-orange-400 border-0 text-white rounded-full" type="submit">Submit</button>
           </div>
         </form>
       </div>

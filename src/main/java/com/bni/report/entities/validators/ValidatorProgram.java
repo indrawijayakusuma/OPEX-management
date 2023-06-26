@@ -1,18 +1,18 @@
-package com.bni.report.entities;
+package com.bni.report.entities.validators;
 
-import com.bni.report.entities.validators.ValidatorProgram;
-import com.bni.report.service.BebanService;
+import com.bni.report.entities.Beban;
+import com.bni.report.entities.Kegiatan;
+import com.bni.report.entities.Program;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.GenericGenerator;
-
 import java.math.BigDecimal;
-import java.util.List;
-
-@Entity @Data @AllArgsConstructor @NoArgsConstructor
-public class Program {
+@Entity @Data
+@AllArgsConstructor
+@NoArgsConstructor
+public class ValidatorProgram {
     @Id
     @GeneratedValue(generator = "uuid")
     @GenericGenerator(name = "uuid", strategy = "uuid2")
@@ -21,17 +21,11 @@ public class Program {
     private BigDecimal budget;
     private String pic;
     private String noUsulan;
-    @OneToMany(mappedBy="program", cascade = CascadeType.ALL)
-    private List<Kegiatan> kegiatan;
     @ManyToOne
     @JoinColumn(name="Beban_id", nullable=false)
     private Beban beban;
 
-    public Program(String id) {
-        this.id = id;
-    }
-
-    public Program(ValidatorProgram program) {
+    public ValidatorProgram(Program program) {
         this.id = program.getId();
         this.name = program.getName();
         this.budget = program.getBudget();

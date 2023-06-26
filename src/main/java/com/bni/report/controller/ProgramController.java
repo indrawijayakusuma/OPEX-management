@@ -2,8 +2,10 @@ package com.bni.report.controller;
 import com.bni.report.entities.Beban;
 import com.bni.report.entities.Kegiatan;
 import com.bni.report.entities.Program;
+import com.bni.report.entities.validators.ValidatorProgram;
 import com.bni.report.service.BebanService;
 import com.bni.report.service.ProgramService;
+import com.bni.report.service.ValidatorProgramService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.security.web.authentication.preauth.PreAuthenticatedGrantedAuthoritiesUserDetailsService;
@@ -15,6 +17,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
+import java.util.Optional;
 
 @Controller
 public class ProgramController {
@@ -23,6 +26,8 @@ public class ProgramController {
     private ProgramService programService;
     @Autowired
     private BebanService bebanService;
+    @Autowired
+    private ValidatorProgramService validatorProgramService;
 
     @GetMapping("/program/{id}")
     public String getAll(@PathVariable Integer id, Model model){
@@ -71,7 +76,11 @@ public class ProgramController {
     @PostMapping("/program/{idBeban}")
     public String add(@PathVariable Integer idBeban, Program program){
         program.setBeban(new Beban(idBeban));
-        programService.create(program);
+        Optional.of(program)
+                .map(ValidatorProgram::new)
+                .ifPresent(program1 -> {
+                    validatorProgramService.create(program1);
+        });
         return "redirect:/program/" + idBeban;
     }
     @GetMapping("/program/update/{id}")
@@ -85,7 +94,9 @@ public class ProgramController {
 
     @PostMapping("/program")
     public String update(Program program){
-        programService.create(program);
+        ValidatorProgram validatorProgram = Optional.of(program).map(ValidatorProgram::new).get();
+        validatorProgramService.create(validatorProgram);
+        programService.delete(program.getId());
         return "redirect:/program/" + program.getBeban().getId();
     }
 

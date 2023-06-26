@@ -35,26 +35,13 @@ public class ValidatorService {
                 .collect(Collectors.toList());
         return new PageImpl<>(collect);
     }
-    public Validator findById(Integer id){
-        return validatorRepository.findById(id).orElseThrow(RuntimeException::new);
+    public Optional<Validator> findById(Integer id){
+        return validatorRepository.findById(id);
     }
     public Validator create(Validator validator){
         return validatorRepository.save(validator);
     }
-    public Validator edit (Validator validator){
-        Validator ObjectKegiatan = findById(validator.getId());
-        return validatorRepository.save(validator);
-    }
     public void delete(Integer id){
         validatorRepository.deleteById(id);
-    }
-    public void validate(Integer id){
-        Optional<Kegiatan> kegiatan = validatorRepository
-                .findById(id)
-                .map(Kegiatan::new);
-        if (kegiatan.isPresent()){
-            kegiatanRepository.save(kegiatan.get());
-            validatorRepository.deleteById(id);
-        }
     }
 }
