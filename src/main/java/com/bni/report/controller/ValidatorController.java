@@ -1,5 +1,6 @@
 package com.bni.report.controller;
 
+import com.bni.report.entities.Beban;
 import com.bni.report.entities.Kegiatan;
 import com.bni.report.entities.Program;
 import com.bni.report.entities.validators.Validator;
@@ -31,6 +32,8 @@ public class ValidatorController {
     private ValidatorBebanService validatorBebanService;
     @Autowired
     private ProgramService programService;
+    @Autowired
+    private BebanService bebanService;
 
     @GetMapping("/validator")
     @PreAuthorize("hasAuthority('ADMIN')")
@@ -100,6 +103,15 @@ public class ValidatorController {
         });
         return "redirect:/validator/page/1?list=validatorProgram";
     }
+    @GetMapping("/validator/validate/beban/{id}")
+    @PreAuthorize("hasAuthority('ADMIN')")
+    public String validateBeban(@PathVariable Integer id){
+        validatorBebanService.findByid(id).map(Beban::new).ifPresent(beban ->{
+            bebanService.create(beban);
+            validatorBebanService.delete(id);
+        });
+        return "redirect:/validator/page/1?list=validatorBeban";
+    }
     @GetMapping("/validator/update/{id}")
     @PreAuthorize("hasAuthority('ADMIN')")
     public String formUpdateKegiatan(@PathVariable Integer id, Model model){
@@ -122,6 +134,17 @@ public class ValidatorController {
         }
         return "redirect:/validator";
     }
+    @GetMapping("/validator/update/beban/{id}")
+    @PreAuthorize("hasAuthority('ADMIN')")
+    public String formUpdateBeban(@PathVariable Integer id, Model model){
+        Optional<ValidatorBeban> byId = validatorBebanService.findByid(id);
+        if (byId.isPresent()){
+            ValidatorBeban program = byId.get();
+            model.addAttribute("bebans", program);
+            return "formUpdateValidatorBeban";
+        }
+        return "redirect:/validator/page/1?list=validatorBeban";
+    }
     @PostMapping("/validator/update")
     @PreAuthorize("hasAuthority('ADMIN')")
     public String update(Validator validator){
@@ -133,5 +156,11 @@ public class ValidatorController {
     public String updateProgram(ValidatorProgram validator){
         validatorProgramService.create(validator);
         return "redirect:/validator/page/1?list=validatorProgram";
+    }
+    @PostMapping("/validator/update/beban")
+    @PreAuthorize("hasAuthority('ADMIN')")
+    public String updateBeban(ValidatorBeban validator){
+        validatorBebanService.create(validator);
+        return "redirect:/validator/page/1?list=validatorBeban";
     }
 }

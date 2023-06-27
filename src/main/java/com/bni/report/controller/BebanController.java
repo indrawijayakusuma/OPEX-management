@@ -99,9 +99,23 @@ public class BebanController {
     public String formUpdateBeban(@PathVariable Integer id, Model model){
         Beban byId = bebanService.findById(id);
         Integer kelompokId = byId.getKelompok().getId();
+        List<String> all = mataAnggaranService.getAll(kelompokId).stream()
+                .map(MataAnggaran::getMataAnggaran)
+                .toList();
+        model.addAttribute("name", byId.getName());
         model.addAttribute("bebans", byId);
         model.addAttribute("kelompokId", kelompokId);
+        model.addAttribute("mataAnggarans", all);
         return "formUpdateBeban";
+    }
+    @PostMapping("/beban/update")
+    public String update(Beban beban){
+        String nomerRekening = mataAnggaranService.getNomerRekening(beban.getName());
+        beban.setNomerRekening(nomerRekening);
+        ValidatorBeban validatorBeban = Optional.of(beban).map(ValidatorBeban::new).get();
+        validatorBebanService.create(validatorBeban);
+        bebanService.delete(beban.getId());
+        return "redirect:/beban/" + beban.getKelompok().getId();
     }
     @GetMapping("/beban/delete/{id}")
     public String delete(@PathVariable Integer id){
