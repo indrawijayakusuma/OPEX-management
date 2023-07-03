@@ -99,7 +99,8 @@ public class BebanController {
     public String formUpdateBeban(@PathVariable Integer id, Model model){
         Beban byId = bebanService.findById(id);
         Integer kelompokId = byId.getKelompok().getId();
-        List<String> all = mataAnggaranService.getAll(kelompokId).stream()
+        List<String> all = mataAnggaranService.getAll(kelompokId)
+                .stream()
                 .map(MataAnggaran::getMataAnggaran)
                 .toList();
         model.addAttribute("name", byId.getName());

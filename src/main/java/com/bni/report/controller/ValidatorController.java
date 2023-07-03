@@ -2,6 +2,7 @@ package com.bni.report.controller;
 
 import com.bni.report.entities.Beban;
 import com.bni.report.entities.Kegiatan;
+import com.bni.report.entities.MataAnggaran;
 import com.bni.report.entities.Program;
 import com.bni.report.entities.validators.Validator;
 import com.bni.report.entities.validators.ValidatorBeban;
@@ -24,6 +25,8 @@ public class ValidatorController {
 
     @Autowired
     private ValidatorService validatorService;
+    @Autowired
+    private MataAnggaranService mataAnggaranService;
     @Autowired
     private KegiatanService kegiatanService;
     @Autowired
@@ -116,7 +119,7 @@ public class ValidatorController {
     @PreAuthorize("hasAuthority('ADMIN')")
     public String formUpdateKegiatan(@PathVariable Integer id, Model model){
         Optional<Validator> byId = validatorService.findById(id);
-        if (byId.isPresent()){
+        if(byId.isPresent()){
             Validator validator = byId.get();
             model.addAttribute("kegiatans", validator);
             return "formUpdateValidator";
@@ -127,7 +130,7 @@ public class ValidatorController {
     @PreAuthorize("hasAuthority('ADMIN')")
     public String formUpdateProgram(@PathVariable String id, Model model){
         Optional<ValidatorProgram> byId = validatorProgramService.findByid(id);
-        if (byId.isPresent()){
+        if(byId.isPresent()){
             ValidatorProgram program = byId.get();
             model.addAttribute("program", program);
             return "formUpdateValidatorProgram";
@@ -138,9 +141,14 @@ public class ValidatorController {
     @PreAuthorize("hasAuthority('ADMIN')")
     public String formUpdateBeban(@PathVariable Integer id, Model model){
         Optional<ValidatorBeban> byId = validatorBebanService.findByid(id);
-        if (byId.isPresent()){
+        if(byId.isPresent()){
             ValidatorBeban program = byId.get();
+            Integer kelompokId = program.getKelompok().getId();
+            List<String> all = mataAnggaranService.getAll(kelompokId).stream()
+                    .map(MataAnggaran::getMataAnggaran)
+                    .toList();
             model.addAttribute("bebans", program);
+            model.addAttribute("mataAnggarans", all);
             return "formUpdateValidatorBeban";
         }
         return "redirect:/validator/page/1?list=validatorBeban";
@@ -160,6 +168,8 @@ public class ValidatorController {
     @PostMapping("/validator/update/beban")
     @PreAuthorize("hasAuthority('ADMIN')")
     public String updateBeban(ValidatorBeban validator){
+        String nomerRekening = mataAnggaranService.getNomerRekening(validator.getName());
+        validator.setNomerRekening(nomerRekening);
         validatorBebanService.create(validator);
         return "redirect:/validator/page/1?list=validatorBeban";
     }
