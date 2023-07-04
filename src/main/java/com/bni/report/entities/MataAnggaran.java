@@ -28,5 +28,4 @@ public class MataAnggaran {
     @ManyToOne
     @JoinColumn(name="Kelompok_id", nullable=false)
     private Kelompok kelompok;
-
 }

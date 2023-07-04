@@ -35,11 +35,9 @@ public class ValidatorBebanService {
     public ValidatorBeban create(ValidatorBeban program){
         return validatorBebanRepository.save(program);
     }
-
     public Optional<ValidatorBeban> findByid(Integer id){
         return validatorBebanRepository.findById(id);
     }
-
     public void delete(Integer id){
         validatorBebanRepository.deleteById(id);
     }

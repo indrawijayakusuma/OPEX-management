@@ -6,6 +6,7 @@ import com.bni.report.entities.MataAnggaran;
 import com.bni.report.entities.Program;
 import com.bni.report.entities.validators.Validator;
 import com.bni.report.entities.validators.ValidatorBeban;
+import com.bni.report.entities.validators.ValidatorMataAnggaran;
 import com.bni.report.entities.validators.ValidatorProgram;
 import com.bni.report.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,6 +35,8 @@ public class ValidatorController {
     @Autowired
     private ValidatorBebanService validatorBebanService;
     @Autowired
+    private ValidatorMataAnggaranService validatorMataAnggaranService;
+    @Autowired
     private ProgramService programService;
     @Autowired
     private BebanService bebanService;
@@ -58,10 +61,12 @@ public class ValidatorController {
         Page<Validator> validators = null;
         Page<ValidatorProgram> validatorsProgram = null;
         Page<ValidatorBeban> validatorsBeban = null;
+        Page<ValidatorMataAnggaran> validatorMataAnggarans = null;
 
         List<Validator> validatorList = null;
         List<ValidatorProgram> validatorProgramList = null;
         List<ValidatorBeban> validatorsBebanList = null;
+        List<ValidatorMataAnggaran> validatorMataAnggaranList = null;
 
         if (list.equalsIgnoreCase("validatorKegiatan")) {
             validators = validatorService.paginateGetALl(currPage, pageSize, sortDirection, sortField, user);
@@ -72,18 +77,21 @@ public class ValidatorController {
         } else if (list.equalsIgnoreCase("validatorBeban")){
             validatorsBeban = validatorBebanService.paginateGetALl(currPage, pageSize, sortDirection, sortField, user);
             validatorsBebanList = validatorsBeban.getContent();
+        } else if(list.equalsIgnoreCase("validatorMataAnggaran")){
+            validatorMataAnggarans = validatorMataAnggaranService.paginateGetALl(currPage, pageSize, sortDirection, sortField, user);
+            validatorMataAnggaranList = validatorMataAnggarans.getContent();
         }
 
         model.addAttribute("currentPage", currPage);
         model.addAttribute("sortField", sortField);
         model.addAttribute("sortDirection", sortDirection);
         model.addAttribute("reverseDirection", sortDirection.equals("asc") ? "desc" : "asc");
-
 //        model.addAttribute("totalPages", validators.getTotalPages());
 //        model.addAttribute("totalItems", validators.getTotalElements());
         model.addAttribute("validators", validatorList);
         model.addAttribute("validatorsProgram", validatorProgramList);
         model.addAttribute("validatorsBebanList", validatorsBebanList);
+        model.addAttribute("validatorMataAnggaranList", validatorMataAnggaranList);
         model.addAttribute("listValidasi", list);
 
         return "validasi1";
