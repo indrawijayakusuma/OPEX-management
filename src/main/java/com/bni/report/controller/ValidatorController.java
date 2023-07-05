@@ -123,6 +123,15 @@ public class ValidatorController {
         });
         return "redirect:/validator/page/1?list=validatorBeban";
     }
+    @GetMapping("/validator/validate/mataanggaran/{id}")
+    @PreAuthorize("hasAuthority('ADMIN')")
+    public String validateMataAnggaran(@PathVariable String id){
+        validatorMataAnggaranService.findByid(id).map(MataAnggaran::new).ifPresent(mataAnggaran ->{
+            mataAnggaranService.create(mataAnggaran);
+            validatorMataAnggaranService.delete(id);
+        });
+        return "redirect:/validator/page/1?list=validatorMataAnggaran";
+    }
     @GetMapping("/validator/update/{id}")
     @PreAuthorize("hasAuthority('ADMIN')")
     public String formUpdateKegiatan(@PathVariable Integer id, Model model){
@@ -161,6 +170,17 @@ public class ValidatorController {
         }
         return "redirect:/validator/page/1?list=validatorBeban";
     }
+    @GetMapping("/validator/update/mataanggaran/{id}")
+    @PreAuthorize("hasAuthority('ADMIN')")
+    public String formUpdateMataAnggaran(@PathVariable String id, Model model){
+        Optional<ValidatorMataAnggaran> byId = validatorMataAnggaranService.findByid(id);
+        if(byId.isPresent()){
+            ValidatorMataAnggaran MataAnggaran = byId.get();
+            model.addAttribute("MataAnggaran", MataAnggaran);
+            return "formUpdateValidatorMataAnggaran";
+        }
+        return "redirect:/validator";
+    }
     @PostMapping("/validator/update")
     @PreAuthorize("hasAuthority('ADMIN')")
     public String update(Validator validator){
@@ -180,5 +200,11 @@ public class ValidatorController {
         validator.setNomerRekening(nomerRekening);
         validatorBebanService.create(validator);
         return "redirect:/validator/page/1?list=validatorBeban";
+    }
+    @PostMapping("/validator/update/mataanggaran")
+    @PreAuthorize("hasAuthority('ADMIN')")
+    public String updateMataAnggaran(ValidatorMataAnggaran validator){
+        validatorMataAnggaranService.create(validator);
+        return "redirect:/validator/page/1?list=validatorMataAnggaran";
     }
 }

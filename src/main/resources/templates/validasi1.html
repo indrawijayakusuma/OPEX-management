@@ -21,7 +21,7 @@
 
   <div class="flex flex-row px-14 mt-7">
     <div class="flex flex-col rounded-md shadow-lg px-6 mb-9 mr-8 text-center divide-y">
-      <a class="p-5" th:classappend="${listValidasi == 'validatorProgram' ? 'underline underline-offset-8 decoration-orange-500 decoration-2':''}" th:href="@{/validator/page/1?list=validatorProgram}">Mata Anggaran</a>
+      <a class="p-5" th:classappend="${listValidasi == 'validatorMataAnggaran' ? 'underline underline-offset-8 decoration-orange-500 decoration-2':''}" th:href="@{/validator/page/1?list=validatorMataAnggaran}">Mata Anggaran</a>
       <a class="p-5" th:classappend="${listValidasi == 'validatorBeban' ? 'underline underline-offset-8 decoration-orange-500 decoration-2':''}" th:href="@{/validator/page/1?list=validatorBeban}">Budget Mata Anggaran</a>
       <a class="p-5" th:classappend="${listValidasi == 'validatorProgram' ? 'underline underline-offset-8 decoration-orange-500 decoration-2':''}" th:href="@{/validator/page/1?list=validatorProgram}">Program</a>
       <a class="p-5" th:classappend="${listValidasi == 'validatorKegiatan' ? 'underline underline-offset-8 decoration-orange-500 decoration-2':''}" th:href="@{/validator}">Realisasi</a>
@@ -114,6 +114,33 @@
                           <div class="flex-row space-x-4">
                               <a th:href="@{'/validator/update/beban/' + ${beban.id}}"><i class="fa-solid fa-pen-to-square fa-lg"></i></a>
                               <a th:href="@{'/validator/validate/beban/' + ${beban.id}}"><i class="fa-solid fa-square-check fa-lg"></i></a>
+                          </div>
+                      </td>
+                  </tr>
+                  </tbody>
+              </table>
+          </div>
+      </div>
+
+      <!--  table-->
+      <div class="basis-10/12" th:if="${listValidasi == 'validatorMataAnggaran'}">
+          <div class="container shadow-lg p-8 lg:w-full mb-9 mx-auto overflow-x-auto">
+              <table class="outline outline-slate-200 outline-1 rounded-xl border-spacing-1 table-auto w-full m-auto">
+                  <thead>
+                  <tr class="border-b">
+                      <th class=" py-3"><span class="mr-6">Nomer Rekening</span><i class="fa-solid fa-sort"></i></a></th>
+                      <th class=" py-3"><span class="mr-6" >Mata Anggaran</span><i class="fa-solid fa-sort"></i></a></th>
+                      <th class=" py-3"><a class="hover:underline decoration-4 underline-offset-4 decoration-orange-500" href="#"><span class="mr-6">Action</span><i class="fa-solid fa-sort"></i></a></th>
+                  </tr>
+                  </thead>
+                  <tbody class="text-center">
+                  <tr class="border-b rounded-lg hover:shadow-lg group" th:each="mataAnggaran : ${validatorMataAnggaranList}">
+                      <td class="py-6">[[${mataAnggaran.nomerRekening}]]</td>
+                      <td>[[${mataAnggaran.mataAnggaran}]]</td>
+                      <td class="">
+                          <div class="flex-row space-x-4">
+                              <a th:href="@{'/validator/update/mataanggaran/' + ${mataAnggaran.id}}"><i class="fa-solid fa-pen-to-square fa-lg"></i></a>
+                              <a th:href="@{'/validator/validate/mataanggaran/' + ${mataAnggaran.id}}"><i class="fa-solid fa-square-check fa-lg"></i></a>
                           </div>
                       </td>
                   </tr>

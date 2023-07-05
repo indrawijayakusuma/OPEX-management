@@ -1,5 +1,6 @@
 package com.bni.report.entities;
 
+import com.bni.report.entities.validators.ValidatorMataAnggaran;
 import com.bni.report.validation.UniqueField;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
@@ -28,4 +29,12 @@ public class MataAnggaran {
     @ManyToOne
     @JoinColumn(name="Kelompok_id", nullable=false)
     private Kelompok kelompok;
+
+    public MataAnggaran(ValidatorMataAnggaran validatorMataAnggaran) {
+        this.id = validatorMataAnggaran.getId();
+        this.nomerRekening = validatorMataAnggaran.getNomerRekening();
+        this.mataAnggaran = validatorMataAnggaran.getMataAnggaran();
+        this.kelompok = validatorMataAnggaran.getKelompok();
+    }
+
 }
