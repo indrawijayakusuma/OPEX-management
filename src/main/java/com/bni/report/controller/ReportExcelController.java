@@ -19,10 +19,10 @@ public class ReportExcelController {
     public void generateExcel(@PathVariable String id, HttpServletResponse response) throws IOException {
         response.setContentType("application/octet-stream");
 
-        String headerKey ="Content-Disposition";
+        String headerKey = "Content-Disposition";
         String headerValue = "attachment;filename=test.xlsx";
 
-        response.setHeader(headerKey,headerValue);
+        response.setHeader(headerKey, headerValue);
         reportExcelService.generateExcel(response, id);
     }
 }

@@ -29,7 +29,7 @@
                     <input placeholder="realisasi" type="number" required class="p-6 border w-full h-11 rounded-xl" th:field="*{realisasi}"/>
                 </div>
                 <div class="my-3">
-                    <input placeholder="Date" type="date" required class="p-6 border w-full h-11 rounded-xl" th:field="*{date}" readonly="readonly"/>
+                    <input placeholder="Date" type="date" required class="p-6 border w-full h-11 rounded-xl" th:field="*{date}" onkeydown="return false"/>
                 </div>
                 <div class="flex justify-center mt-5">
                     <button class="py-3 p-12 bg-orange-500 hover:bg-orange-400 border-0 text-white rounded-full" type="submit">Submit</button>

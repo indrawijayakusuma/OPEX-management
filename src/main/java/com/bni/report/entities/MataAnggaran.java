@@ -27,7 +27,7 @@ public class MataAnggaran {
     @Column(unique = true)
     private String mataAnggaran;
     @ManyToOne
-    @JoinColumn(name="Kelompok_id", nullable=false)
+    @JoinColumn(name = "Kelompok_id", nullable = false)
     private Kelompok kelompok;
 
     public MataAnggaran(ValidatorMataAnggaran validatorMataAnggaran) {

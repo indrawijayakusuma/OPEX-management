@@ -1,15 +1,17 @@
 package com.bni.report.entities.validators;
 
 import com.bni.report.entities.Beban;
-import com.bni.report.entities.Kegiatan;
 import com.bni.report.entities.Program;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.GenericGenerator;
+
 import java.math.BigDecimal;
-@Entity @Data
+
+@Entity
+@Data
 @AllArgsConstructor
 @NoArgsConstructor
 public class ValidatorProgram {
@@ -22,7 +24,7 @@ public class ValidatorProgram {
     private String pic;
     private String noUsulan;
     @ManyToOne
-    @JoinColumn(name="Beban_id", nullable=false)
+    @JoinColumn(name = "Beban_id", nullable = false)
     private Beban beban;
 
     public ValidatorProgram(Program program) {

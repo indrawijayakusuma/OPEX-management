@@ -17,6 +17,6 @@ public class User {
     private String password;
     private String roles;
     @ManyToOne
-    @JoinColumn(name="Kelompok_id", nullable=false)
+    @JoinColumn(name = "Kelompok_id", nullable = false)
     private Kelompok kelompok;
 }

@@ -16,7 +16,10 @@ public interface KegiatanRepository extends JpaRepository<Kegiatan, Integer> {
 
     List<Kegiatan> findByProgramId(String id);
 
+    Page<Kegiatan> findAll(Pageable pageable);
+
     @Query("SELECT p FROM Kegiatan p WHERE CONCAT(p.budget) LIKE CONCAT('%',:keyword,'%') AND p.program.id = :id")
     Page<Kegiatan> search(@Param("keyword") String keyword ,@Param("id") String id, Pageable pageable);
+
 
 }

@@ -11,11 +11,16 @@ import java.util.List;
 public class MataAnggaranService {
     @Autowired
     private MataAnggaranRepository mataAnggaranRepository;
-    public MataAnggaran create(MataAnggaran mataAnggaran){
+
+    public MataAnggaran create(MataAnggaran mataAnggaran) {
         return mataAnggaranRepository.save(mataAnggaran);
     }
-    public List<MataAnggaran> getAll(Integer id){
+
+    public List<MataAnggaran> getAll(Integer id) {
         return mataAnggaranRepository.findByKelompokId(id);
     }
-    public String getNomerRekening(String mataAnggaran){ return mataAnggaranRepository.findByMataAnggaran(mataAnggaran).getNomerRekening(); }
+
+    public String getNomerRekening(String mataAnggaran) {
+        return mataAnggaranRepository.findByMataAnggaran(mataAnggaran).getNomerRekening();
+    }
 }

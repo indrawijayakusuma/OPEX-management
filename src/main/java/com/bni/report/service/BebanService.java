@@ -1,8 +1,14 @@
 package com.bni.report.service;
 
-import com.bni.report.entities.*;
+import com.bni.report.entities.Beban;
+import com.bni.report.entities.Kegiatan;
+import com.bni.report.entities.Kelompok;
+import com.bni.report.entities.User;
 import com.bni.report.entities.validators.Validator;
-import com.bni.report.repositories.*;
+import com.bni.report.repositories.BebanRepository;
+import com.bni.report.repositories.KegiatanRepository;
+import com.bni.report.repositories.KelompokRepository;
+import com.bni.report.repositories.ValidatorRepository;
 import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -13,7 +19,9 @@ import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
 import java.math.MathContext;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 import java.util.stream.Collectors;
 
 @Component
@@ -35,7 +43,7 @@ public class BebanService {
     @Autowired
     private ProgramService programService;
 
-    public Page<Beban> getAll(Pageable pageable,Integer id){
+    public Page<Beban> getAll(Pageable pageable, Integer id) {
         Page<Beban> all = bebanRepository.findByKelompokId(id, pageable);
         all.stream().map(beban -> {
             Integer idBeban = beban.getId();
@@ -44,30 +52,37 @@ public class BebanService {
         }).collect(Collectors.toList());
         return all;
     }
-    public Page<Beban> paginateGetAll(int currPage, int pageSize, String sortField, String sortDirection, Integer id){
+
+    public Page<Beban> paginateGetAll(int currPage, int pageSize, String sortField, String sortDirection, Integer id) {
         Sort sort = sortDirection.equalsIgnoreCase(Sort.Direction.ASC.name()) ? Sort.by(sortField).ascending() : Sort.by(sortField).descending();
-        Pageable pageable = PageRequest.of(currPage-1, pageSize, sort);
+        Pageable pageable = PageRequest.of(currPage - 1, pageSize, sort);
         return getAll(pageable, id);
     }
-    public Page<Beban> paginateSearchingGetAll(int currPage, int pageSize, String sortField, String sortDirection, String keyword, Integer id){
+
+    public Page<Beban> paginateSearchingGetAll(int currPage, int pageSize, String sortField, String sortDirection, String keyword, Integer id) {
         Sort sort = sortDirection.equalsIgnoreCase(Sort.Direction.ASC.name()) ? Sort.by(sortField).ascending() : Sort.by(sortField).descending();
-        Pageable pageable = PageRequest.of(currPage-1, pageSize, sort);
+        Pageable pageable = PageRequest.of(currPage - 1, pageSize, sort);
         return bebanRepository.search(keyword, pageable, id);
     }
-    public Beban findById(Integer id){
+
+    public Beban findById(Integer id) {
         countSisa(id);
         return bebanRepository.findById(id).orElseThrow(RuntimeException::new);
     }
-    public Beban create(Beban beban){
+
+    public Beban create(Beban beban) {
         return bebanRepository.save(beban);
     }
-    public Beban edit(Beban beban){
+
+    public Beban edit(Beban beban) {
         return bebanRepository.save(beban);
     }
-    public void delete(Integer id){
+
+    public void delete(Integer id) {
         bebanRepository.deleteById(id);
     }
-    public void countSisa(Integer id){
+
+    public void countSisa(Integer id) {
         Beban beban1 = bebanRepository.findById(id).orElse(new Beban());
         BigDecimal jumlahNominalKegiatan = programService.addNominalProgram(id);
         BigDecimal budget = beban1.getBudget();
@@ -77,13 +92,14 @@ public class BebanService {
         beban1.setSisa(budget.subtract(jumlahNominalKegiatan, mc));
         bebanRepository.save(beban1);
     }
+
     @PostConstruct
     public void addbeban() {
         List<User> users = new ArrayList<>();
-        users.add(new User(7,"validator","$2a$12$SfBMDogva22862CCfL0E9Oi3AUftOXbAfHcNs6UCDGQpq25P3GQMi","ADMIN", new Kelompok(1)));
-        users.add(new User(5,"inputer","$2a$12$SfBMDogva22862CCfL0E9Oi3AUftOXbAfHcNs6UCDGQpq25P3GQMi","INPUTER",  new Kelompok(1)));
-        users.add(new User(7,"user","$2a$12$SfBMDogva22862CCfL0E9Oi3AUftOXbAfHcNs6UCDGQpq25P3GQMi","USER",  new Kelompok(1)));
-        users.add(new User(7,"super admin","$2a$12$SfBMDogva22862CCfL0E9Oi3AUftOXbAfHcNs6UCDGQpq25P3GQMi","SUPER_ADMIN",  new Kelompok(1)));
+        users.add(new User(7, "validator", "$2a$12$SfBMDogva22862CCfL0E9Oi3AUftOXbAfHcNs6UCDGQpq25P3GQMi", "ADMIN", new Kelompok(1)));
+        users.add(new User(5, "inputer", "$2a$12$SfBMDogva22862CCfL0E9Oi3AUftOXbAfHcNs6UCDGQpq25P3GQMi", "INPUTER", new Kelompok(1)));
+        users.add(new User(7, "user", "$2a$12$SfBMDogva22862CCfL0E9Oi3AUftOXbAfHcNs6UCDGQpq25P3GQMi", "USER", new Kelompok(1)));
+        users.add(new User(7, "super admin", "$2a$12$SfBMDogva22862CCfL0E9Oi3AUftOXbAfHcNs6UCDGQpq25P3GQMi", "SUPER_ADMIN", new Kelompok(1)));
 
         List<Kelompok> kelompokList = new ArrayList<>();
         kelompokList.add(new Kelompok("DCU"));
@@ -95,38 +111,38 @@ public class BebanService {
 
 
         List<Beban> bebanList = new ArrayList<>();
-        bebanList.add(new Beban("23424242424","beban DCU 1", new BigDecimal(900000000), new Date(), new Kelompok(1)));
-        bebanList.add(new Beban("23424242424","test1", new BigDecimal(900000000), new Date(), new Kelompok(1)));
-        bebanList.add(new Beban("23424242424","test2", new BigDecimal(800000000), new Date(), new Kelompok(1)));
-        bebanList.add(new Beban("23424242424","test3", new BigDecimal(900000000), new Date(), new Kelompok(2)));
-        bebanList.add(new Beban("23424242424","test4", new BigDecimal(800000000), new Date(), new Kelompok(2)));
-        bebanList.add(new Beban("23424242424","test5", new BigDecimal(900000000), new Date(), new Kelompok(2)));
-        bebanList.add(new Beban("23424242424","test6", new BigDecimal(800000000), new Date(), new Kelompok(1)));
-        bebanList.add(new Beban("23424242424","test7", new BigDecimal(900000000), new Date(), new Kelompok(2)));
+        bebanList.add(new Beban("23424242424", "beban DCU 1", new BigDecimal(900000000), new Date(), new Kelompok(1)));
+        bebanList.add(new Beban("23424242424", "test1", new BigDecimal(900000000), new Date(), new Kelompok(1)));
+        bebanList.add(new Beban("23424242424", "test2", new BigDecimal(800000000), new Date(), new Kelompok(1)));
+        bebanList.add(new Beban("23424242424", "test3", new BigDecimal(900000000), new Date(), new Kelompok(2)));
+        bebanList.add(new Beban("23424242424", "test4", new BigDecimal(800000000), new Date(), new Kelompok(2)));
+        bebanList.add(new Beban("23424242424", "test5", new BigDecimal(900000000), new Date(), new Kelompok(2)));
+        bebanList.add(new Beban("23424242424", "test6", new BigDecimal(800000000), new Date(), new Kelompok(1)));
+        bebanList.add(new Beban("23424242424", "test7", new BigDecimal(900000000), new Date(), new Kelompok(2)));
 
 
         List<Kegiatan> kegitanList = new ArrayList<>();
-        kegitanList.add(new Kegiatan("kegitan dcu olahrage", new Beban(1),"cat1","suni", new BigDecimal(800000), new Date()));
-        kegitanList.add(new Kegiatan("kegitan dcu senam", new Beban(1),"cat1","julian", new BigDecimal(89000), new Date()));
-        kegitanList.add(new Kegiatan("kegitan dcu gym", new Beban(1),"cat1","brian", new BigDecimal(324000), new Date()));
-        kegitanList.add(new Kegiatan("kegitan dcu kebugaran", new Beban(1),"cat1","hasim", new BigDecimal(24235000), new Date()));
-        kegitanList.add(new Kegiatan("kegitan dcu olahrage", new Beban(1),"cat1","suni", new BigDecimal(800000), new Date()));
-        kegitanList.add(new Kegiatan("kegitan dcu senam", new Beban(1),"cat1","julian", new BigDecimal(89000), new Date()));
-        kegitanList.add(new Kegiatan("kegitan dcu gym", new Beban(1),"cat1","brian", new BigDecimal(324000), new Date()));
-        kegitanList.add(new Kegiatan("kegitan dcu kebugaran", new Beban(1),"cat1","hasim", new BigDecimal(24235000), new Date()));
-        kegitanList.add(new Kegiatan("kegitan dcu olahrage", new Beban(1),"cat1","suni", new BigDecimal(800000), new Date()));
-        kegitanList.add(new Kegiatan("kegitan dcu senam", new Beban(1),"cat1","julian", new BigDecimal(89000), new Date()));
-        kegitanList.add(new Kegiatan("kegitan dcu gym", new Beban(1),"cat1","brian", new BigDecimal(324000), new Date()));
+        kegitanList.add(new Kegiatan("kegitan dcu olahrage", new Beban(1), "cat1", "suni", new BigDecimal(800000), new Date()));
+        kegitanList.add(new Kegiatan("kegitan dcu senam", new Beban(1), "cat1", "julian", new BigDecimal(89000), new Date()));
+        kegitanList.add(new Kegiatan("kegitan dcu gym", new Beban(1), "cat1", "brian", new BigDecimal(324000), new Date()));
+        kegitanList.add(new Kegiatan("kegitan dcu kebugaran", new Beban(1), "cat1", "hasim", new BigDecimal(24235000), new Date()));
+        kegitanList.add(new Kegiatan("kegitan dcu olahrage", new Beban(1), "cat1", "suni", new BigDecimal(800000), new Date()));
+        kegitanList.add(new Kegiatan("kegitan dcu senam", new Beban(1), "cat1", "julian", new BigDecimal(89000), new Date()));
+        kegitanList.add(new Kegiatan("kegitan dcu gym", new Beban(1), "cat1", "brian", new BigDecimal(324000), new Date()));
+        kegitanList.add(new Kegiatan("kegitan dcu kebugaran", new Beban(1), "cat1", "hasim", new BigDecimal(24235000), new Date()));
+        kegitanList.add(new Kegiatan("kegitan dcu olahrage", new Beban(1), "cat1", "suni", new BigDecimal(800000), new Date()));
+        kegitanList.add(new Kegiatan("kegitan dcu senam", new Beban(1), "cat1", "julian", new BigDecimal(89000), new Date()));
+        kegitanList.add(new Kegiatan("kegitan dcu gym", new Beban(1), "cat1", "brian", new BigDecimal(324000), new Date()));
 
 
-        kegitanList.add(new Kegiatan("kegitan test1 olahrage", new Beban(2),"cat1","suni", new BigDecimal(800000), new Date()));
-        kegitanList.add(new Kegiatan("kegitan test1 senam", new Beban(2),"cat1","julian", new BigDecimal(89000), new Date()));
-        kegitanList.add(new Kegiatan("kegitan test1 gym", new Beban(2),"cat1","brian", new BigDecimal(324000), new Date()));
-        kegitanList.add(new Kegiatan("kegitan test1 olahrage", new Beban(2),"cat1","suni", new BigDecimal(800000), new Date()));
-        kegitanList.add(new Kegiatan("kegitan test1 senam", new Beban(2),"cat1","julian", new BigDecimal(89000), new Date()));
-        kegitanList.add(new Kegiatan("kegitan test1 kebugaran1", new Beban(2),"cat1","hasim", new BigDecimal(24235000), new Date()));
-        kegitanList.add(new Kegiatan("kegitan test1 kebugaran2", new Beban(2),"cat1","hasim", new BigDecimal(24235000), new Date()));
-        kegitanList.add(new Kegiatan("kegitan test1 kebugaran3", new Beban(2),"cat1","hasim", new BigDecimal(24235000), new Date()));
+        kegitanList.add(new Kegiatan("kegitan test1 olahrage", new Beban(2), "cat1", "suni", new BigDecimal(800000), new Date()));
+        kegitanList.add(new Kegiatan("kegitan test1 senam", new Beban(2), "cat1", "julian", new BigDecimal(89000), new Date()));
+        kegitanList.add(new Kegiatan("kegitan test1 gym", new Beban(2), "cat1", "brian", new BigDecimal(324000), new Date()));
+        kegitanList.add(new Kegiatan("kegitan test1 olahrage", new Beban(2), "cat1", "suni", new BigDecimal(800000), new Date()));
+        kegitanList.add(new Kegiatan("kegitan test1 senam", new Beban(2), "cat1", "julian", new BigDecimal(89000), new Date()));
+        kegitanList.add(new Kegiatan("kegitan test1 kebugaran1", new Beban(2), "cat1", "hasim", new BigDecimal(24235000), new Date()));
+        kegitanList.add(new Kegiatan("kegitan test1 kebugaran2", new Beban(2), "cat1", "hasim", new BigDecimal(24235000), new Date()));
+        kegitanList.add(new Kegiatan("kegitan test1 kebugaran3", new Beban(2), "cat1", "hasim", new BigDecimal(24235000), new Date()));
 
 
         List<Validator> validatorList = new ArrayList<>();

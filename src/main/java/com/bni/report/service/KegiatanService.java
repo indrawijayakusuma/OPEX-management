@@ -12,6 +12,7 @@ import org.springframework.stereotype.Component;
 import java.math.BigDecimal;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -27,11 +28,11 @@ public class KegiatanService {
     @Autowired
     private ProgramService programService;
 
-
-    public List<Kegiatan> getByProgramId(String id){
+    public List<Kegiatan> getByProgramId(String id) {
         return kegiatanRepository.findByProgramId(id);
     }
-    public Page<Kegiatan> getAll(Pageable pageable,String id){
+
+    public Page<Kegiatan> getAll(Pageable pageable, String id) {
         Page<Kegiatan> program = kegiatanRepository.findByProgramId(id, pageable);
         Program programId = programService.getById(id);
         final BigDecimal[] temp = {programId.getBudget()};
@@ -42,36 +43,54 @@ public class KegiatanService {
                     BigDecimal sisaFirstKegiatan = kegiatan.getBudget().subtract(kegiatan.getRealisasi());
                     kegiatan.setSisa(sisaFirstKegiatan);
                     temp[0] = kegiatan.getSisa();
+                    kegiatanRepository.save(kegiatan);
                 }).collect(Collectors.toList());
         return new PageImpl<>(collect);
     }
 
-    public BigDecimal getSisa(String bebanId){
+    public Page<Kegiatan> getAllByKelompok(Pageable pageable, Integer kelompokId) {
+        List<Kegiatan> kegiatans = kegiatanRepository.findAll(pageable)
+                .stream()
+                .filter(kegiatan -> Objects.equals(kegiatan.getProgram().getBeban().getKelompok().getId(), kelompokId))
+                .toList();
+        return new PageImpl<>(kegiatans);
+    }
+
+    public BigDecimal getSisa(String bebanId) {
         List<Kegiatan> programs = kegiatanRepository.findByProgramId(bebanId);
         BigDecimal budget = programService.getById(bebanId).getBudget();
         Optional<Kegiatan> lastKegiatan = programs.stream().max(Comparator.comparing(Kegiatan::getDate));
         if (lastKegiatan.isPresent()) {
             return lastKegiatan.get().getSisa();
-        }else{
+        } else {
             return budget;
         }
     }
 
-    public Page<Kegiatan> paginateGetALl(int currPage, int pageSize, String id){
-        Pageable pageable = PageRequest.of(currPage-1, pageSize);
+    public Page<Kegiatan> paginateGetALlKelompok(int currPage, int pageSize, Integer id) {
+        Pageable pageable = PageRequest.of(currPage - 1, pageSize);
+        return getAllByKelompok(pageable, id);
+    }
+
+    public Page<Kegiatan> paginateGetALl(int currPage, int pageSize, String id) {
+        Pageable pageable = PageRequest.of(currPage - 1, pageSize);
         return getAll(pageable, id);
     }
-    public Page<Kegiatan> paginateSearchingGetAll(int currPage, int pageSize, String sortField, String sortDirection, String keyword, String id){
-        Pageable pageable = PageRequest.of(currPage-1, pageSize);
-        return kegiatanRepository.search(keyword,id,pageable);
+
+    public Page<Kegiatan> paginateSearchingGetAll(int currPage, int pageSize, String sortField, String sortDirection, String keyword, String id) {
+        Pageable pageable = PageRequest.of(currPage - 1, pageSize);
+        return kegiatanRepository.search(keyword, id, pageable);
     }
-    public Kegiatan findById(Integer id){
+
+    public Kegiatan findById(Integer id) {
         return kegiatanRepository.findById(id).orElseThrow(RuntimeException::new);
     }
-    public Kegiatan create(Kegiatan kegiatan){
+
+    public Kegiatan create(Kegiatan kegiatan) {
         return kegiatanRepository.save(kegiatan);
     }
-    public void delete(Integer id){
+
+    public void delete(Integer id) {
         kegiatanRepository.deleteById(id);
     }
 

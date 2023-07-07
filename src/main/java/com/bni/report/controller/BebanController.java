@@ -21,7 +21,8 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-@Controller @Slf4j
+@Controller
+@Slf4j
 public class BebanController {
     @Autowired
     private BebanService bebanService;
@@ -33,9 +34,10 @@ public class BebanController {
     private ValidatorBebanService validatorBebanService;
 
     @GetMapping("/beban/{id}")
-    public String getAll(@PathVariable Integer id, Model model){
-        return paginateGetAll(null, id,1,"name", "asc", model);
+    public String getAll(@PathVariable Integer id, Model model) {
+        return paginateGetAll(null, id, 1, "name", "asc", model);
     }
+
     @GetMapping("/beban/page/{id}/{no}")
     public String paginateGetAll(
             @RequestParam(required = false) String keyword,
@@ -44,13 +46,13 @@ public class BebanController {
             @RequestParam(defaultValue = "name") String sortField,
             @RequestParam(defaultValue = "asc") String sortDirection,
             Model model
-    ){
+    ) {
         int pageSize = 15;
         Page<Beban> bebanPage = null;
-        if (keyword == null){
-            bebanPage = bebanService.paginateGetAll(currPage,pageSize,sortField,sortDirection,idKelompok);
-        }else{
-            bebanPage = bebanService.paginateSearchingGetAll(currPage,pageSize,sortField,sortDirection,keyword,idKelompok);
+        if (keyword == null) {
+            bebanPage = bebanService.paginateGetAll(currPage, pageSize, sortField, sortDirection, idKelompok);
+        } else {
+            bebanPage = bebanService.paginateSearchingGetAll(currPage, pageSize, sortField, sortDirection, keyword, idKelompok);
         }
         List<Beban> bebanList = new ArrayList<>();
         bebanList = bebanPage.getContent();
@@ -68,24 +70,25 @@ public class BebanController {
 
         model.addAttribute("sortDirection", sortDirection);
         model.addAttribute("sortField", sortField);
-        model.addAttribute("reverseDirection", sortDirection.equals("asc")?"desc":"asc");
+        model.addAttribute("reverseDirection", sortDirection.equals("asc") ? "desc" : "asc");
         model.addAttribute("nameKelompok", nameKelompok);
         model.addAttribute("keyword", keyword);
         model.addAttribute("bebansAdd", new Beban());
-        model.addAttribute("mataAnggaranAdd",new MataAnggaran());
+        model.addAttribute("mataAnggaranAdd", new MataAnggaran());
         model.addAttribute("mataAnggarans", all);
 
         return "ListBeban";
     }
 
     @GetMapping("/beban/addform")
-    public String addForm(Model model){
+    public String addForm(Model model) {
         Beban beban = new Beban();
         model.addAttribute("bebans", beban);
         return "formAddBeban";
     }
+
     @PostMapping("/beban/{kelompokId}")
-    public String add(Beban beban, @PathVariable Integer kelompokId){
+    public String add(Beban beban, @PathVariable Integer kelompokId) {
         String nomerRekening = mataAnggaranService.getNomerRekening(beban.getName());
         beban.setKelompok(new Kelompok(kelompokId));
         beban.setNomerRekening(nomerRekening);
@@ -95,8 +98,9 @@ public class BebanController {
         });
         return "redirect:/beban/" + kelompokId;
     }
+
     @GetMapping("/beban/update/{id}")
-    public String formUpdateBeban(@PathVariable Integer id, Model model){
+    public String formUpdateBeban(@PathVariable Integer id, Model model) {
         Beban byId = bebanService.findById(id);
         Integer kelompokId = byId.getKelompok().getId();
         List<String> all = mataAnggaranService.getAll(kelompokId)
@@ -109,8 +113,9 @@ public class BebanController {
         model.addAttribute("mataAnggarans", all);
         return "formUpdateBeban";
     }
+
     @PostMapping("/beban/update")
-    public String update(Beban beban){
+    public String update(Beban beban) {
         String nomerRekening = mataAnggaranService.getNomerRekening(beban.getName());
         beban.setNomerRekening(nomerRekening);
         ValidatorBeban validatorBeban = Optional.of(beban).map(ValidatorBeban::new).get();
@@ -118,8 +123,9 @@ public class BebanController {
         bebanService.delete(beban.getId());
         return "redirect:/beban/" + beban.getKelompok().getId();
     }
+
     @GetMapping("/beban/delete/{id}")
-    public String delete(@PathVariable Integer id){
+    public String delete(@PathVariable Integer id) {
         Beban beban = bebanService.findById(id);
         bebanService.delete(id);
         return "redirect:/beban/" + beban.getKelompok().getId();

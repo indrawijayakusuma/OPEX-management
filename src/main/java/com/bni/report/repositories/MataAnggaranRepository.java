@@ -9,6 +9,8 @@ import java.util.List;
 @Repository
 public interface MataAnggaranRepository extends JpaRepository<MataAnggaran, String> {
     MataAnggaran findByNomerRekening(String nomerRekening);
+
     List<MataAnggaran> findByKelompokId(Integer id);
+
     MataAnggaran findByMataAnggaran(String mataAnggaran);
 }

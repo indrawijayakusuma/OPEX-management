@@ -10,7 +10,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -27,15 +29,17 @@ public class KegiatanController {
     private ValidatorService validatorService;
 
     @GetMapping("/kegiatan/{id}")
-    public String getAll(Model model, @PathVariable(value = "id") String id ){
-        return paginateGetAll(id,1,model);
+    public String getAll(Model model, @PathVariable(value = "id") String id) {
+        return paginateGetAll(id, 1, model);
     }
+
+    @GetMapping("/kegiatan/kelompok/{id}")
+    public String getAllKelompok(Model model, @PathVariable(value = "id") Integer id) {
+        return paginateGetAllKelompok(id, 1, model);
+    }
+
     @GetMapping("/kegiatan/page/{id}/{no}")
-    public String paginateGetAll(
-            @PathVariable(value = "id") String id,
-            @PathVariable(value = "no") int currPage,
-            Model model
-    ){
+    public String paginateGetAll(@PathVariable(value = "id") String id, @PathVariable(value = "no") int currPage, Model model) {
         int pageSize = 15;
         Page<Kegiatan> kegiatanPage = null;
         kegiatanPage = kegiatanService.paginateGetALl(currPage, pageSize, id);
@@ -48,7 +52,7 @@ public class KegiatanController {
         BigDecimal sisaAkhir = kegiatanService.getSisa(id);
 
         model.addAttribute("sisa", sisaAkhir);
-        model.addAttribute("bebanId",bebanId);
+        model.addAttribute("bebanId", bebanId);
         model.addAttribute("nameBeban", "name1");
         model.addAttribute("currentPage", currPage);
 
@@ -60,23 +64,42 @@ public class KegiatanController {
 
         return "listKegiatan";
     }
+
+    @GetMapping("/kegiatan/kelompok/page/{id}/{no}")
+    public String paginateGetAllKelompok(@PathVariable(value = "id") Integer id, @PathVariable(value = "no") int currPage, Model model) {
+        int pageSize = 15;
+        Page<Kegiatan> kegiatanPage = null;
+        kegiatanPage = kegiatanService.paginateGetALlKelompok(currPage, pageSize, id);
+
+        List<Kegiatan> kegiatanList = new ArrayList<>();
+        kegiatanList = kegiatanPage.getContent();
+
+        model.addAttribute("nameBeban", "name1");
+        model.addAttribute("currentPage", currPage);
+        model.addAttribute("kegiatans", kegiatanList);
+
+        return "listAllKegiatan";
+    }
+
     @GetMapping("/kegiatan/update/{id}")
-    public String formUpdateKegiatan(@PathVariable Integer id, Model model){
+    public String formUpdateKegiatan(@PathVariable Integer id, Model model) {
         Kegiatan byId = kegiatanService.findById(id);
-//        Integer kelompokid = byId.getBeban().getKelompok().getId();
-        model.addAttribute("kelompokId", 1);
+        Integer idKelompok = byId.getProgram().getBeban().getKelompok().getId();
+        model.addAttribute("kelompokId", idKelompok);
         model.addAttribute("kegiatans", byId);
         return "formUpdateKegiatan";
     }
+
     @PostMapping("/kegiatan/{idProgram}")
-    public String add(@PathVariable String idProgram, Kegiatan kegiatan){
+    public String add(@PathVariable String idProgram, Kegiatan kegiatan) {
         kegiatan.setProgram(new Program(idProgram));
         Validator validator = Optional.of(kegiatan).map(Validator::new).get();
         validatorService.create(validator);
         return "redirect:/kegiatan/" + idProgram;
     }
+
     @PostMapping("/kegiatan")
-    public String update(Kegiatan kegiatan){
+    public String update(Kegiatan kegiatan) {
         Optional<Validator> validatorOpt = Optional.of(kegiatan).map(Validator::new);
         validatorOpt.ifPresent(value -> {
             Validator validator = value;
@@ -85,10 +108,11 @@ public class KegiatanController {
         });
         return "redirect:/kegiatan/" + kegiatan.getProgram().getId();
     }
+
     @GetMapping("/kegiatan/delete/{id}")
-    public String delete(@PathVariable Integer id){
+    public String delete(@PathVariable Integer id) {
         String idProgram = kegiatanService.findById(id).getProgram().getId();
         kegiatanService.delete(id);
-        return "redirect:/kegiatan/" + idProgram ;
+        return "redirect:/kegiatan/" + idProgram;
     }
 }

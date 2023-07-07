@@ -43,13 +43,13 @@ public class ValidatorController {
 
     @GetMapping("/validator")
     @PreAuthorize("hasAuthority('ADMIN')")
-    public String getAll(Model model, Authentication authentication){
-        return paginateGetAll(1,"validatorKegiatan","name", "asc", model, authentication);
+    public String getAll(Model model, Authentication authentication) {
+        return paginateGetAll(1, "validatorKegiatan", "name", "asc", model, authentication);
     }
 
     @GetMapping("/validator/page/{no}")
     @PreAuthorize("hasAuthority('ADMIN')")
-    public String paginateGetAll (
+    public String paginateGetAll(
             @PathVariable(value = "no") int currPage,
             @RequestParam(defaultValue = "validatorKegiatan") String list,
             @RequestParam(defaultValue = "name") String sortField,
@@ -74,10 +74,10 @@ public class ValidatorController {
         } else if (list.equalsIgnoreCase("validatorProgram")) {
             validatorsProgram = validatorProgramService.paginateGetALl(currPage, pageSize, sortDirection, sortField, user);
             validatorProgramList = validatorsProgram.getContent();
-        } else if (list.equalsIgnoreCase("validatorBeban")){
+        } else if (list.equalsIgnoreCase("validatorBeban")) {
             validatorsBeban = validatorBebanService.paginateGetALl(currPage, pageSize, sortDirection, sortField, user);
             validatorsBebanList = validatorsBeban.getContent();
-        } else if(list.equalsIgnoreCase("validatorMataAnggaran")){
+        } else if (list.equalsIgnoreCase("validatorMataAnggaran")) {
             validatorMataAnggarans = validatorMataAnggaranService.paginateGetALl(currPage, pageSize, sortDirection, sortField, user);
             validatorMataAnggaranList = validatorMataAnggarans.getContent();
         }
@@ -96,69 +96,76 @@ public class ValidatorController {
 
         return "validasi1";
     }
+
     @GetMapping("/validator/validate/{id}")
     @PreAuthorize("hasAuthority('ADMIN')")
-    public String validate(@PathVariable Integer id){
+    public String validate(@PathVariable Integer id) {
         validatorService.findById(id).map(Kegiatan::new).ifPresent(kegiatan -> {
             kegiatanService.create(kegiatan);
             validatorService.delete(id);
         });
         return "redirect:/validator";
     }
+
     @GetMapping("/validator/validate/program/{id}")
     @PreAuthorize("hasAuthority('ADMIN')")
-    public String validateProgram(@PathVariable String id){
-        validatorProgramService.findByid(id).map(Program::new).ifPresent(program ->{
+    public String validateProgram(@PathVariable String id) {
+        validatorProgramService.findByid(id).map(Program::new).ifPresent(program -> {
             programService.create(program);
             validatorProgramService.delete(id);
         });
         return "redirect:/validator/page/1?list=validatorProgram";
     }
+
     @GetMapping("/validator/validate/beban/{id}")
     @PreAuthorize("hasAuthority('ADMIN')")
-    public String validateBeban(@PathVariable Integer id){
-        validatorBebanService.findByid(id).map(Beban::new).ifPresent(beban ->{
+    public String validateBeban(@PathVariable Integer id) {
+        validatorBebanService.findByid(id).map(Beban::new).ifPresent(beban -> {
             bebanService.create(beban);
             validatorBebanService.delete(id);
         });
         return "redirect:/validator/page/1?list=validatorBeban";
     }
+
     @GetMapping("/validator/validate/mataanggaran/{id}")
     @PreAuthorize("hasAuthority('ADMIN')")
-    public String validateMataAnggaran(@PathVariable String id){
-        validatorMataAnggaranService.findByid(id).map(MataAnggaran::new).ifPresent(mataAnggaran ->{
+    public String validateMataAnggaran(@PathVariable String id) {
+        validatorMataAnggaranService.findByid(id).map(MataAnggaran::new).ifPresent(mataAnggaran -> {
             mataAnggaranService.create(mataAnggaran);
             validatorMataAnggaranService.delete(id);
         });
         return "redirect:/validator/page/1?list=validatorMataAnggaran";
     }
+
     @GetMapping("/validator/update/{id}")
     @PreAuthorize("hasAuthority('ADMIN')")
-    public String formUpdateKegiatan(@PathVariable Integer id, Model model){
+    public String formUpdateKegiatan(@PathVariable Integer id, Model model) {
         Optional<Validator> byId = validatorService.findById(id);
-        if(byId.isPresent()){
+        if (byId.isPresent()) {
             Validator validator = byId.get();
             model.addAttribute("kegiatans", validator);
             return "formUpdateValidator";
         }
         return "redirect:/validator";
     }
+
     @GetMapping("/validator/update/program/{id}")
     @PreAuthorize("hasAuthority('ADMIN')")
-    public String formUpdateProgram(@PathVariable String id, Model model){
+    public String formUpdateProgram(@PathVariable String id, Model model) {
         Optional<ValidatorProgram> byId = validatorProgramService.findByid(id);
-        if(byId.isPresent()){
+        if (byId.isPresent()) {
             ValidatorProgram program = byId.get();
             model.addAttribute("program", program);
             return "formUpdateValidatorProgram";
         }
         return "redirect:/validator";
     }
+
     @GetMapping("/validator/update/beban/{id}")
     @PreAuthorize("hasAuthority('ADMIN')")
-    public String formUpdateBeban(@PathVariable Integer id, Model model){
+    public String formUpdateBeban(@PathVariable Integer id, Model model) {
         Optional<ValidatorBeban> byId = validatorBebanService.findByid(id);
-        if(byId.isPresent()){
+        if (byId.isPresent()) {
             ValidatorBeban program = byId.get();
             Integer kelompokId = program.getKelompok().getId();
             List<String> all = mataAnggaranService.getAll(kelompokId).stream()
@@ -170,40 +177,45 @@ public class ValidatorController {
         }
         return "redirect:/validator/page/1?list=validatorBeban";
     }
+
     @GetMapping("/validator/update/mataanggaran/{id}")
     @PreAuthorize("hasAuthority('ADMIN')")
-    public String formUpdateMataAnggaran(@PathVariable String id, Model model){
+    public String formUpdateMataAnggaran(@PathVariable String id, Model model) {
         Optional<ValidatorMataAnggaran> byId = validatorMataAnggaranService.findByid(id);
-        if(byId.isPresent()){
+        if (byId.isPresent()) {
             ValidatorMataAnggaran MataAnggaran = byId.get();
             model.addAttribute("MataAnggaran", MataAnggaran);
             return "formUpdateValidatorMataAnggaran";
         }
         return "redirect:/validator";
     }
+
     @PostMapping("/validator/update")
     @PreAuthorize("hasAuthority('ADMIN')")
-    public String update(Validator validator){
+    public String update(Validator validator) {
         validatorService.create(validator);
         return "redirect:/validator";
     }
+
     @PostMapping("/validator/update/program")
     @PreAuthorize("hasAuthority('ADMIN')")
-    public String updateProgram(ValidatorProgram validator){
+    public String updateProgram(ValidatorProgram validator) {
         validatorProgramService.create(validator);
         return "redirect:/validator/page/1?list=validatorProgram";
     }
+
     @PostMapping("/validator/update/beban")
     @PreAuthorize("hasAuthority('ADMIN')")
-    public String updateBeban(ValidatorBeban validator){
+    public String updateBeban(ValidatorBeban validator) {
         String nomerRekening = mataAnggaranService.getNomerRekening(validator.getName());
         validator.setNomerRekening(nomerRekening);
         validatorBebanService.create(validator);
         return "redirect:/validator/page/1?list=validatorBeban";
     }
+
     @PostMapping("/validator/update/mataanggaran")
     @PreAuthorize("hasAuthority('ADMIN')")
-    public String updateMataAnggaran(ValidatorMataAnggaran validator){
+    public String updateMataAnggaran(ValidatorMataAnggaran validator) {
         validatorMataAnggaranService.create(validator);
         return "redirect:/validator/page/1?list=validatorMataAnggaran";
     }

@@ -26,7 +26,7 @@ public class ReportExcelService {
     @Autowired
     private BebanService bebanService;
 
-    public void generateHeader(XSSFWorkbook workbook, XSSFSheet sheet){
+    public void generateHeader(XSSFWorkbook workbook, XSSFSheet sheet) {
         XSSFFont font = workbook.createFont();
         font.setBold(true);
 
@@ -58,13 +58,13 @@ public class ReportExcelService {
         cellNominal.setCellStyle(cellStyle);
     }
 
-    public void border(XSSFCellStyle cellStyle){
+    public void border(XSSFCellStyle cellStyle) {
         cellStyle.setBorderTop(BorderStyle.MEDIUM);
         cellStyle.setBorderRight(BorderStyle.MEDIUM);
         cellStyle.setBorderBottom(BorderStyle.MEDIUM);
     }
 
-    public void generateDataList(XSSFWorkbook workbook, XSSFSheet sheet, List<Kegiatan> kegiatans){
+    public void generateDataList(XSSFWorkbook workbook, XSSFSheet sheet, List<Kegiatan> kegiatans) {
         XSSFCellStyle cellStyle = workbook.createCellStyle();
         border(cellStyle);
         cellStyle.setAlignment(HorizontalAlignment.CENTER);
@@ -86,13 +86,13 @@ public class ReportExcelService {
 
         XSSFCellStyle cellDateStyle = workbook.createCellStyle();
         cellDateStyle.cloneStyleFrom(cellStyle);
-        cellDateStyle.setDataFormat((short)14);
+        cellDateStyle.setDataFormat((short) 14);
 
         AtomicInteger counter = new AtomicInteger(2);
         AtomicInteger number = new AtomicInteger(1);
         kegiatans.stream().forEach(kegiatan -> {
             XSSFRow row = sheet.createRow(counter.get());
-            row.setHeight((short)-1);
+            row.setHeight((short) -1);
 
             XSSFCell cellNumber = row.createCell(0);
             cellNumber.setCellValue(number.doubleValue());
@@ -123,7 +123,7 @@ public class ReportExcelService {
         });
     }
 
-    public void generateFooter(XSSFWorkbook workbook, XSSFSheet sheet, int size, BigDecimal sisa){
+    public void generateFooter(XSSFWorkbook workbook, XSSFSheet sheet, int size, BigDecimal sisa) {
         XSSFCellStyle cellStyle = workbook.createCellStyle();
         cellStyle.setBorderTop(BorderStyle.MEDIUM);
         cellStyle.setBorderLeft(BorderStyle.MEDIUM);
@@ -142,7 +142,7 @@ public class ReportExcelService {
         sheet.addMergedRegion(cellAddresses);
         sheet.addMergedRegion(cellAddresses1);
 
-        XSSFRow row = sheet.createRow(size+1);
+        XSSFRow row = sheet.createRow(size + 1);
         row.setHeight((short) 500);
         XSSFCell cellnumber = row.createCell(0);
         cellnumber.setCellValue("Sisa");
@@ -169,11 +169,11 @@ public class ReportExcelService {
         int size = kegiatans.size();
         BigDecimal sisa = bebanService.findById(1).getSisa();
 
-        XSSFWorkbook workbook =  new XSSFWorkbook();
+        XSSFWorkbook workbook = new XSSFWorkbook();
         XSSFSheet sheet = workbook.createSheet("TEST ");
-        sheet.setColumnWidth(5,5000);
-        sheet.setColumnWidth(2,9000);
-        sheet.setColumnWidth(0,1200);
+        sheet.setColumnWidth(5, 5000);
+        sheet.setColumnWidth(2, 9000);
+        sheet.setColumnWidth(0, 1200);
         generateHeader(workbook, sheet);
         generateDataList(workbook, sheet, kegiatans);
         generateFooter(workbook, sheet, size, sisa);

@@ -12,12 +12,16 @@ import org.springframework.format.annotation.DateTimeFormat;
 import java.math.BigDecimal;
 import java.util.Date;
 
-@Entity @Data @AllArgsConstructor @NoArgsConstructor
+@Entity
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class Validator {
-    @Id @GeneratedValue(strategy = GenerationType.AUTO)
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
     @ManyToOne
-    @JoinColumn(name="Program_id", nullable=false)
+    @JoinColumn(name = "Program_id", nullable = false)
     private Program program;
     private BigDecimal budget;
     private BigDecimal realisasi;

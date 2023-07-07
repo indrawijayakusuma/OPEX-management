@@ -13,13 +13,14 @@ public class UniqueFieldValidator implements ConstraintValidator<UniqueField, St
 
     @Autowired
     private MataAnggaranRepository mataAnggaranRepository;
+
     @Override
     public void initialize(UniqueField constraintAnnotation) {
     }
 
     @Override
     public boolean isValid(String nomerRekening, ConstraintValidatorContext constraintValidatorContext) {
-        if(nomerRekening == null){
+        if (nomerRekening == null) {
             return true;
         }
         return Objects.isNull(mataAnggaranRepository.findByNomerRekening(nomerRekening));

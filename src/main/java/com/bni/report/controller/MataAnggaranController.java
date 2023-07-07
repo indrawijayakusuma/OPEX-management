@@ -18,7 +18,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 
 import java.util.Optional;
 
-@Controller @Slf4j
+@Controller
+@Slf4j
 public class MataAnggaranController {
     @Autowired
     private MataAnggaranService mataAnggaranService;
@@ -26,13 +27,14 @@ public class MataAnggaranController {
     private ValidatorMataAnggaranService validatorMataAnggaranService;
 
     @GetMapping("/mataanggaran/form/{kelompokId}")
-    public String addForm(Model model, @PathVariable int kelompokId){
+    public String addForm(Model model, @PathVariable int kelompokId) {
         model.addAttribute("mataAnggaran", new MataAnggaran());
         return "AddMataAnggaran";
     }
+
     @PostMapping("/mataanggaran/{kelompokId}")
-    public String add(@Valid @ModelAttribute(value="mataAnggaran") MataAnggaran mataAnggaran, BindingResult result, @PathVariable Integer kelompokId){
-        if(result.hasErrors()){
+    public String add(@Valid @ModelAttribute(value = "mataAnggaran") MataAnggaran mataAnggaran, BindingResult result, @PathVariable Integer kelompokId) {
+        if (result.hasErrors()) {
             return "addMataAnggaran";
         }
         log.info(String.valueOf(mataAnggaran));

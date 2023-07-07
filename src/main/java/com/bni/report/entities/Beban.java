@@ -2,7 +2,6 @@ package com.bni.report.entities;
 
 import com.bni.report.entities.validators.ValidatorBeban;
 import com.bni.report.entities.validators.ValidatorProgram;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -10,22 +9,25 @@ import lombok.NoArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.math.BigDecimal;
-import java.math.BigInteger;
 import java.util.Date;
 import java.util.List;
 
-@Entity @Data @AllArgsConstructor @NoArgsConstructor
+@Entity
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class Beban {
-    @Id @GeneratedValue(strategy = GenerationType.AUTO)
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
     private String nomerRekening;
     private String name;
     @ManyToOne
-    @JoinColumn(name="Kelompok_id", nullable=false)
+    @JoinColumn(name = "Kelompok_id", nullable = false)
     private Kelompok kelompok;
-    @OneToMany(mappedBy="beban", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "beban", cascade = CascadeType.ALL)
     private List<Program> program;
-    @OneToMany(mappedBy="beban", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "beban", cascade = CascadeType.ALL)
     private List<ValidatorProgram> validatorPrograms;
     private BigDecimal budget;
     private BigDecimal realisasi;
@@ -41,7 +43,7 @@ public class Beban {
         this.kelompok = kelompok;
     }
 
-    public Beban(ValidatorBeban beban){
+    public Beban(ValidatorBeban beban) {
         this.id = beban.getId();
         this.nomerRekening = beban.getNomerRekening();
         this.name = beban.getName();
@@ -52,7 +54,7 @@ public class Beban {
         this.date = beban.getDate();
     }
 
-    public Beban(Integer id){
+    public Beban(Integer id) {
         this.id = id;
     }
 

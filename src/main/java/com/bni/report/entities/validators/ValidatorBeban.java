@@ -2,7 +2,6 @@ package com.bni.report.entities.validators;
 
 import com.bni.report.entities.Beban;
 import com.bni.report.entities.Kelompok;
-import com.bni.report.entities.Program;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -11,7 +10,6 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 import java.math.BigDecimal;
 import java.util.Date;
-import java.util.List;
 
 @Entity
 @Data
@@ -24,7 +22,7 @@ public class ValidatorBeban {
     private String nomerRekening;
     private String name;
     @ManyToOne
-    @JoinColumn(name="Kelompok_id", nullable=false)
+    @JoinColumn(name = "Kelompok_id", nullable = false)
     private Kelompok kelompok;
     private BigDecimal budget;
     private BigDecimal realisasi;
@@ -32,7 +30,7 @@ public class ValidatorBeban {
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date date;
 
-    public ValidatorBeban(Beban beban){
+    public ValidatorBeban(Beban beban) {
         this.id = beban.getId();
         this.nomerRekening = beban.getNomerRekening();
         this.name = beban.getName();
