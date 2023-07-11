@@ -3,10 +3,7 @@ package com.bni.report.service;
 import com.bni.report.entities.Kegiatan;
 import jakarta.servlet.ServletOutputStream;
 import jakarta.servlet.http.HttpServletResponse;
-import org.apache.poi.ss.usermodel.BorderStyle;
-import org.apache.poi.ss.usermodel.CreationHelper;
-import org.apache.poi.ss.usermodel.HorizontalAlignment;
-import org.apache.poi.ss.usermodel.VerticalAlignment;
+import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.ss.util.CellRangeAddress;
 import org.apache.poi.xssf.usermodel.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,21 +38,27 @@ public class ReportExcelService {
         XSSFCell cellnumber = row.createCell(0);
         cellnumber.setCellValue("No");
         cellnumber.setCellStyle(cellStyle);
-        XSSFCell cellDate = row.createCell(1);
-        cellDate.setCellValue("Date");
-        cellDate.setCellStyle(cellStyle);
+        XSSFCell cellMataAnggaran = row.createCell(1);
+        cellMataAnggaran.setCellValue("Nama Program");
+        cellMataAnggaran.setCellStyle(cellStyle);
         XSSFCell cell = row.createCell(2);
-        cell.setCellValue("Realisasi");
+        cell.setCellValue("No.Usulan");
         cell.setCellStyle(cellStyle);
-        XSSFCell cellCategory = row.createCell(3);
-        cellCategory.setCellValue("Category");
-        cellCategory.setCellStyle(cellStyle);
-        XSSFCell cellPic = row.createCell(4);
-        cellPic.setCellValue("Pic");
-        cellPic.setCellStyle(cellStyle);
+        XSSFCell BudgetProgram = row.createCell(3);
+        BudgetProgram.setCellValue("Budget program");
+        BudgetProgram.setCellStyle(cellStyle);
+        XSSFCell cellRealisasi = row.createCell(4);
+        cellRealisasi.setCellValue("Realisasi Program");
+        cellRealisasi.setCellStyle(cellStyle);
         XSSFCell cellNominal = row.createCell(5);
         cellNominal.setCellValue("Nominal");
         cellNominal.setCellStyle(cellStyle);
+        XSSFCell cellPic = row.createCell(6);
+        cellPic.setCellValue("Pic");
+        cellPic.setCellStyle(cellStyle);
+        XSSFCell cellDate = row.createCell(6);
+        cellDate.setCellValue("Date");
+        cellDate.setCellStyle(cellStyle);
     }
 
     public void border(XSSFCellStyle cellStyle) {
@@ -99,24 +102,24 @@ public class ReportExcelService {
             cellNumber.setCellStyle(cellStyle);
 
             XSSFCell cellDate = row.createCell(1);
-            cellDate.setCellValue(kegiatan.getDate());
+            cellDate.setCellValue(kegiatan.getProgram().getName());
             cellDate.setCellStyle(cellDateStyle);
 
-//            XSSFCell cell = row.createCell(2);
-//            cell.setCellValue(kegiatan.getName());
-//            cell.setCellStyle(cellStyleRight);
+            XSSFCell cell = row.createCell(2);
+            cell.setCellValue(kegiatan.getProgram().getNoUsulan());
+            cell.setCellStyle(cellStyle);
 
-//            XSSFCell cellCategory = row.createCell(3);
-//            cellCategory.setCellValue(kegiatan.getCat());
-//            cellCategory.setCellStyle(cellStyle);
-//
-//            XSSFCell cellPic = row.createCell(4);
-//            cellPic.setCellValue(kegiatan.getPic());
-//            cellPic.setCellStyle(cellStyle);
-//
-//            XSSFCell cellNominal = row.createCell(5);
-//            cellNominal.setCellValue(kegiatan.getNominal().doubleValue());
-//            cellNominal.setCellStyle(cellStyleLeft);
+            XSSFCell cellCategory = row.createCell(3);
+            cellCategory.setCellValue(kegiatan.getBudget().doubleValue());
+            cellCategory.setCellStyle(cellStyleLeft);
+
+            XSSFCell cellPic = row.createCell(4);
+            cellPic.setCellValue(kegiatan.getRealisasi().doubleValue());
+            cellPic.setCellStyle(cellStyleLeft);
+
+            XSSFCell cellNominal = row.createCell(5);
+            cellNominal.setCellValue(kegiatan.getDate());
+            cellNominal.setCellStyle(cellDateStyle);
 
             counter.getAndIncrement();
             number.getAndIncrement();

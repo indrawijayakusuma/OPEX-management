@@ -61,7 +61,7 @@ public class KegiatanService {
         BigDecimal budget = programService.getById(bebanId).getBudget();
         Optional<Kegiatan> lastKegiatan = programs.stream().max(Comparator.comparing(Kegiatan::getDate));
         if (lastKegiatan.isPresent()) {
-            return lastKegiatan.get().getSisa();
+            return lastKegiatan.get().getSisa();    
         } else {
             return budget;
         }
