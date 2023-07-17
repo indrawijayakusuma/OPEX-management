@@ -35,12 +35,13 @@ public class Beban {
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date date;
 
-    public Beban(String nomerRekening, String name, BigDecimal budget, Date date, Kelompok kelompok) {
+    public Beban(Integer id, String nomerRekening, String name, Kelompok kelompok, BigDecimal budget, Date date) {
+        this.id = id;
         this.nomerRekening = nomerRekening;
         this.name = name;
+        this.kelompok = kelompok;
         this.budget = budget;
         this.date = date;
-        this.kelompok = kelompok;
     }
 
     public Beban(ValidatorBeban beban) {

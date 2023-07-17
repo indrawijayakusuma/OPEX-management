@@ -37,4 +37,9 @@ public class MataAnggaran {
         this.kelompok = validatorMataAnggaran.getKelompok();
     }
 
+    public MataAnggaran(String nomerRekening, String mataAnggaran, Kelompok kelompok) {
+        this.nomerRekening = nomerRekening;
+        this.mataAnggaran = mataAnggaran;
+        this.kelompok = kelompok;
+    }
 }

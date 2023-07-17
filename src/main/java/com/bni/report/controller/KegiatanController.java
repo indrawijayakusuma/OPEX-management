@@ -53,7 +53,9 @@ public class KegiatanController {
 
         model.addAttribute("sisa", sisaAkhir);
         model.addAttribute("bebanId", bebanId);
-        model.addAttribute("nameBeban", "name1");
+        model.addAttribute("kelompok", program.getBeban().getKelompok().getName());
+        model.addAttribute("mataAnggaran", program.getBeban().getName());
+        model.addAttribute("program", program.getName());
         model.addAttribute("currentPage", currPage);
 
         model.addAttribute("totalPages", kegiatanPage.getTotalPages());

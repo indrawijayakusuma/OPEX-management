@@ -33,6 +33,15 @@ public class Program {
         this.id = id;
     }
 
+    public Program(String id, String name, BigDecimal budget, String pic, String noUsulan, Beban beban) {
+        this.id = id;
+        this.name = name;
+        this.budget = budget;
+        this.pic = pic;
+        this.noUsulan = noUsulan;
+        this.beban = beban;
+    }
+
     public Program(ValidatorProgram program) {
         this.id = program.getId();
         this.name = program.getName();

@@ -56,9 +56,9 @@ public class KegiatanService {
         return new PageImpl<>(kegiatans);
     }
 
-    public BigDecimal getSisa(String bebanId) {
-        List<Kegiatan> programs = kegiatanRepository.findByProgramId(bebanId);
-        BigDecimal budget = programService.getById(bebanId).getBudget();
+    public BigDecimal getSisa(String programId) {
+        List<Kegiatan> programs = kegiatanRepository.findByProgramId(programId);
+        BigDecimal budget = programService.getById(programId).getBudget();
         Optional<Kegiatan> lastKegiatan = programs.stream().max(Comparator.comparing(Kegiatan::getDate));
         if (lastKegiatan.isPresent()) {
             return lastKegiatan.get().getSisa();    

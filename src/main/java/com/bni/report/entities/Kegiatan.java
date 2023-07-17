@@ -35,7 +35,10 @@ public class Kegiatan {
         this.date = validator.getDate();
     }
 
-    public Kegiatan(String name, Beban beban, String cat, String pic, BigDecimal nominal, Date date) {
+    public Kegiatan(Integer id, Program program, BigDecimal realisasi, Date date) {
+        this.id = id;
+        this.program = program;
+        this.realisasi = realisasi;
         this.date = date;
     }
 }

@@ -1,14 +1,8 @@
 package com.bni.report.service;
 
-import com.bni.report.entities.Beban;
-import com.bni.report.entities.Kegiatan;
-import com.bni.report.entities.Kelompok;
-import com.bni.report.entities.User;
+import com.bni.report.entities.*;
 import com.bni.report.entities.validators.Validator;
-import com.bni.report.repositories.BebanRepository;
-import com.bni.report.repositories.KegiatanRepository;
-import com.bni.report.repositories.KelompokRepository;
-import com.bni.report.repositories.ValidatorRepository;
+import com.bni.report.repositories.*;
 import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -42,7 +36,10 @@ public class BebanService {
     private ValidatorService validatorService;
     @Autowired
     private ProgramService programService;
-
+    @Autowired
+    private MataAnggaranRepository mataAnggaranRepository;
+    @Autowired
+    private ProgramRepository programRepository;
     public Page<Beban> getAll(Pageable pageable, Integer id) {
         Page<Beban> all = bebanRepository.findByKelompokId(id, pageable);
         all.stream().map(beban -> {
@@ -109,61 +106,35 @@ public class BebanService {
         kelompokList.add(new Kelompok("FPD 2"));
         kelompokList.add(new Kelompok("FPD 3"));
 
+        List<MataAnggaran> mataAnggarans = new ArrayList<>();
+        mataAnggarans.add(new MataAnggaran("743360550009001", "Beban Keperluan Kantor", new Kelompok(1)));
 
         List<Beban> bebanList = new ArrayList<>();
-        bebanList.add(new Beban("23424242424", "beban DCU 1", new BigDecimal(900000000), new Date(), new Kelompok(1)));
-        bebanList.add(new Beban("23424242424", "test1", new BigDecimal(900000000), new Date(), new Kelompok(1)));
-        bebanList.add(new Beban("23424242424", "test2", new BigDecimal(800000000), new Date(), new Kelompok(1)));
-        bebanList.add(new Beban("23424242424", "test3", new BigDecimal(900000000), new Date(), new Kelompok(2)));
-        bebanList.add(new Beban("23424242424", "test4", new BigDecimal(800000000), new Date(), new Kelompok(2)));
-        bebanList.add(new Beban("23424242424", "test5", new BigDecimal(900000000), new Date(), new Kelompok(2)));
-        bebanList.add(new Beban("23424242424", "test6", new BigDecimal(800000000), new Date(), new Kelompok(1)));
-        bebanList.add(new Beban("23424242424", "test7", new BigDecimal(900000000), new Date(), new Kelompok(2)));
+        bebanList.add(new Beban(8,"743360550009001", "Beban Keperluan Kantor", new Kelompok(1), new BigDecimal(90000000), new Date()));
 
+        List<Program> programs = new ArrayList<>();
+        programs.add(new Program("programs","Beban Rapat Kerja", new BigDecimal(6390080), "dedi", "123234", new Beban(1)));
 
         List<Kegiatan> kegitanList = new ArrayList<>();
-        kegitanList.add(new Kegiatan("kegitan dcu olahrage", new Beban(1), "cat1", "suni", new BigDecimal(800000), new Date()));
-        kegitanList.add(new Kegiatan("kegitan dcu senam", new Beban(1), "cat1", "julian", new BigDecimal(89000), new Date()));
-        kegitanList.add(new Kegiatan("kegitan dcu gym", new Beban(1), "cat1", "brian", new BigDecimal(324000), new Date()));
-        kegitanList.add(new Kegiatan("kegitan dcu kebugaran", new Beban(1), "cat1", "hasim", new BigDecimal(24235000), new Date()));
-        kegitanList.add(new Kegiatan("kegitan dcu olahrage", new Beban(1), "cat1", "suni", new BigDecimal(800000), new Date()));
-        kegitanList.add(new Kegiatan("kegitan dcu senam", new Beban(1), "cat1", "julian", new BigDecimal(89000), new Date()));
-        kegitanList.add(new Kegiatan("kegitan dcu gym", new Beban(1), "cat1", "brian", new BigDecimal(324000), new Date()));
-        kegitanList.add(new Kegiatan("kegitan dcu kebugaran", new Beban(1), "cat1", "hasim", new BigDecimal(24235000), new Date()));
-        kegitanList.add(new Kegiatan("kegitan dcu olahrage", new Beban(1), "cat1", "suni", new BigDecimal(800000), new Date()));
-        kegitanList.add(new Kegiatan("kegitan dcu senam", new Beban(1), "cat1", "julian", new BigDecimal(89000), new Date()));
-        kegitanList.add(new Kegiatan("kegitan dcu gym", new Beban(1), "cat1", "brian", new BigDecimal(324000), new Date()));
+        kegitanList.add(new Kegiatan(34,new Program("6a38710b-56f0-45ac-9c4c-aa0967e5f257"), new BigDecimal(336700), new Date()));
+        kegitanList.add(new Kegiatan(32,new Program("6a38710b-56f0-45ac-9c4c-aa0967e5f257"), new BigDecimal(597000), new Date()));
+        kegitanList.add(new Kegiatan(45,new Program("6a38710b-56f0-45ac-9c4c-aa0967e5f257"), new BigDecimal(426000), new Date()));
+        kegitanList.add(new Kegiatan(643,new Program("6a38710b-56f0-45ac-9c4c-aa0967e5f257"), new BigDecimal(315750), new Date()));
+        kegitanList.add(new Kegiatan(546,new Program("6a38710b-56f0-45ac-9c4c-aa0967e5f257"), new BigDecimal(425998), new Date()));
+        kegitanList.add(new Kegiatan(425,new Program("6a38710b-56f0-45ac-9c4c-aa0967e5f257"), new BigDecimal(602000), new Date()));
+        kegitanList.add(new Kegiatan(6463,new Program("6a38710b-56f0-45ac-9c4c-aa0967e5f257"), new BigDecimal(185000), new Date()));
+        kegitanList.add(new Kegiatan(86,new Program("6a38710b-56f0-45ac-9c4c-aa0967e5f257"), new BigDecimal(433276), new Date()));
+        kegitanList.add(new Kegiatan(97,new Program("6a38710b-56f0-45ac-9c4c-aa0967e5f257"), new BigDecimal(395000), new Date()));
+        kegitanList.add(new Kegiatan(72,new Program("6a38710b-56f0-45ac-9c4c-aa0967e5f257"), new BigDecimal(534000), new Date()));
+        kegitanList.add(new Kegiatan(17,new Program("6a38710b-56f0-45ac-9c4c-aa0967e5f257"), new BigDecimal(400000), new Date()));
+        kegitanList.add(new Kegiatan(74,new Program("6a38710b-56f0-45ac-9c4c-aa0967e5f257"), new BigDecimal(168000), new Date()));
+        kegitanList.add(new Kegiatan(35,new Program("6a38710b-56f0-45ac-9c4c-aa0967e5f257"), new BigDecimal(229600), new Date()));
 
-
-        kegitanList.add(new Kegiatan("kegitan test1 olahrage", new Beban(2), "cat1", "suni", new BigDecimal(800000), new Date()));
-        kegitanList.add(new Kegiatan("kegitan test1 senam", new Beban(2), "cat1", "julian", new BigDecimal(89000), new Date()));
-        kegitanList.add(new Kegiatan("kegitan test1 gym", new Beban(2), "cat1", "brian", new BigDecimal(324000), new Date()));
-        kegitanList.add(new Kegiatan("kegitan test1 olahrage", new Beban(2), "cat1", "suni", new BigDecimal(800000), new Date()));
-        kegitanList.add(new Kegiatan("kegitan test1 senam", new Beban(2), "cat1", "julian", new BigDecimal(89000), new Date()));
-        kegitanList.add(new Kegiatan("kegitan test1 kebugaran1", new Beban(2), "cat1", "hasim", new BigDecimal(24235000), new Date()));
-        kegitanList.add(new Kegiatan("kegitan test1 kebugaran2", new Beban(2), "cat1", "hasim", new BigDecimal(24235000), new Date()));
-        kegitanList.add(new Kegiatan("kegitan test1 kebugaran3", new Beban(2), "cat1", "hasim", new BigDecimal(24235000), new Date()));
-
-
-        List<Validator> validatorList = new ArrayList<>();
-//        validatorList.add(new Validator("kegitan olahrage", new Beban(4),"cat1","suni", new BigDecimal(800000), new Date()));
-//        validatorList.add(new Validator("kegitan olahrage", new Beban(4),"cat1","suni", new BigDecimal(800000), new Date()));
-//        validatorList.add(new Validator("kegitan olahrage", new Beban(4),"cat1","suni", new BigDecimal(800000), new Date()));
-//        validatorList.add(new Validator("kegitan olahrage", new Beban(4),"cat1","suni", new BigDecimal(800000), new Date()));
-//        validatorList.add(new Validator("kegitan olahrage", new Beban(4),"cat1","suni", new BigDecimal(800000), new Date()));
-//        validatorList.add(new Validator("kegitan olahrage", new Beban(4),"cat1","suni", new BigDecimal(800000), new Date()));
-//        validatorList.add(new Validator("kegitan olahrage", new Beban(4),"cat1","suni", new BigDecimal(800000), new Date()));
-//        validatorList.add(new Validator("kegitan olahrage", new Beban(4),"cat1","suni", new BigDecimal(800000), new Date()));
-//        validatorList.add(new Validator("kegitan olahrage", new Beban(4),"cat1","suni", new BigDecimal(800000), new Date()));
-//        validatorList.add(new Validator("kegitan olahrage", new Beban(4),"cat1","suni", new BigDecimal(800000), new Date()));
-//        validatorList.add(new Validator("kegitan olahrage", new Beban(4),"cat1","suni", new BigDecimal(800000), new Date()));
-//        validatorList.add(new Validator("kegitan olahrage", new Beban(4),"cat1","suni", new BigDecimal(800000), new Date()));
-//        validatorList.add(new Validator("kegitan olahrage", new Beban(4),"cat1","suni", new BigDecimal(800000), new Date()));
-
-        kelompokRepository.saveAll(kelompokList);
-        bebanRepository.saveAll(bebanList);
+//        kelompokRepository.saveAll(kelompokList);
+//        mataAnggaranRepository.saveAll(mataAnggarans);
+//        bebanRepository.saveAll(bebanList);
+//        programRepository.saveAll(programs);
+//        userRepository.saveAll(users);
 //        kegiatanRepository.saveAll(kegitanList);
-        userRepository.saveAll(users);
-//        validatorRepository.saveAll(validatorList);
     }
 }
