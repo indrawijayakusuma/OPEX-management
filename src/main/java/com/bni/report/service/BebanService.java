@@ -1,7 +1,6 @@
 package com.bni.report.service;
 
 import com.bni.report.entities.*;
-import com.bni.report.entities.validators.Validator;
 import com.bni.report.repositories.*;
 import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,6 +39,11 @@ public class BebanService {
     private MataAnggaranRepository mataAnggaranRepository;
     @Autowired
     private ProgramRepository programRepository;
+
+    public List<Beban> getByKelompokId(Integer id) {
+        return bebanRepository.findByKelompokId(id);
+    }
+
     public Page<Beban> getAll(Pageable pageable, Integer id) {
         Page<Beban> all = bebanRepository.findByKelompokId(id, pageable);
         all.stream().map(beban -> {
@@ -71,6 +75,10 @@ public class BebanService {
         return bebanRepository.save(beban);
     }
 
+    public Beban getByNamaMataanggaran(String mataAnggaran) {
+        return bebanRepository.findByName(mataAnggaran);
+    }
+
     public Beban edit(Beban beban) {
         return bebanRepository.save(beban);
     }
@@ -89,6 +97,7 @@ public class BebanService {
         beban1.setSisa(budget.subtract(jumlahNominalKegiatan, mc));
         bebanRepository.save(beban1);
     }
+
 
     @PostConstruct
     public void addbeban() {
@@ -110,25 +119,25 @@ public class BebanService {
         mataAnggarans.add(new MataAnggaran("743360550009001", "Beban Keperluan Kantor", new Kelompok(1)));
 
         List<Beban> bebanList = new ArrayList<>();
-        bebanList.add(new Beban(8,"743360550009001", "Beban Keperluan Kantor", new Kelompok(1), new BigDecimal(90000000), new Date()));
+        bebanList.add(new Beban(8, "743360550009001", "Beban Keperluan Kantor", new Kelompok(1), new BigDecimal(90000000), new Date()));
 
         List<Program> programs = new ArrayList<>();
-        programs.add(new Program("programs","Beban Rapat Kerja", new BigDecimal(6390080), "dedi", "123234", new Beban(1)));
+        programs.add(new Program("programs", "Beban Rapat Kerja", new BigDecimal(6390080), "dedi", "123234", new Beban(1)));
 
         List<Kegiatan> kegitanList = new ArrayList<>();
-        kegitanList.add(new Kegiatan(34,new Program("6a38710b-56f0-45ac-9c4c-aa0967e5f257"), new BigDecimal(336700), new Date()));
-        kegitanList.add(new Kegiatan(32,new Program("6a38710b-56f0-45ac-9c4c-aa0967e5f257"), new BigDecimal(597000), new Date()));
-        kegitanList.add(new Kegiatan(45,new Program("6a38710b-56f0-45ac-9c4c-aa0967e5f257"), new BigDecimal(426000), new Date()));
-        kegitanList.add(new Kegiatan(643,new Program("6a38710b-56f0-45ac-9c4c-aa0967e5f257"), new BigDecimal(315750), new Date()));
-        kegitanList.add(new Kegiatan(546,new Program("6a38710b-56f0-45ac-9c4c-aa0967e5f257"), new BigDecimal(425998), new Date()));
-        kegitanList.add(new Kegiatan(425,new Program("6a38710b-56f0-45ac-9c4c-aa0967e5f257"), new BigDecimal(602000), new Date()));
-        kegitanList.add(new Kegiatan(6463,new Program("6a38710b-56f0-45ac-9c4c-aa0967e5f257"), new BigDecimal(185000), new Date()));
-        kegitanList.add(new Kegiatan(86,new Program("6a38710b-56f0-45ac-9c4c-aa0967e5f257"), new BigDecimal(433276), new Date()));
-        kegitanList.add(new Kegiatan(97,new Program("6a38710b-56f0-45ac-9c4c-aa0967e5f257"), new BigDecimal(395000), new Date()));
-        kegitanList.add(new Kegiatan(72,new Program("6a38710b-56f0-45ac-9c4c-aa0967e5f257"), new BigDecimal(534000), new Date()));
-        kegitanList.add(new Kegiatan(17,new Program("6a38710b-56f0-45ac-9c4c-aa0967e5f257"), new BigDecimal(400000), new Date()));
-        kegitanList.add(new Kegiatan(74,new Program("6a38710b-56f0-45ac-9c4c-aa0967e5f257"), new BigDecimal(168000), new Date()));
-        kegitanList.add(new Kegiatan(35,new Program("6a38710b-56f0-45ac-9c4c-aa0967e5f257"), new BigDecimal(229600), new Date()));
+        kegitanList.add(new Kegiatan(34, new Program("6a38710b-56f0-45ac-9c4c-aa0967e5f257"), new BigDecimal(336700), new Date()));
+        kegitanList.add(new Kegiatan(32, new Program("6a38710b-56f0-45ac-9c4c-aa0967e5f257"), new BigDecimal(597000), new Date()));
+        kegitanList.add(new Kegiatan(45, new Program("6a38710b-56f0-45ac-9c4c-aa0967e5f257"), new BigDecimal(426000), new Date()));
+        kegitanList.add(new Kegiatan(643, new Program("6a38710b-56f0-45ac-9c4c-aa0967e5f257"), new BigDecimal(315750), new Date()));
+        kegitanList.add(new Kegiatan(546, new Program("6a38710b-56f0-45ac-9c4c-aa0967e5f257"), new BigDecimal(425998), new Date()));
+        kegitanList.add(new Kegiatan(425, new Program("6a38710b-56f0-45ac-9c4c-aa0967e5f257"), new BigDecimal(602000), new Date()));
+        kegitanList.add(new Kegiatan(6463, new Program("6a38710b-56f0-45ac-9c4c-aa0967e5f257"), new BigDecimal(185000), new Date()));
+        kegitanList.add(new Kegiatan(86, new Program("6a38710b-56f0-45ac-9c4c-aa0967e5f257"), new BigDecimal(433276), new Date()));
+        kegitanList.add(new Kegiatan(97, new Program("6a38710b-56f0-45ac-9c4c-aa0967e5f257"), new BigDecimal(395000), new Date()));
+        kegitanList.add(new Kegiatan(72, new Program("6a38710b-56f0-45ac-9c4c-aa0967e5f257"), new BigDecimal(534000), new Date()));
+        kegitanList.add(new Kegiatan(17, new Program("6a38710b-56f0-45ac-9c4c-aa0967e5f257"), new BigDecimal(400000), new Date()));
+        kegitanList.add(new Kegiatan(74, new Program("6a38710b-56f0-45ac-9c4c-aa0967e5f257"), new BigDecimal(168000), new Date()));
+        kegitanList.add(new Kegiatan(35, new Program("6a38710b-56f0-45ac-9c4c-aa0967e5f257"), new BigDecimal(229600), new Date()));
 
 //        kelompokRepository.saveAll(kelompokList);
 //        mataAnggaranRepository.saveAll(mataAnggarans);

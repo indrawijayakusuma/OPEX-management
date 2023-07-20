@@ -2,10 +2,13 @@ package com.bni.report.controller;
 
 import com.bni.report.entities.Beban;
 import com.bni.report.entities.Program;
+import com.bni.report.entities.dto.ProgramInputDTO;
 import com.bni.report.entities.validators.ValidatorProgram;
 import com.bni.report.service.BebanService;
+import com.bni.report.service.MataAnggaranService;
 import com.bni.report.service.ProgramService;
 import com.bni.report.service.ValidatorProgramService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
@@ -18,7 +21,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import java.util.List;
 import java.util.Optional;
 
-@Controller
+@Controller @Slf4j
 public class ProgramController {
 
     @Autowired
@@ -27,6 +30,8 @@ public class ProgramController {
     private BebanService bebanService;
     @Autowired
     private ValidatorProgramService validatorProgramService;
+    @Autowired
+    private MataAnggaranService mataAnggaranService;
 
     @GetMapping("/program/{id}")
     public String getAll(@PathVariable Integer id, Model model) {
@@ -73,15 +78,18 @@ public class ProgramController {
         return "listProgram";
     }
 
-    @PostMapping("/program/{idBeban}")
-    public String add(@PathVariable Integer idBeban, Program program) {
-        program.setBeban(new Beban(idBeban));
-        Optional.of(program)
+    @PostMapping("/program/create")
+    public String add(ProgramInputDTO programInputDTO) {
+        String namaMataAnggaran = programInputDTO.getNamaMataAnggaran();
+        log.info(namaMataAnggaran);
+        Beban beban = bebanService.getByNamaMataanggaran(namaMataAnggaran);
+        Optional.of(programInputDTO)
                 .map(ValidatorProgram::new)
-                .ifPresent(program1 -> {
-                    validatorProgramService.create(program1);
+                .ifPresent(program -> {
+                    program.setBeban(new Beban(beban.getId()));
+                    validatorProgramService.create(program);
                 });
-        return "redirect:/program/" + idBeban;
+        return "redirect:/beban/" + beban.getKelompok().getId();
     }
 
     @GetMapping("/program/update/{id}")

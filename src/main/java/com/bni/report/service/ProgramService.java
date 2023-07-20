@@ -3,22 +3,30 @@ package com.bni.report.service;
 import com.bni.report.entities.Program;
 import com.bni.report.repositories.ProgramRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.*;
 import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
+import java.util.List;
 import java.util.Objects;
 
 @Component
 public class ProgramService {
     @Autowired
     private ProgramRepository programRepository;
+    @Autowired
+    private KegiatanService kegiatanService;
 
     public Page<Program> getAll(Pageable pageable, Integer id) {
-        return programRepository.findByBebanId(id, pageable);
+        Page<Program> byBebanId = programRepository.findByBebanId(id, pageable);
+        List<Program> programs = byBebanId.stream().peek(program -> {
+            BigDecimal sisa = kegiatanService.getSisa(program.getId());
+            BigDecimal sumRealisasi = kegiatanService.sumRealisasi(program.getId());
+            program.setSisa(sisa);
+            program.setRealisasi(sumRealisasi);
+            programRepository.save(program);
+        }).toList();
+        return new PageImpl<>(programs);
     }
 
     public Page<Program> paginateGetAll(int currPage, int pageSize, String sortField, String sortDirection, Integer id) {

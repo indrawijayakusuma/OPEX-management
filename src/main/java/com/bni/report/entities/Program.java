@@ -1,5 +1,6 @@
 package com.bni.report.entities;
 
+import com.bni.report.entities.dto.ProgramInputDTO;
 import com.bni.report.entities.validators.ValidatorProgram;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -23,6 +24,8 @@ public class Program {
     private BigDecimal budget;
     private String pic;
     private String noUsulan;
+    private BigDecimal realisasi;
+    private BigDecimal sisa;
     @OneToMany(mappedBy = "program", cascade = CascadeType.ALL)
     private List<Kegiatan> kegiatan;
     @ManyToOne

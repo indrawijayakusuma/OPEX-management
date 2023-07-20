@@ -2,11 +2,13 @@ package com.bni.report.service;
 
 import com.bni.report.entities.Kegiatan;
 import com.bni.report.entities.Program;
-import com.bni.report.entities.validators.Validator;
 import com.bni.report.repositories.KegiatanRepository;
 import com.bni.report.repositories.ValidatorRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.*;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
@@ -61,10 +63,18 @@ public class KegiatanService {
         BigDecimal budget = programService.getById(programId).getBudget();
         Optional<Kegiatan> lastKegiatan = programs.stream().max(Comparator.comparing(Kegiatan::getDate));
         if (lastKegiatan.isPresent()) {
-            return lastKegiatan.get().getSisa();    
+            return lastKegiatan.get().getSisa();
         } else {
             return budget;
         }
+    }
+
+    public BigDecimal sumRealisasi(String programId) {
+        List<Kegiatan> kegiatan = kegiatanRepository.findByProgramId(programId);
+        BigDecimal reduce = kegiatan.stream()
+                .map(kegiatan1 -> kegiatan1.getRealisasi())
+                .reduce(new BigDecimal(0), BigDecimal::add);
+        return reduce;
     }
 
     public Page<Kegiatan> paginateGetALlKelompok(int currPage, int pageSize, Integer id) {

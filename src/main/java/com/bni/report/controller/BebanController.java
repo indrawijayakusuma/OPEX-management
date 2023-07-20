@@ -3,6 +3,7 @@ package com.bni.report.controller;
 import com.bni.report.entities.Beban;
 import com.bni.report.entities.Kelompok;
 import com.bni.report.entities.MataAnggaran;
+import com.bni.report.entities.dto.ProgramInputDTO;
 import com.bni.report.entities.validators.ValidatorBeban;
 import com.bni.report.service.BebanService;
 import com.bni.report.service.KelompokService;
@@ -62,6 +63,9 @@ public class BebanController {
         List<String> all = mataAnggaranService.getAll(idKelompok).stream()
                 .map(MataAnggaran::getMataAnggaran)
                 .collect(Collectors.toList());
+        List<String> namaMataanggarans = bebanService.getByKelompokId(idKelompok).stream()
+                .map(Beban::getName)
+                .toList();
 
         model.addAttribute("currentPage", currPage);
         model.addAttribute("totalPages", bebanPage.getTotalPages());
@@ -75,7 +79,10 @@ public class BebanController {
         model.addAttribute("keyword", keyword);
         model.addAttribute("bebansAdd", new Beban());
         model.addAttribute("mataAnggaranAdd", new MataAnggaran());
+        model.addAttribute("programAdd", new ProgramInputDTO());
         model.addAttribute("mataAnggarans", all);
+        model.addAttribute("mataAnggaransBeban", namaMataanggarans);
+
 
         return "ListBeban";
     }
