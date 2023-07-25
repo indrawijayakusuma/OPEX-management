@@ -23,4 +23,8 @@ public class MataAnggaranService {
     public String getNomerRekening(String mataAnggaran) {
         return mataAnggaranRepository.findByMataAnggaran(mataAnggaran).getNomerRekening();
     }
+
+    public MataAnggaran getByMataAnggaran(String mataAnggaran) {
+        return mataAnggaranRepository.findByMataAnggaran(mataAnggaran);
+    }
 }
