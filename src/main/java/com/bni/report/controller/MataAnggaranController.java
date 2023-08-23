@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import java.util.List;
 import java.util.Optional;
 
 @Controller
@@ -37,8 +38,10 @@ public class MataAnggaranController {
         return "AddMataAnggaran";
     }
 
-    @GetMapping("/mataanggaran/form/edit")
-    public String editForm(Model model){
+    @GetMapping("/mataanggaran/form/edit/{kelompokId}")
+    public String editForm(Model model, @PathVariable int kelompokId){
+        List<MataAnggaran> mataAnggaranList = mataAnggaranService.getAll(kelompokId);
+        model.addAttribute("listAnggaran", mataAnggaranList);
         model.addAttribute("mataAnggaran", new MataanggaranInputDTO());
         return "editMataAnggaran";
     }
