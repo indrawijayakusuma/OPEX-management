@@ -38,17 +38,27 @@ public class MataAnggaranController {
     }
 
     @GetMapping("/mataanggaran/form/edit")
-    public String editForm(Model model, @PathVariable String mataanggaran){
+    public String editForm(Model model){
         model.addAttribute("mataAnggaran", new MataanggaranInputDTO());
         return "editMataAnggaran";
     }
 
-    @GetMapping("/mataanggaran/edit")
+    @PostMapping("/mataanggaran/edit")
     public String edit(MataanggaranInputDTO mataanggaranInputDTO){
         String mataAnggaranEdit = mataanggaranInputDTO.getMataAnggaranEdit();
-        Beban bebanBudgetMataanggaran = bebanService.getByNamaMataanggaran(mataAnggaranEdit);
 
-       return "";
+        Beban bebanBudgetMataanggaran = bebanService.getByNamaMataanggaran(mataAnggaranEdit);
+        bebanBudgetMataanggaran.setNomerRekening(mataanggaranInputDTO.getNomerRekening());
+        bebanBudgetMataanggaran.setName(mataanggaranInputDTO.getMataAnggaran());
+
+        MataAnggaran byMataAnggaran = mataAnggaranService.getByMataAnggaran(mataAnggaranEdit);
+        byMataAnggaran.setNomerRekening(mataanggaranInputDTO.getNomerRekening());
+        byMataAnggaran.setMataAnggaran(mataanggaranInputDTO.getMataAnggaran());
+
+        bebanService.create(bebanBudgetMataanggaran);
+        mataAnggaranService.create(byMataAnggaran);
+
+        return "redirect:/beban/" + bebanBudgetMataanggaran.getKelompok();
     }
 
     @PostMapping("/mataanggaran/{kelompokId}")
