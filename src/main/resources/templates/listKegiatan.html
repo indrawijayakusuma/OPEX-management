@@ -24,8 +24,9 @@
   </div>
   <div class="lg:ml-36 ml-3">
     <h1 class="text-4xl mb-1 font-bold">DCU</h1>
-    <h1 class="text-xl font-bold">Realisasi <span th:text="${nameBeban}"></span></h1>
-    <P class="text-base text-slate-400">List Realisasi <span th:text="${nameBeban}"></span></P>
+    <h1 class="text-xl font-bold">Mata Anggaran : <span th:text="${nameBeban}"></span></h1>
+    <P class="text-xl font-bold">Budget Anggaran : <span>[[${#strings.replace(#numbers.formatCurrency(Budget), ',00','')}]]</span></P>
+<!--    <P class="text-base text-slate-400">Budget Anggaran : <span>[[${#strings.replace(#numbers.formatCurrency(Budget), ',00','')}]]</span></P>-->
   </div>
 
 <!--search and add-->

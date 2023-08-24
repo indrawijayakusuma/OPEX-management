@@ -41,8 +41,10 @@
         <thead>
         <tr class="border-b">
             <th class=" py-3"><a th:class="${sortField == 'name' ? 'underline decoration-4 underline-offset-4 decoration-orange-500' : 'hover:underline decoration-4 underline-offset-4 decoration-orange-500'}" th:href="@{'/program/page/'  + ${id} + '/' + ${currentPage} + '?' + ${keyword!=null && keyword!=''? 'keyword=' + keyword + '&' : ''} + 'sortField=name&sortDirection=' + ${reverseDirection}}"><span class="mr-6">Nama Program</span><i class="fa-solid fa-sort"></i></a></th>
-            <th class=" py-3"><a th:class="${sortField == 'budget' ? 'underline decoration-4 underline-offset-4 decoration-orange-500' : 'hover:underline decoration-4 underline-offset-4 decoration-orange-500'}" th:href="@{'/program/page/' + ${id} + '/' + ${currentPage} + '?' + ${keyword!=null && keyword!=''? 'keyword=' + keyword + '&' : ''} + 'sortField=budget&sortDirection=' + ${reverseDirection}}"><span class="mr-6" >Budget Program</span><i class="fa-solid fa-sort"></i></a></th>
             <th class=" py-3"><a th:class="${sortField == 'pic' ? 'underline decoration-4 underline-offset-4 decoration-orange-500' : 'hover:underline decoration-4 underline-offset-4 decoration-orange-500'}" th:href="@{'/program/page/' + ${id} + '/' + ${currentPage} + '?' + ${keyword!=null && keyword!=''? 'keyword=' + keyword + '&' : ''} + 'sortField=pic&sortDirection=' + ${reverseDirection}}"><span class="mr-6">PIC</span><i class="fa-solid fa-sort"></i></a></th>
+            <th class=" py-3"><a th:class="${sortField == 'budget' ? 'underline decoration-4 underline-offset-4 decoration-orange-500' : 'hover:underline decoration-4 underline-offset-4 decoration-orange-500'}" th:href="@{'/program/page/' + ${id} + '/' + ${currentPage} + '?' + ${keyword!=null && keyword!=''? 'keyword=' + keyword + '&' : ''} + 'sortField=budget&sortDirection=' + ${reverseDirection}}"><span class="mr-6" >Budget Program</span><i class="fa-solid fa-sort"></i></a></th>
+            <th class=" py-3"><a th:class="${sortField == 'realisasi' ? 'underline decoration-4 underline-offset-4 decoration-orange-500' : 'hover:underline decoration-4 underline-offset-4 decoration-orange-500'}" th:href="@{'/program/page/' + ${id} + '/' + ${currentPage} + '?' + ${keyword!=null && keyword!=''? 'keyword=' + keyword + '&' : ''} + 'sortField=realisasi&sortDirection=' + ${reverseDirection}}"><span class="mr-6" >Realisasi</span><i class="fa-solid fa-sort"></i></a></th>
+            <th class=" py-3"><a th:class="${sortField == 'sisa' ? 'underline decoration-4 underline-offset-4 decoration-orange-500' : 'hover:underline decoration-4 underline-offset-4 decoration-orange-500'}" th:href="@{'/program/page/' + ${id} + '/' + ${currentPage} + '?' + ${keyword!=null && keyword!=''? 'keyword=' + keyword + '&' : ''} + 'sortField=sisa&sortDirection=' + ${reverseDirection}}"><span class="mr-6" >Sisa</span><i class="fa-solid fa-sort"></i></a></th>
             <th class=" py-3"><a class="hover:underline decoration-4 underline-offset-4 decoration-orange-500" th:href="@{'/program/page/' + ${id} + '/' + ${currentPage} + '?' + ${keyword!=null && keyword!=''? 'keyword=' + keyword + '&' : ''} + 'sortField=realisasi&sortDirection=' + ${reverseDirection}}"><span class="mr-6">No.usulan</span><i class="fa-solid fa-sort"></i></a></th>
             <th class=" py-3"><a class="hover:underline decoration-4 underline-offset-4 decoration-orange-500" href="#"><span class="mr-6">Action</span><i class="fa-solid fa-sort"></i></a></th>
         </tr>
@@ -50,14 +52,16 @@
         <tbody class="divide-y text-center">
         <tr class="rounded-lg hover:shadow-lg group" th:each="program, status : ${programs}">
             <td class="py-6">[[${program.name}]]</td>
-            <td>[[${#strings.replace(#numbers.formatCurrency(program.budget), ',00','')}]]</td>
             <td>[[${program.pic}]]</td>
+            <td>[[${#strings.replace(#numbers.formatCurrency(program.budget), ',00','')}]]</td>
+            <td>[[${#strings.replace(#numbers.formatCurrency(program.realisasi), ',00','')}]]</td>
+            <td>[[${#strings.replace(#numbers.formatCurrency(program.sisa), ',00','')}]]</td>
             <td>[[${program.noUsulan}]]</td>
             <td class="">
                 <div class="flex-row space-x-4">
                     <a sec:authorize="hasAnyAuthority('ADMIN','INPUTER', 'SUPER_ADMIN')" th:href="@{'/program/update/' + ${program.id}}"><i class="fa-solid fa-pen-to-square fa-lg"></i></a>
                     <label sec:authorize="hasAnyAuthority('ADMIN','SUPER_ADMIN')" th:for="|my-modal${status.index}}|" class="cursor-pointer"><i class="fa-solid fa-trash"></i></label>
-                    <a th:href="@{'/kegiatan/' + ${program.id}}"><i class="fa-solid fa-eye"></i></a>
+                    <a th:href="@{'/kegiatan/' + ${program.id}}">View</a>
                 </div>
 
                 <!-- modal-->

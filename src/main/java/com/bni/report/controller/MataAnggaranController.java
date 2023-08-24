@@ -40,28 +40,37 @@ public class MataAnggaranController {
 
     @GetMapping("/mataanggaran/form/edit/{kelompokId}")
     public String editForm(Model model, @PathVariable int kelompokId){
-        List<MataAnggaran> mataAnggaranList = mataAnggaranService.getAll(kelompokId);
+        List<String> mataAnggaranList = mataAnggaranService.getAll(kelompokId)
+                .stream()
+                .map(MataAnggaran::getMataAnggaran)
+                .toList();
         model.addAttribute("listAnggaran", mataAnggaranList);
-        model.addAttribute("mataAnggaran", new MataanggaranInputDTO());
+        model.addAttribute("editMataAnggaran", new MataanggaranInputDTO());
+
         return "editMataAnggaran";
     }
 
     @PostMapping("/mataanggaran/edit")
-    public String edit(MataanggaranInputDTO mataanggaranInputDTO){
+    public String edit(@Valid @ModelAttribute(value = "mataAnggaran") MataanggaranInputDTO mataanggaranInputDTO, BindingResult result){
+        if (result.hasErrors()) {
+            return "editMataAnggaran";
+        }
         String mataAnggaranEdit = mataanggaranInputDTO.getMataAnggaranEdit();
 
         Beban bebanBudgetMataanggaran = bebanService.getByNamaMataanggaran(mataAnggaranEdit);
-        bebanBudgetMataanggaran.setNomerRekening(mataanggaranInputDTO.getNomerRekening());
-        bebanBudgetMataanggaran.setName(mataanggaranInputDTO.getMataAnggaran());
+        if (bebanBudgetMataanggaran != null){
+            bebanBudgetMataanggaran.setNomerRekening(mataanggaranInputDTO.getNomerRekening());
+            bebanBudgetMataanggaran.setName(mataanggaranInputDTO.getMataAnggaran());
+            bebanService.create(bebanBudgetMataanggaran);
+        }
 
         MataAnggaran byMataAnggaran = mataAnggaranService.getByMataAnggaran(mataAnggaranEdit);
         byMataAnggaran.setNomerRekening(mataanggaranInputDTO.getNomerRekening());
         byMataAnggaran.setMataAnggaran(mataanggaranInputDTO.getMataAnggaran());
 
-        bebanService.create(bebanBudgetMataanggaran);
         mataAnggaranService.create(byMataAnggaran);
 
-        return "redirect:/beban/" + bebanBudgetMataanggaran.getKelompok();
+        return "redirect:/beban/" + byMataAnggaran.getKelompok().getId();
     }
 
     @PostMapping("/mataanggaran/{kelompokId}")

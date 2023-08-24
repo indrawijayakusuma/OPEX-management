@@ -9,17 +9,17 @@ import org.springframework.stereotype.Component;
 import java.util.Objects;
 
 @Component
-public class UniqueFieldValidator implements ConstraintValidator<UniqueField, String> {
+public class UniqueMataanggaranValidator implements ConstraintValidator<UniqueMataanggaaran, String> {
 
     @Autowired
     private MataAnggaranRepository mataAnggaranRepository;
 
     @Override
-    public void initialize(UniqueField constraintAnnotation) {
+    public void initialize(UniqueMataanggaaran uniqueMataanggaaran) {
     }
 
     @Override
-    public boolean isValid(String nomerRekening, ConstraintValidatorContext constraintValidatorContext) {
-        return Objects.isNull(mataAnggaranRepository.findByNomerRekening(nomerRekening));
+    public boolean isValid(String mataAnggaran, ConstraintValidatorContext constraintValidatorContext) {
+        return Objects.isNull(mataAnggaranRepository.findByMataAnggaran(mataAnggaran));
     }
 }

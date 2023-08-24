@@ -27,7 +27,8 @@
                 <p th:if="${#fields.hasErrors('nomerRekening')}" class="text-red-500 mt-3 ml-4" th:errors="*{nomerRekening}"/>
             </div>
             <div class="my-5">
-                <input placeholder="Mata Anggaran" type="text" required class="p-6 border w-full h-11 rounded-xl" th:field="*{mataAnggaran}"/>
+                <input placeholder="Mata Anggaran" type="text" th:classappend="${#fields.hasErrors('mataAnggaran')} ? border-red-500 :''" required class="p-6 border w-full h-11 rounded-xl" th:field="*{mataAnggaran}"/>
+                <p th:if="${#fields.hasErrors('mataAnggaran')}" class="text-red-500 mt-3 ml-4" th:errors="*{mataAnggaran}"/>
             </div>
             <div class="flex justify-center mt-7">
                 <button class="bg-orange-500 border-0 py-3 hover:bg-orange-400 px-8 text-sm font-medium text-white rounded-full" type="submit">Submit</button>

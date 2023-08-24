@@ -76,7 +76,7 @@ public class BebanService {
     }
 
     public Beban getByNamaMataanggaran(String mataAnggaran) {
-        return bebanRepository.findByName(mataAnggaran);
+        return bebanRepository.findByName("test");
     }
 
     public Beban edit(Beban beban) {

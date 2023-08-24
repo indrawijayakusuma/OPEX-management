@@ -1,7 +1,9 @@
 package com.bni.report.entities;
 
+import com.bni.report.entities.dto.MataanggaranInputDTO;
 import com.bni.report.entities.validators.ValidatorMataAnggaran;
 import com.bni.report.validation.UniqueField;
+import com.bni.report.validation.UniqueMataanggaaran;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
@@ -22,7 +24,7 @@ public class MataAnggaran {
     @NotBlank
     @Column(unique = true)
     private String nomerRekening;
-    @UniqueField
+    @UniqueMataanggaaran(message = "Mata Anggaran sudah terdaftar")
     @NotBlank
     @Column(unique = true)
     private String mataAnggaran;
@@ -36,6 +38,7 @@ public class MataAnggaran {
         this.mataAnggaran = validatorMataAnggaran.getMataAnggaran();
         this.kelompok = validatorMataAnggaran.getKelompok();
     }
+
 
     public MataAnggaran(String nomerRekening, String mataAnggaran, Kelompok kelompok) {
         this.nomerRekening = nomerRekening;

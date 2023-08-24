@@ -50,7 +50,7 @@ public class ReportExcelService {
 
         XSSFRow row1 = sheet.createRow(1);
         XSSFCell cellNumber1 = row1.createCell(1);
-        cellNumber1.setCellValue("BUDGET");
+        cellNumber1.setCellValue("BUDGET ANGGARAN");
         cellNumber1.setCellStyle(cellStyle);
         XSSFCell budget = row1.createCell(3);
         budget.setCellValue(String.valueOf(kegiatan.getProgram().getBeban().getBudget()));

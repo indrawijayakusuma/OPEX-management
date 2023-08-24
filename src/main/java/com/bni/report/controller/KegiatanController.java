@@ -6,6 +6,7 @@ import com.bni.report.entities.validators.Validator;
 import com.bni.report.service.KegiatanService;
 import com.bni.report.service.ProgramService;
 import com.bni.report.service.ValidatorService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
@@ -19,7 +20,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-@Controller
+@Controller @Slf4j
 public class KegiatanController {
     @Autowired
     private KegiatanService kegiatanService;
@@ -47,6 +48,9 @@ public class KegiatanController {
         List<Kegiatan> kegiatanList = new ArrayList<>();
         kegiatanList = kegiatanPage.getContent();
 
+        String nameBeban = programService.getById(id).getBeban().getName();
+        BigDecimal Budget = programService.getById(id).getBeban().getBudget();
+
         Program program = programService.getById(id);
         Integer bebanId = program.getBeban().getId();
         BigDecimal sisaAkhir = kegiatanService.getSisa(id);
@@ -63,6 +67,8 @@ public class KegiatanController {
         model.addAttribute("kegiatans", kegiatanList);
 
         model.addAttribute("kegiatan", new Kegiatan());
+        model.addAttribute("nameBeban", nameBeban);
+        model.addAttribute("Budget", Budget);
 
         return "listKegiatan";
     }

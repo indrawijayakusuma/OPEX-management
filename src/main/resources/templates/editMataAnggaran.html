@@ -21,10 +21,10 @@
 <div class="p-5 container mt-16 mx-auto w-[40%]">
     <h1 class="text-center text-2xl font-bold mb-5">Edit Mata Anggaran</h1>
     <div class="w-full mt-9">
-        <form th:action="@{'/mataanggaran/'+ ${kelompokId}}" method="post" th:object="${mataAnggaran}">
+        <form th:action="@{/mataanggaran/edit}" method="post" th:object="${editMataAnggaran}">
             <div class="my-3">
                 <select class="py-3 px-6 pr-8 rounded border w-full rounded-xl" th:field="*{mataAnggaranEdit}">
-                    <option th:each="list : ${mataAnggaranList}" th:value="${list}" th:text="${list}"></option>
+                    <option th:each="mataAnggaranList : ${listAnggaran}" th:value="${mataAnggaranList}" th:text="${mataAnggaranList}"></option>
                 </select>
             </div>
             <div class="my-3">
@@ -32,7 +32,8 @@
                 <p th:if="${#fields.hasErrors('nomerRekening')}" class="text-red-500 mt-3 ml-4" th:errors="*{nomerRekening}"/>
             </div>
             <div class="my-5">
-                <input placeholder="Mata Anggaran" type="text" required class="p-6 border w-full h-11 rounded-xl" th:field="*{mataAnggaran}"/>
+                <input placeholder="Mata Anggaran" type="text" th:classappend="${#fields.hasErrors('mataAnggaran')} ? border-red-500 :''" required class="p-6 border w-full h-11 rounded-xl" th:field="*{mataAnggaran}"/>
+                <p th:if="${#fields.hasErrors('mataAnggaran')}" class="text-red-500 mt-3 ml-4" th:errors="*{mataAnggaran}"/>
             </div>
             <div class="flex justify-center mt-7">
                 <button class="bg-orange-500 border-0 py-3 hover:bg-orange-400 px-8 text-sm font-medium text-white rounded-full" type="submit">Submit</button>

@@ -15,7 +15,7 @@
 
 <!--button back-->
   <div class="mt-14 mb-14">
-    <a th:href="@{'/kelompok/' + ${id}}" class="ml-20 py-3 px-4 hover:bg-orange-400 rounded-full bg-[#FF6600] text-white text-sm font-medium"><i class="fa-solid fa-chevron-left fa-xl"></i><span class="mx-5">Back</span></a>
+    <a th:href="@{/}" class="ml-20 py-3 px-4 hover:bg-orange-400 rounded-full bg-[#FF6600] text-white text-sm font-medium"><i class="fa-solid fa-chevron-left fa-xl"></i><span class="mx-5">Back</span></a>
   </div>
 
 <!--text-->
@@ -64,7 +64,7 @@
           <div class="flex-row space-x-4">
             <a sec:authorize="hasAnyAuthority('ADMIN','INPUTER', 'SUPER_ADMIN')" th:href="@{'/beban/update/' + ${beban.id}}"><i class="fa-solid fa-pen-to-square fa-lg"></i></a>
             <label sec:authorize="hasAnyAuthority('ADMIN','SUPER_ADMIN')" th:for="|my-modal${status.index}}|" class="cursor-pointer"><i class="fa-solid fa-trash"></i></label>
-            <a th:href="@{'/program/' + ${beban.id}}"><i class="fa-solid fa-eye"></i></a>
+            <a th:href="@{'/program/' + ${beban.id}}">View</a>
           </div>
 
           <!-- modal-->
@@ -132,11 +132,11 @@
     <div class="modal-box relative">
       <label for="my-modal-4" class="btn btn-sm hover:bg-orange-400 bg-orange-500 border-0 btn-circle absolute right-2 top-2">✕</label>
       <div class="p-5">
-        <div class="flex gap-2">
+        <div class="flex gap-1">
           <a sec:authorize="hasAnyAuthority('ADMIN','INPUTER')" th:href="@{'/mataanggaran/form/' + ${id}}" class="text-white hover:bg-orange-400 p-4 cursor-pointer rounded-full bg-[#FF6600] border-0 text-sm font-medium">
             <i class="fa-solid fa-square-plus"></i><span class="mx-6">Mata Anggaran</span>
           </a>
-          <a sec:authorize="hasAnyAuthority('ADMIN','INPUTER')" th:href="@{'/mataanggaran/form/edit' + ${id}}}" class="text-white hover:bg-orange-400 p-4 cursor-pointer rounded-full bg-[#FF6600] border-0 text-sm font-medium">
+          <a sec:authorize="hasAnyAuthority('ADMIN','INPUTER')" th:href="@{'/mataanggaran/form/edit/' + ${id}}" class="text-white hover:bg-orange-400 p-4 cursor-pointer rounded-full bg-[#FF6600] border-0 text-sm font-medium">
             <i class="fa-solid fa-square-plus"></i><span class="mx-6">Edit Mata Anggaran</span>
           </a>
         </div>

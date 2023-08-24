@@ -27,4 +27,8 @@ public class MataAnggaranService {
     public MataAnggaran getByMataAnggaran(String mataAnggaran) {
         return mataAnggaranRepository.findByMataAnggaran(mataAnggaran);
     }
+
+    public void deletByMataanggaran(String mataAnggaran){
+        mataAnggaranRepository.deleteByMataAnggaran(mataAnggaran);
+    }
 }
