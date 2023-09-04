@@ -18,6 +18,7 @@ public class Kegiatan {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
+    private String keterangan;
     @ManyToOne
     @JoinColumn(name = "Program_id", nullable = false)
     private Program program;
@@ -29,14 +30,16 @@ public class Kegiatan {
 
     public Kegiatan(Validator validator) {
         this.budget = validator.getBudget();
+        this.keterangan = validator.getKeterangan();
         this.realisasi = validator.getRealisasi();
         this.sisa = validator.getSisa();
         this.program = validator.getProgram();
         this.date = validator.getDate();
     }
 
-    public Kegiatan(Integer id, Program program, BigDecimal realisasi, Date date) {
+    public Kegiatan(Integer id,String keterangan, Program program, BigDecimal realisasi, Date date) {
         this.id = id;
+        this.keterangan = keterangan;
         this.program = program;
         this.realisasi = realisasi;
         this.date = date;

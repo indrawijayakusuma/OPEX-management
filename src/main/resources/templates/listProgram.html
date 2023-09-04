@@ -24,16 +24,16 @@
     <P class="text-base text-slate-400">List Program <span th:text="${namaBeban}"></span></P>
 </div>
 
-<div class="md:flex lg:w-[90%] mx-auto justify-between mb-6 mt-9">
-    <form th:action="@{'/program/page/' + ${id} + '/' + ${currentPage}}" method="get">
-        <input placeholder="Search" type="text" class="p-6 border ml-8 h-11 md:w-96 rounded-2xl" required name="keyword" th:value="${keyword}" id="keyword"/>
-    </form>
-    <div class="my-auto">
-        <label sec:authorize="hasAnyAuthority('ADMIN','INPUTER')" for="my-modal-3" class="text-white hover:bg-orange-400 p-4 lg:mr-8 cursor-pointer rounded-full  bg-orange-500 border-0 text-sm font-medium">
-            <i class="ml-3 fa-solid fa-square-plus"></i><span class="mx-6">Add Program</span>
-        </label>
-    </div>
-</div>
+<!--<div class="md:flex lg:w-[90%] mx-auto justify-between mb-6 mt-9">-->
+<!--    <form th:action="@{'/program/page/' + ${id} + '/' + ${currentPage}}" method="get">-->
+<!--        <input placeholder="Search" type="text" class="p-6 border ml-8 h-11 md:w-96 rounded-2xl" required name="keyword" th:value="${keyword}" id="keyword"/>-->
+<!--    </form>-->
+<!--    <div class="my-auto">-->
+<!--        <label sec:authorize="hasAnyAuthority('ADMIN','INPUTER')" for="my-modal-3" class="text-white hover:bg-orange-400 p-4 lg:mr-8 cursor-pointer rounded-full  bg-orange-500 border-0 text-sm font-medium">-->
+<!--            <i class="ml-3 fa-solid fa-square-plus"></i><span class="mx-6">Add Program</span>-->
+<!--        </label>-->
+<!--    </div>-->
+<!--</div>-->
 
 <!--  table-->
 <div class="container shadow-lg p-8 lg:w-[90%] m-auto overflow-x-auto">

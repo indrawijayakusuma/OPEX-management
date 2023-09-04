@@ -76,7 +76,7 @@ public class BebanService {
     }
 
     public Beban getByNamaMataanggaran(String mataAnggaran) {
-        return bebanRepository.findByName("test");
+        return bebanRepository.findByName(mataAnggaran);
     }
 
     public Beban edit(Beban beban) {
@@ -125,19 +125,19 @@ public class BebanService {
         programs.add(new Program("programs", "Beban Rapat Kerja", new BigDecimal(6390080), "dedi", "123234", new Beban(1)));
 
         List<Kegiatan> kegitanList = new ArrayList<>();
-        kegitanList.add(new Kegiatan(34, new Program("6a38710b-56f0-45ac-9c4c-aa0967e5f257"), new BigDecimal(336700), new Date()));
-        kegitanList.add(new Kegiatan(32, new Program("6a38710b-56f0-45ac-9c4c-aa0967e5f257"), new BigDecimal(597000), new Date()));
-        kegitanList.add(new Kegiatan(45, new Program("6a38710b-56f0-45ac-9c4c-aa0967e5f257"), new BigDecimal(426000), new Date()));
-        kegitanList.add(new Kegiatan(643, new Program("6a38710b-56f0-45ac-9c4c-aa0967e5f257"), new BigDecimal(315750), new Date()));
-        kegitanList.add(new Kegiatan(546, new Program("6a38710b-56f0-45ac-9c4c-aa0967e5f257"), new BigDecimal(425998), new Date()));
-        kegitanList.add(new Kegiatan(425, new Program("6a38710b-56f0-45ac-9c4c-aa0967e5f257"), new BigDecimal(602000), new Date()));
-        kegitanList.add(new Kegiatan(6463, new Program("6a38710b-56f0-45ac-9c4c-aa0967e5f257"), new BigDecimal(185000), new Date()));
-        kegitanList.add(new Kegiatan(86, new Program("6a38710b-56f0-45ac-9c4c-aa0967e5f257"), new BigDecimal(433276), new Date()));
-        kegitanList.add(new Kegiatan(97, new Program("6a38710b-56f0-45ac-9c4c-aa0967e5f257"), new BigDecimal(395000), new Date()));
-        kegitanList.add(new Kegiatan(72, new Program("6a38710b-56f0-45ac-9c4c-aa0967e5f257"), new BigDecimal(534000), new Date()));
-        kegitanList.add(new Kegiatan(17, new Program("6a38710b-56f0-45ac-9c4c-aa0967e5f257"), new BigDecimal(400000), new Date()));
-        kegitanList.add(new Kegiatan(74, new Program("6a38710b-56f0-45ac-9c4c-aa0967e5f257"), new BigDecimal(168000), new Date()));
-        kegitanList.add(new Kegiatan(35, new Program("6a38710b-56f0-45ac-9c4c-aa0967e5f257"), new BigDecimal(229600), new Date()));
+//        kegitanList.add(new Kegiatan(34, new Program("6a38710b-56f0-45ac-9c4c-aa0967e5f257"), new BigDecimal(336700), new Date()));
+//        kegitanList.add(new Kegiatan(32, new Program("6a38710b-56f0-45ac-9c4c-aa0967e5f257"), new BigDecimal(597000), new Date()));
+//        kegitanList.add(new Kegiatan(45, new Program("6a38710b-56f0-45ac-9c4c-aa0967e5f257"), new BigDecimal(426000), new Date()));
+//        kegitanList.add(new Kegiatan(643, new Program("6a38710b-56f0-45ac-9c4c-aa0967e5f257"), new BigDecimal(315750), new Date()));
+//        kegitanList.add(new Kegiatan(546, new Program("6a38710b-56f0-45ac-9c4c-aa0967e5f257"), new BigDecimal(425998), new Date()));
+//        kegitanList.add(new Kegiatan(425, new Program("6a38710b-56f0-45ac-9c4c-aa0967e5f257"), new BigDecimal(602000), new Date()));
+//        kegitanList.add(new Kegiatan(6463, new Program("6a38710b-56f0-45ac-9c4c-aa0967e5f257"), new BigDecimal(185000), new Date()));
+//        kegitanList.add(new Kegiatan(86, new Program("6a38710b-56f0-45ac-9c4c-aa0967e5f257"), new BigDecimal(433276), new Date()));
+//        kegitanList.add(new Kegiatan(97, new Program("6a38710b-56f0-45ac-9c4c-aa0967e5f257"), new BigDecimal(395000), new Date()));
+//        kegitanList.add(new Kegiatan(72, new Program("6a38710b-56f0-45ac-9c4c-aa0967e5f257"), new BigDecimal(534000), new Date()));
+//        kegitanList.add(new Kegiatan(17, new Program("6a38710b-56f0-45ac-9c4c-aa0967e5f257"), new BigDecimal(400000), new Date()));
+//        kegitanList.add(new Kegiatan(74, new Program("6a38710b-56f0-45ac-9c4c-aa0967e5f257"), new BigDecimal(168000), new Date()));
+//        kegitanList.add(new Kegiatan(35, new Program("6a38710b-56f0-45ac-9c4c-aa0967e5f257"), new BigDecimal(229600), new Date()));
 
 //        kelompokRepository.saveAll(kelompokList);
 //        mataAnggaranRepository.saveAll(mataAnggarans);

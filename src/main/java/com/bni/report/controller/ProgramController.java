@@ -83,6 +83,7 @@ public class ProgramController {
         String namaMataAnggaran = programInputDTO.getNamaMataAnggaran();
         log.info(namaMataAnggaran);
         Beban beban = bebanService.getByNamaMataanggaran(namaMataAnggaran);
+        log.info(String.valueOf(beban.getId()));
         Optional.of(programInputDTO)
                 .map(ValidatorProgram::new)
                 .ifPresent(program -> {

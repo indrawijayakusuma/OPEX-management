@@ -20,6 +20,7 @@ public class Validator {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
+    private String keterangan;
     @ManyToOne
     @JoinColumn(name = "Program_id", nullable = false)
     private Program program;
@@ -34,13 +35,15 @@ public class Validator {
         this.realisasi = kegiatan.getRealisasi();
         this.sisa = kegiatan.getSisa();
         this.program = kegiatan.getProgram();
+        this.keterangan = kegiatan.getKeterangan();
         this.date = kegiatan.getDate();
     }
 
-    public Validator(BigDecimal budget, BigDecimal realisasi, BigDecimal sisa, Date date) {
+    public Validator(String keterangan, BigDecimal budget, BigDecimal realisasi, BigDecimal sisa, Date date) {
         this.budget = budget;
         this.realisasi = realisasi;
         this.sisa = sisa;
         this.date = date;
+        this.keterangan = keterangan;
     }
 }
