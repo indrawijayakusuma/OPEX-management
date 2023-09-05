@@ -108,12 +108,9 @@ public class BebanService {
         users.add(new User(7, "super admin", "$2a$12$SfBMDogva22862CCfL0E9Oi3AUftOXbAfHcNs6UCDGQpq25P3GQMi", "SUPER_ADMIN", new Kelompok(1)));
 
         List<Kelompok> kelompokList = new ArrayList<>();
-        kelompokList.add(new Kelompok("DCU"));
-        kelompokList.add(new Kelompok("DEP"));
-        kelompokList.add(new Kelompok("FPM"));
-        kelompokList.add(new Kelompok("FPD 1"));
-        kelompokList.add(new Kelompok("FPD 2"));
-        kelompokList.add(new Kelompok("FPD 3"));
+        kelompokList.add(new Kelompok("Mass & Payroll"));
+        kelompokList.add(new Kelompok("Affluent & Uppermass"));
+        kelompokList.add(new Kelompok("Business Owner"));
 
         List<MataAnggaran> mataAnggarans = new ArrayList<>();
         mataAnggarans.add(new MataAnggaran("743360550009001", "Beban Keperluan Kantor", new Kelompok(1)));

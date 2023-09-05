@@ -49,6 +49,7 @@ public class KegiatanController {
         kegiatanList = kegiatanPage.getContent();
 
         String nameBeban = programService.getById(id).getBeban().getName();
+        String kelompok = programService.getById(id).getBeban().getKelompok().getName();
         BigDecimal Budget = programService.getById(id).getBeban().getBudget();
         String rekening = programService.getById(id).getBeban().getNomerRekening();
         String namaProgram = programService.getById(id).getName();
@@ -75,6 +76,7 @@ public class KegiatanController {
         model.addAttribute("noUsulan", noUsulan);
         model.addAttribute("rekening", rekening);
         model.addAttribute("Budget", Budget);
+        model.addAttribute("kelompok", kelompok);
 
         return "listKegiatan";
     }

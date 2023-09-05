@@ -48,6 +48,7 @@ public class BebanController {
             @RequestParam(defaultValue = "asc") String sortDirection,
             Model model
     ) {
+
         int pageSize = 15;
         Page<Beban> bebanPage = null;
         if (keyword == null) {

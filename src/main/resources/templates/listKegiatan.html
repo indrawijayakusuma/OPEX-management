@@ -23,12 +23,12 @@
     <p>Error: <span th:text="${errorMessage}"></span></p>
   </div>
   <div class="lg:ml-36 ml-3">
-    <h1 class="text-4xl mb-1 font-bold">DCU</h1>
-    <h1 class="text-xl font-bold">Mata Anggaran : <span th:text="${nameBeban}"></span></h1>
+    <h1 class="text-4xl mb-1 font-bold"> <span th:text="${kelompok}"></span></h1>
+    <h1 class="text-lg font-medium">Mata Anggaran : <span th:text="${nameBeban}"></span></h1>
 <!--    <h1 class="text-xl font-bold">Nomer Rekening : <span th:text="${rekening}"></span></h1>-->
-    <P class="text-xl font-bold">Budget Anggaran : <span>[[${#strings.replace(#numbers.formatCurrency(Budget), ',00','')}]]</span></P>
-    <h1 class="text-xl font-bold">Nama Program  : <span th:text="${namaProgram}"></span></h1>
-    <h1 class="text-xl font-bold">No Usulan: <span th:text="${noUsulan}"></span></h1>
+    <P class="text-lg font-medium">Budget Anggaran : <span>[[${#strings.replace(#numbers.formatCurrency(Budget), ',00','')}]]</span></P>
+    <h1 class="text-lg font-medium">Nama Program  : <span th:text="${namaProgram}"></span></h1>
+    <h1 class="text-lg font-medium">No Usulan : <span th:text="${noUsulan}"></span></h1>
 
     <!--    <P class="text-base text-slate-400">Budget Anggaran : <span>[[${#strings.replace(#numbers.formatCurrency(Budget), ',00','')}]]</span></P>-->
   </div>
