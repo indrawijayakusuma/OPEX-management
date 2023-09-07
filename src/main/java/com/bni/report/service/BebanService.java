@@ -3,6 +3,7 @@ package com.bni.report.service;
 import com.bni.report.entities.*;
 import com.bni.report.repositories.*;
 import jakarta.annotation.PostConstruct;
+import org.apache.poi.hssf.model.InternalWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -15,6 +16,7 @@ import java.math.MathContext;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Component
@@ -45,13 +47,21 @@ public class BebanService {
     }
 
     public Page<Beban> getAll(Pageable pageable, Integer id) {
-        Page<Beban> all = bebanRepository.findByKelompokId(id, pageable);
+        Page<Beban> all = bebanRepository.getValidateBeban(id, pageable);
         all.stream().map(beban -> {
             Integer idBeban = beban.getId();
             countSisa(idBeban);
             return beban;
         }).collect(Collectors.toList());
         return all;
+    }
+
+    public Optional<Beban> getById(Integer id){
+        return bebanRepository.findById(id);
+    }
+
+    public Page<Beban> getAllUnvalidate(Integer idKelompok, Pageable pageable){
+        return bebanRepository.getUnValidateBeban(idKelompok, pageable);
     }
 
     public Page<Beban> paginateGetAll(int currPage, int pageSize, String sortField, String sortDirection, Integer id) {

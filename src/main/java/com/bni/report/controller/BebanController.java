@@ -4,12 +4,9 @@ import com.bni.report.entities.Beban;
 import com.bni.report.entities.Kelompok;
 import com.bni.report.entities.MataAnggaran;
 import com.bni.report.entities.dto.ProgramInputDTO;
-import com.bni.report.entities.validators.ValidatorBeban;
 import com.bni.report.service.BebanService;
 import com.bni.report.service.KelompokService;
 import com.bni.report.service.MataAnggaranService;
-import com.bni.report.service.ValidatorBebanService;
-import lombok.extern.flogger.Flogger;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -19,7 +16,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Controller
@@ -31,8 +27,7 @@ public class BebanController {
     private KelompokService kelompokService;
     @Autowired
     private MataAnggaranService mataAnggaranService;
-    @Autowired
-    private ValidatorBebanService validatorBebanService;
+
 
     @GetMapping("/beban/{id}")
     public String getAll(@PathVariable Integer id, Model model) {
@@ -100,10 +95,8 @@ public class BebanController {
         String nomerRekening = mataAnggaranService.getNomerRekening(beban.getName());
         beban.setKelompok(new Kelompok(kelompokId));
         beban.setNomerRekening(nomerRekening);
-        Optional.of(beban).map(ValidatorBeban::new).ifPresent(beban1 -> {
-            validatorBebanService.create(beban1);
-            bebanService.delete(beban1.getId());
-        });
+        beban.setValidate(false);
+        bebanService.create(beban);
         return "redirect:/beban/" + kelompokId;
     }
 
@@ -126,9 +119,8 @@ public class BebanController {
     public String update(Beban beban) {
         String nomerRekening = mataAnggaranService.getNomerRekening(beban.getName());
         beban.setNomerRekening(nomerRekening);
-        ValidatorBeban validatorBeban = Optional.of(beban).map(ValidatorBeban::new).get();
-        validatorBebanService.create(validatorBeban);
-        bebanService.delete(beban.getId());
+        beban.setValidate(false);
+        bebanService.create(beban);
         return "redirect:/beban/" + beban.getKelompok().getId();
     }
 

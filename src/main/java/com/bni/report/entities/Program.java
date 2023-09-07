@@ -31,6 +31,7 @@ public class Program {
     @ManyToOne
     @JoinColumn(name = "Beban_id", nullable = false)
     private Beban beban;
+    private Boolean validate;
 
     public Program(String id) {
         this.id = id;
@@ -43,6 +44,13 @@ public class Program {
         this.pic = pic;
         this.noUsulan = noUsulan;
         this.beban = beban;
+    }
+
+    public Program(ProgramInputDTO programInputDTO) {
+        this.name = programInputDTO.getName();
+        this.budget = programInputDTO.getBudget();
+        this.pic = programInputDTO.getPic();
+        this.noUsulan = programInputDTO.getNoUsulan();
     }
 
     public Program(ValidatorProgram program) {

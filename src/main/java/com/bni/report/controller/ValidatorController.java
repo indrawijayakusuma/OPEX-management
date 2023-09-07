@@ -5,7 +5,6 @@ import com.bni.report.entities.Kegiatan;
 import com.bni.report.entities.MataAnggaran;
 import com.bni.report.entities.Program;
 import com.bni.report.entities.validators.Validator;
-import com.bni.report.entities.validators.ValidatorBeban;
 import com.bni.report.entities.validators.ValidatorMataAnggaran;
 import com.bni.report.entities.validators.ValidatorProgram;
 import com.bni.report.service.*;
@@ -17,7 +16,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -32,8 +30,6 @@ public class ValidatorController {
     private KegiatanService kegiatanService;
     @Autowired
     private ValidatorProgramService validatorProgramService;
-    @Autowired
-    private ValidatorBebanService validatorBebanService;
     @Autowired
     private ValidatorMataAnggaranService validatorMataAnggaranService;
     @Autowired
@@ -59,23 +55,23 @@ public class ValidatorController {
         int pageSize = 9;
         String user = authentication.getName();
         Page<Validator> validators = null;
-        Page<ValidatorProgram> validatorsProgram = null;
-        Page<ValidatorBeban> validatorsBeban = null;
+        Page<Program> validatorsProgram = null;
+        Page<Beban> validatorsBeban = null;
         Page<ValidatorMataAnggaran> validatorMataAnggarans = null;
 
         List<Validator> validatorList = null;
-        List<ValidatorProgram> validatorProgramList = null;
-        List<ValidatorBeban> validatorsBebanList = null;
+        List<Program> validatorProgramList = null;
+        List<Beban> validatorsBebanList = null;
         List<ValidatorMataAnggaran> validatorMataAnggaranList = null;
 
         if (list.equalsIgnoreCase("validatorKegiatan")) {
             validators = validatorService.paginateGetALl(currPage, pageSize, sortDirection, sortField, user);
             validatorList = validators.getContent();
         } else if (list.equalsIgnoreCase("validatorProgram")) {
-            validatorsProgram = validatorProgramService.paginateGetALl(currPage, pageSize, sortDirection, sortField, user);
+            validatorsProgram = validatorService.paginateGetALlProgram(currPage, pageSize, sortDirection, sortField, user);
             validatorProgramList = validatorsProgram.getContent();
         } else if (list.equalsIgnoreCase("validatorBeban")) {
-            validatorsBeban = validatorBebanService.paginateGetALl(currPage, pageSize, sortDirection, sortField, user);
+            validatorsBeban = validatorService.paginateGetALlBeban(currPage, pageSize, sortDirection, sortField, user);
             validatorsBebanList = validatorsBeban.getContent();
         } else if (list.equalsIgnoreCase("validatorMataAnggaran")) {
             validatorMataAnggarans = validatorMataAnggaranService.paginateGetALl(currPage, pageSize, sortDirection, sortField, user);
@@ -110,9 +106,9 @@ public class ValidatorController {
     @GetMapping("/validator/validate/program/{id}")
     @PreAuthorize("hasAuthority('ADMIN')")
     public String validateProgram(@PathVariable String id) {
-        validatorProgramService.findByid(id).map(Program::new).ifPresent(program -> {
+        programService.getByIdOpt(id).ifPresent(program -> {
+            program.setValidate(true);
             programService.create(program);
-            validatorProgramService.delete(id);
         });
         return "redirect:/validator/page/1?list=validatorProgram";
     }
@@ -120,9 +116,9 @@ public class ValidatorController {
     @GetMapping("/validator/validate/beban/{id}")
     @PreAuthorize("hasAuthority('ADMIN')")
     public String validateBeban(@PathVariable Integer id) {
-        validatorBebanService.findByid(id).map(Beban::new).ifPresent(beban -> {
+        bebanService.getById(id).ifPresent(beban -> {
+            beban.setValidate(true);
             bebanService.create(beban);
-            validatorBebanService.delete(id);
         });
         return "redirect:/validator/page/1?list=validatorBeban";
     }
@@ -152,21 +148,21 @@ public class ValidatorController {
     @GetMapping("/validator/update/program/{id}")
     @PreAuthorize("hasAuthority('ADMIN')")
     public String formUpdateProgram(@PathVariable String id, Model model) {
-        Optional<ValidatorProgram> byId = validatorProgramService.findByid(id);
+        Optional<Program> byId = programService.getByIdOpt(id);
         if (byId.isPresent()) {
-            ValidatorProgram program = byId.get();
+            Program program = byId.get();
             model.addAttribute("program", program);
             return "formUpdateValidatorProgram";
         }
-        return "redirect:/validator";
+        return "redirect:/validator/page/1?list=validatorProgram";
     }
 
     @GetMapping("/validator/update/beban/{id}")
     @PreAuthorize("hasAuthority('ADMIN')")
     public String formUpdateBeban(@PathVariable Integer id, Model model) {
-        Optional<ValidatorBeban> byId = validatorBebanService.findByid(id);
-        if (byId.isPresent()) {
-            ValidatorBeban program = byId.get();
+        Optional<Beban> beban = bebanService.getById(id);
+        if (beban.isPresent()) {
+            Beban program = beban.get();
             Integer kelompokId = program.getKelompok().getId();
             List<String> all = mataAnggaranService.getAll(kelompokId).stream()
                     .map(MataAnggaran::getMataAnggaran)
@@ -199,17 +195,19 @@ public class ValidatorController {
 
     @PostMapping("/validator/update/program")
     @PreAuthorize("hasAuthority('ADMIN')")
-    public String updateProgram(ValidatorProgram validator) {
-        validatorProgramService.create(validator);
+    public String updateProgram(Program validator) {
+        validator.setValidate(false);
+        programService.create(validator);
         return "redirect:/validator/page/1?list=validatorProgram";
     }
 
     @PostMapping("/validator/update/beban")
     @PreAuthorize("hasAuthority('ADMIN')")
-    public String updateBeban(ValidatorBeban validator) {
+    public String updateBeban(Beban validator) {
         String nomerRekening = mataAnggaranService.getNomerRekening(validator.getName());
         validator.setNomerRekening(nomerRekening);
-        validatorBebanService.create(validator);
+        validator.setValidate(false);
+        bebanService.create(validator);
         return "redirect:/validator/page/1?list=validatorBeban";
     }
 

@@ -15,11 +15,11 @@
     <div th:replace="fragments/navbar :: header"></div>
     <div class="mt-14">
         <div class="">
-            <a th:href="@{/validator}" class="ml-56 py-3 px-4 hover:bg-orange-400 rounded-full bg-orange-500 text-white text-sm font-medium"><i class="fa-solid fa-chevron-left fa-xl"></i><span class="mx-5">Back</span></a>
+            <a th:href="@{/validator/page/1?list=validatorProgram}" class="ml-56 py-3 px-4 hover:bg-orange-400 rounded-full bg-orange-500 text-white text-sm font-medium"><i class="fa-solid fa-chevron-left fa-xl"></i><span class="mx-5">Back</span></a>
         </div>
     </div>
     <div class="p-5 my-3 container mt-8 mx-auto w-1/2">
-        <h1 class="text-center text-lg font-bold mb-5">Add Realisasi</h1>
+        <h1 class="text-center text-lg font-bold mb-5">Add Program</h1>
         <div class="w-full">
             <form th:action="@{/validator/update/program}" method="post" th:object="${program}">
                 <input hidden="hidden" th:field="*{id}">

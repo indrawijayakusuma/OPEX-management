@@ -1,5 +1,6 @@
 package com.bni.report.service;
 
+import com.bni.report.entities.Beban;
 import com.bni.report.entities.Program;
 import com.bni.report.repositories.ProgramRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +10,7 @@ import org.springframework.stereotype.Component;
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 
 @Component
 public class ProgramService {
@@ -18,7 +20,7 @@ public class ProgramService {
     private KegiatanService kegiatanService;
 
     public Page<Program> getAll(Pageable pageable, Integer id) {
-        Page<Program> byBebanId = programRepository.findByBebanId(id, pageable);
+        Page<Program> byBebanId = programRepository.getAllByBebanId(id, pageable);
         List<Program> programs = byBebanId.stream().peek(program -> {
             BigDecimal sisa = kegiatanService.getSisa(program.getId());
             BigDecimal sumRealisasi = kegiatanService.sumRealisasi(program.getId());
@@ -41,6 +43,10 @@ public class ProgramService {
         return programRepository.search(keyword, id, pageable);
     }
 
+    public Page<Program> getAllUnvalidate(Integer idKelompok, Pageable pageable){
+        return programRepository.getUnValidateBeban(idKelompok, pageable);
+    }
+
     public Program create(Program program) {
         return programRepository.save(program);
     }
@@ -51,6 +57,9 @@ public class ProgramService {
 
     public Program getById(String id) {
         return programRepository.findById(id).get();
+    }
+    public Optional<Program> getByIdOpt(String id) {
+        return programRepository.findById(id);
     }
 
     public BigDecimal addNominalProgram(Integer id) {
