@@ -1,6 +1,5 @@
 package com.bni.report.entities;
 
-import com.bni.report.entities.validators.ValidatorProgram;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -26,8 +25,6 @@ public class Beban {
     private Kelompok kelompok;
     @OneToMany(mappedBy = "beban", cascade = CascadeType.ALL)
     private List<Program> program;
-    @OneToMany(mappedBy = "beban", cascade = CascadeType.ALL)
-    private List<ValidatorProgram> validatorPrograms;
     private BigDecimal budget;
     private BigDecimal realisasi;
     private BigDecimal sisa;

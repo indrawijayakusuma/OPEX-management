@@ -34,10 +34,6 @@ public class KegiatanController {
         return paginateGetAll(id, 1, model);
     }
 
-    @GetMapping("/kegiatan/kelompok/{id}")
-    public String getAllKelompok(Model model, @PathVariable(value = "id") Integer id) {
-        return paginateGetAllKelompok(id, 1, model);
-    }
 
     @GetMapping("/kegiatan/page/{id}/{no}")
     public String paginateGetAll(@PathVariable(value = "id") String id, @PathVariable(value = "no") int currPage, Model model) {
@@ -81,27 +77,12 @@ public class KegiatanController {
         return "listKegiatan";
     }
 
-    @GetMapping("/kegiatan/kelompok/page/{id}/{no}")
-    public String paginateGetAllKelompok(@PathVariable(value = "id") Integer id, @PathVariable(value = "no") int currPage, Model model) {
-        int pageSize = 15;
-        Page<Kegiatan> kegiatanPage = null;
-        kegiatanPage = kegiatanService.paginateGetALlKelompok(currPage, pageSize, id);
-
-        List<Kegiatan> kegiatanList = new ArrayList<>();
-        kegiatanList = kegiatanPage.getContent();
-
-        model.addAttribute("nameBeban", "name1");
-        model.addAttribute("currentPage", currPage);
-        model.addAttribute("kegiatans", kegiatanList);
-
-        return "listAllKegiatan";
-    }
-
     @GetMapping("/kegiatan/update/{id}")
     public String formUpdateKegiatan(@PathVariable Integer id, Model model) {
-        Kegiatan byId = kegiatanService.findById(id);
+        Kegiatan byId = kegiatanService.findById(id).get();
         Integer idKelompok = byId.getProgram().getBeban().getKelompok().getId();
         model.addAttribute("kelompokId", idKelompok);
+        model.addAttribute("idProgram", byId.getProgram().getId());
         model.addAttribute("kegiatans", byId);
         return "formUpdateKegiatan";
     }
@@ -109,25 +90,21 @@ public class KegiatanController {
     @PostMapping("/kegiatan/{idProgram}")
     public String add(@PathVariable String idProgram, Kegiatan kegiatan) {
         kegiatan.setProgram(new Program(idProgram));
-        Validator validator = Optional.of(kegiatan).map(Validator::new).get();
-        validatorService.create(validator);
+        kegiatan.setValidate(false);
+        kegiatanService.create(kegiatan);
         return "redirect:/kegiatan/" + idProgram;
     }
 
     @PostMapping("/kegiatan")
     public String update(Kegiatan kegiatan) {
-        Optional<Validator> validatorOpt = Optional.of(kegiatan).map(Validator::new);
-        validatorOpt.ifPresent(value -> {
-            Validator validator = value;
-            validatorService.create(validator);
-            kegiatanService.delete(kegiatan.getId());
-        });
+        kegiatan.setValidate(false);
+        kegiatanService.create(kegiatan);
         return "redirect:/kegiatan/" + kegiatan.getProgram().getId();
     }
 
     @GetMapping("/kegiatan/delete/{id}")
     public String delete(@PathVariable Integer id) {
-        String idProgram = kegiatanService.findById(id).getProgram().getId();
+        String idProgram = kegiatanService.findById(id).get().getProgram().getId();
         kegiatanService.delete(id);
         return "redirect:/kegiatan/" + idProgram;
     }

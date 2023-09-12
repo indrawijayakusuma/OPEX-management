@@ -30,14 +30,6 @@ public class Validator {
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date date;
 
-    public Validator(Kegiatan kegiatan) {
-        this.budget = kegiatan.getBudget();
-        this.realisasi = kegiatan.getRealisasi();
-        this.sisa = kegiatan.getSisa();
-        this.program = kegiatan.getProgram();
-        this.keterangan = kegiatan.getKeterangan();
-        this.date = kegiatan.getDate();
-    }
 
     public Validator(String keterangan, BigDecimal budget, BigDecimal realisasi, BigDecimal sisa, Date date) {
         this.budget = budget;

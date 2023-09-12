@@ -1,10 +1,8 @@
 package com.bni.report.service;
 
-import com.bni.report.entities.Beban;
-import com.bni.report.entities.Program;
-import com.bni.report.entities.User;
+import com.bni.report.entities.*;
 import com.bni.report.entities.validators.Validator;
-import com.bni.report.entities.validators.ValidatorProgram;
+import com.bni.report.entities.validators.ValidatorMataAnggaran;
 import com.bni.report.repositories.KegiatanRepository;
 import com.bni.report.repositories.ValidatorRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -56,7 +54,7 @@ public class ValidatorService {
     }
 //end program
 
-    public Page<Validator> paginateGetALl(int currPage, int pageSize, String sortDirection, String sortField, String user) {
+    public Page<Kegiatan> paginateGetALl(int currPage, int pageSize, String sortDirection, String sortField, String user) {
         User userGet = userService.findByName(user).orElseThrow(() -> new RuntimeException("not found"));
         Integer id = userGet.getKelompok().getId();
         Sort sort = sortDirection.equalsIgnoreCase(Sort.Direction.ASC.name()) ? Sort.by(sortField).ascending() : Sort.by(sortField).descending();
@@ -64,11 +62,8 @@ public class ValidatorService {
         return getAll(pageable, id);
     }
 
-    public Page<Validator> getAll(Pageable pageable, int kelompok) {
-        List<Validator> collect = validatorRepository.findAll().stream()
-                .filter(validator -> validator.getProgram().getBeban().getKelompok().getId() == kelompok)
-                .collect(Collectors.toList());
-        return new PageImpl<>(collect);
+    public Page<Kegiatan> getAll(Pageable pageable, int kelompok) {
+        return kegiatanRepository.getUnValidateKegiatan(kelompok, pageable);
     }
 
     public Optional<Validator> findById(Integer id) {

@@ -8,7 +8,7 @@
     <link href="https://cdn.jsdelivr.net/npm/daisyui@2.51.5/dist/full.css" rel="stylesheet" type="text/css" />
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://kit.fontawesome.com/b249ac0a69.js" crossorigin="anonymous"></script>
-    <title>update</title>
+    <title>Edit Budget Mataanggaran</title>
 </head>
 <body>
 <!--  navbar-->
@@ -19,7 +19,7 @@
         </div>
     </div>
     <div class="p-5 my-3 container mt-8 mx-auto w-1/2">
-        <h1 class="text-center text-lg font-bold mb-5">Edit Mata Anggaran</h1>
+        <h1 class="text-center text-lg font-bold mb-5">Edit Budget MataAnggaran</h1>
         <div class="w-full">
             <form th:action="@{/beban/update}" method="post" th:object="${bebans}">
                 <input hidden="hidden" th:field="*{id}">

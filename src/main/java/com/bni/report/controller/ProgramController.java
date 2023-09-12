@@ -3,11 +3,9 @@ package com.bni.report.controller;
 import com.bni.report.entities.Beban;
 import com.bni.report.entities.Program;
 import com.bni.report.entities.dto.ProgramInputDTO;
-import com.bni.report.entities.validators.ValidatorProgram;
 import com.bni.report.service.BebanService;
 import com.bni.report.service.MataAnggaranService;
 import com.bni.report.service.ProgramService;
-import com.bni.report.service.ValidatorProgramService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -28,8 +26,6 @@ public class ProgramController {
     private ProgramService programService;
     @Autowired
     private BebanService bebanService;
-    @Autowired
-    private ValidatorProgramService validatorProgramService;
     @Autowired
     private MataAnggaranService mataAnggaranService;
 

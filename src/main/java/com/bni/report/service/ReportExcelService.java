@@ -40,7 +40,7 @@ public class ReportExcelService {
         numberFormat.cloneStyleFrom(cellStyle);
         numberFormat.setDataFormat(creationHelper.createDataFormat().getFormat("_-[$Rp-id-ID]* #,##0_-;-[$Rp-id-ID]* #,##0_-;_-[$Rp-id-ID]* \"-\"_-;_-@_-"));
 
-        XSSFRow row = sheet.createRow(0);
+        XSSFRow row = sheet.createRow(2);
         XSSFCell mataAnggaran = row.createCell(1);
         mataAnggaran.setCellValue("MATA ANGGARAN");
         mataAnggaran.setCellStyle(cellStyle);
@@ -56,7 +56,7 @@ public class ReportExcelService {
         budget.setCellValue(String.valueOf(kegiatan.getProgram().getBeban().getBudget()));
         budget.setCellStyle(numberFormat);
 
-        XSSFRow row2 = sheet.createRow(2);
+        XSSFRow row2 = sheet.createRow(0);
         XSSFCell cellKelompok = row2.createCell(1);
         cellKelompok.setCellValue("KELOMPOK");
         cellKelompok.setCellStyle(cellStyle);
@@ -64,21 +64,29 @@ public class ReportExcelService {
         cellKelompok1.setCellValue(kegiatan.getProgram().getBeban().getKelompok().getName());
         cellKelompok1.setCellStyle(cellStyle);
 
-        XSSFRow row3 = sheet.createRow(3);
+        XSSFRow row3 = sheet.createRow(4);
         XSSFCell cellKodeUnit= row3.createCell(1);
-        cellKodeUnit.setCellValue("KODE UNIT");
+        cellKodeUnit.setCellValue("Nama Program");
         cellKodeUnit.setCellStyle(cellStyle);
         XSSFCell cellKodeUnit1 = row3.createCell(3);
-        cellKodeUnit1.setCellValue("324");
+        cellKodeUnit1.setCellValue(kegiatan.getProgram().getName());
         cellKodeUnit1.setCellStyle(cellStyle);
 
-        XSSFRow row4 = sheet.createRow(4);
+        XSSFRow row4 = sheet.createRow(3);
         XSSFCell cellNomer = row4.createCell(1);
         cellNomer.setCellValue("NOMER REKENING");
         cellNomer.setCellStyle(cellStyle);
         XSSFCell cellNomer1 = row4.createCell(3);
         cellNomer1.setCellValue(kegiatan.getProgram().getBeban().getNomerRekening());
         cellNomer1.setCellStyle(cellStyle);
+
+        XSSFRow row5 = sheet.createRow(5);
+        XSSFCell cellNousulan= row5.createCell(1);
+        cellNousulan.setCellValue("No Usulan");
+        cellNousulan.setCellStyle(cellStyle);
+        XSSFCell cellNousulan1 = row5.createCell(3);
+        cellNousulan1.setCellValue(kegiatan.getProgram().getNoUsulan());
+        cellNousulan1.setCellStyle(cellStyle);
     }
 
     public void generateHeader(XSSFWorkbook workbook, XSSFSheet sheet) {
@@ -92,7 +100,7 @@ public class ReportExcelService {
         cellStyle.setVerticalAlignment(VerticalAlignment.CENTER);
         cellStyle.setFont(font);
 
-        XSSFRow row = sheet.createRow(5);
+        XSSFRow row = sheet.createRow(6);
         row.setHeight((short) 500);
 
         XSSFCell cellnumber = row.createCell(0);
@@ -100,34 +108,30 @@ public class ReportExcelService {
         cellnumber.setCellStyle(cellStyle);
 
         XSSFCell cellMataAnggaran = row.createCell(1);
-        cellMataAnggaran.setCellValue("Nama Program");
+        cellMataAnggaran.setCellValue("Keterangan");
         cellMataAnggaran.setCellStyle(cellStyle);
 
         XSSFCell cellGap = row.createCell(2);
         cellGap.setCellValue("");
         cellGap.setCellStyle(cellStyle);
 
-        XSSFCell cell = row.createCell(3);
-        cell.setCellValue("No.Usulan");
-        cell.setCellStyle(cellStyle);
-
-        XSSFCell BudgetProgram = row.createCell(4);
+        XSSFCell BudgetProgram = row.createCell(3);
         BudgetProgram.setCellValue("Budget program");
         BudgetProgram.setCellStyle(cellStyle);
 
-        XSSFCell cellRealisasi = row.createCell(5);
+        XSSFCell cellRealisasi = row.createCell(4);
         cellRealisasi.setCellValue("Realisasi Program");
         cellRealisasi.setCellStyle(cellStyle);
 
-        XSSFCell cellNominal = row.createCell(6);
+        XSSFCell cellNominal = row.createCell(5);
         cellNominal.setCellValue("Sisa Budget");
         cellNominal.setCellStyle(cellStyle);
 
-        XSSFCell cellPic = row.createCell(7);
+        XSSFCell cellPic = row.createCell(6);
         cellPic.setCellValue("Pic");
         cellPic.setCellStyle(cellStyle);
 
-        XSSFCell cellDate = row.createCell(8);
+        XSSFCell cellDate = row.createCell(7);
         cellDate.setCellValue("Date");
         cellDate.setCellStyle(cellStyle);
     }
@@ -162,7 +166,7 @@ public class ReportExcelService {
         cellDateStyle.cloneStyleFrom(cellStyle);
         cellDateStyle.setDataFormat((short) 14);
 
-        AtomicInteger counter = new AtomicInteger(6);
+        AtomicInteger counter = new AtomicInteger(7);
         AtomicInteger number = new AtomicInteger(1);
         kegiatans.stream().forEach(kegiatan -> {
             XSSFRow row = sheet.createRow(counter.get());
@@ -173,34 +177,30 @@ public class ReportExcelService {
             cellNumber.setCellStyle(cellStyle);
 
             XSSFCell cellName = row.createCell(1);
-            cellName.setCellValue(kegiatan.getProgram().getName());
+            cellName.setCellValue(kegiatan.getKeterangan());
             cellName.setCellStyle(cellDateStyle);
 
             XSSFCell cellGap = row.createCell(2);
             cellGap.setCellValue("");
             cellGap.setCellStyle(cellStyle);
 
-            XSSFCell cell = row.createCell(3);
-            cell.setCellValue(kegiatan.getProgram().getNoUsulan());
-            cell.setCellStyle(cellStyle);
-
-            XSSFCell cellBudget = row.createCell(4);
+            XSSFCell cellBudget = row.createCell(3);
             cellBudget.setCellValue(kegiatan.getBudget().doubleValue());
             cellBudget.setCellStyle(cellStyleLeft);
 
-            XSSFCell cellRealisasi = row.createCell(5);
+            XSSFCell cellRealisasi = row.createCell(4);
             cellRealisasi.setCellValue(kegiatan.getRealisasi().doubleValue());
             cellRealisasi.setCellStyle(cellStyleLeft);
 
-            XSSFCell cellSisa = row.createCell(6);
+            XSSFCell cellSisa = row.createCell(5);
             cellSisa.setCellValue(kegiatan.getSisa().doubleValue());
             cellSisa.setCellStyle(cellStyleLeft);
 
-            XSSFCell cellPic = row.createCell(7);
+            XSSFCell cellPic = row.createCell(6);
             cellPic.setCellValue(kegiatan.getProgram().getNoUsulan());
             cellPic.setCellStyle(cellStyle);
 
-            XSSFCell cellNominal = row.createCell(8);
+            XSSFCell cellNominal = row.createCell(7);
             cellNominal.setCellValue(kegiatan.getDate());
             cellNominal.setCellStyle(cellDateStyle);
 
@@ -223,12 +223,12 @@ public class ReportExcelService {
         numberFormat.cloneStyleFrom(cellStyle);
         numberFormat.setDataFormat(creationHelper.createDataFormat().getFormat("_-[$Rp-id-ID]* #,##0_-;-[$Rp-id-ID]* #,##0_-;_-[$Rp-id-ID]* \"-\"_-;_-@_-"));
 
-        CellRangeAddress cellAddresses = new CellRangeAddress(size + 6, size + 6, 0, 4);
-        CellRangeAddress cellAddresses1 = new CellRangeAddress(size + 6, size + 6, 5, 8);
+        CellRangeAddress cellAddresses = new CellRangeAddress(size + 7, size + 7, 0, 4);
+        CellRangeAddress cellAddresses1 = new CellRangeAddress(size + 7, size + 7, 5, 7);
         sheet.addMergedRegion(cellAddresses);
         sheet.addMergedRegion(cellAddresses1);
 
-        XSSFRow row = sheet.createRow(size + 6);
+        XSSFRow row = sheet.createRow(size + 7);
         row.setHeight((short) 500);
         XSSFCell cellnumber = row.createCell(0);
         cellnumber.setCellValue("Sisa");
@@ -254,9 +254,6 @@ public class ReportExcelService {
          XSSFCell cellnumber7 = row.createCell(7);
         cellnumber7.setCellValue("");
         cellnumber7.setCellStyle(cellStyle);
-        XSSFCell cellnumber8 = row.createCell(8);
-        cellnumber8.setCellValue("");
-        cellnumber8.setCellStyle(cellStyle);
     }
 
     public void generateExcel(HttpServletResponse response, String id) throws IOException {

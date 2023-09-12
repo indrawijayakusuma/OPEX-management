@@ -31,6 +31,7 @@ public class ValidatorMataAnggaran {
     @JoinColumn(name = "Kelompok_id", nullable = false)
     private Kelompok kelompok;
 
+
     public ValidatorMataAnggaran(MataAnggaran anggaran) {
         this.id = anggaran.getId();
         this.nomerRekening = anggaran.getNomerRekening();

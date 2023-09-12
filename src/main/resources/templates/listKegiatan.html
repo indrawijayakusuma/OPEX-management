@@ -7,7 +7,7 @@
   <link href="https://cdn.jsdelivr.net/npm/daisyui@2.51.5/dist/full.css" rel="stylesheet" type="text/css" />
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://kit.fontawesome.com/b249ac0a69.js" crossorigin="anonymous"></script>
-  <title>test</title>
+  <title>List Kegiatan</title>
 </head>
 <body class="pb-20">
 <!--  navbar-->
@@ -25,7 +25,7 @@
   <div class="lg:ml-36 ml-3">
     <h1 class="text-4xl mb-1 font-bold"> <span th:text="${kelompok}"></span></h1>
     <h1 class="text-lg font-medium">Mata Anggaran : <span th:text="${nameBeban}"></span></h1>
-<!--    <h1 class="text-xl font-bold">Nomer Rekening : <span th:text="${rekening}"></span></h1>-->
+    <h1 class="text-lg font-medium">Nomer Rekening : <span th:text="${rekening}"></span></h1>
     <P class="text-lg font-medium">Budget Anggaran : <span>[[${#strings.replace(#numbers.formatCurrency(Budget), ',00','')}]]</span></P>
     <h1 class="text-lg font-medium">Nama Program  : <span th:text="${namaProgram}"></span></h1>
     <h1 class="text-lg font-medium">No Usulan : <span th:text="${noUsulan}"></span></h1>

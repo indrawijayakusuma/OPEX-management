@@ -6,7 +6,6 @@ import com.bni.report.entities.MataAnggaran;
 import com.bni.report.entities.Program;
 import com.bni.report.entities.validators.Validator;
 import com.bni.report.entities.validators.ValidatorMataAnggaran;
-import com.bni.report.entities.validators.ValidatorProgram;
 import com.bni.report.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -29,8 +28,6 @@ public class ValidatorController {
     @Autowired
     private KegiatanService kegiatanService;
     @Autowired
-    private ValidatorProgramService validatorProgramService;
-    @Autowired
     private ValidatorMataAnggaranService validatorMataAnggaranService;
     @Autowired
     private ProgramService programService;
@@ -40,7 +37,7 @@ public class ValidatorController {
     @GetMapping("/validator")
     @PreAuthorize("hasAuthority('ADMIN')")
     public String getAll(Model model, Authentication authentication) {
-        return paginateGetAll(1, "validatorKegiatan", "name", "asc", model, authentication);
+        return paginateGetAll(1, "validatorKegiatan", "id", "asc", model, authentication);
     }
 
     @GetMapping("/validator/page/{no}")
@@ -48,18 +45,18 @@ public class ValidatorController {
     public String paginateGetAll(
             @PathVariable(value = "no") int currPage,
             @RequestParam(defaultValue = "validatorKegiatan") String list,
-            @RequestParam(defaultValue = "name") String sortField,
+            @RequestParam(defaultValue = "id") String sortField,
             @RequestParam(defaultValue = "asc") String sortDirection,
             Model model, Authentication authentication
     ) {
         int pageSize = 9;
         String user = authentication.getName();
-        Page<Validator> validators = null;
+        Page<Kegiatan> validators = null;
         Page<Program> validatorsProgram = null;
         Page<Beban> validatorsBeban = null;
         Page<ValidatorMataAnggaran> validatorMataAnggarans = null;
 
-        List<Validator> validatorList = null;
+        List<Kegiatan> validatorList = null;
         List<Program> validatorProgramList = null;
         List<Beban> validatorsBebanList = null;
         List<ValidatorMataAnggaran> validatorMataAnggaranList = null;
@@ -73,17 +70,12 @@ public class ValidatorController {
         } else if (list.equalsIgnoreCase("validatorBeban")) {
             validatorsBeban = validatorService.paginateGetALlBeban(currPage, pageSize, sortDirection, sortField, user);
             validatorsBebanList = validatorsBeban.getContent();
-        } else if (list.equalsIgnoreCase("validatorMataAnggaran")) {
-            validatorMataAnggarans = validatorMataAnggaranService.paginateGetALl(currPage, pageSize, sortDirection, sortField, user);
-            validatorMataAnggaranList = validatorMataAnggarans.getContent();
         }
 
         model.addAttribute("currentPage", currPage);
         model.addAttribute("sortField", sortField);
         model.addAttribute("sortDirection", sortDirection);
         model.addAttribute("reverseDirection", sortDirection.equals("asc") ? "desc" : "asc");
-//        model.addAttribute("totalPages", validators.getTotalPages());
-//        model.addAttribute("totalItems", validators.getTotalElements());
         model.addAttribute("validators", validatorList);
         model.addAttribute("validatorsProgram", validatorProgramList);
         model.addAttribute("validatorsBebanList", validatorsBebanList);
@@ -96,9 +88,9 @@ public class ValidatorController {
     @GetMapping("/validator/validate/{id}")
     @PreAuthorize("hasAuthority('ADMIN')")
     public String validate(@PathVariable Integer id) {
-        validatorService.findById(id).map(Kegiatan::new).ifPresent(kegiatan -> {
+        kegiatanService.findById(id).ifPresent(kegiatan -> {
+            kegiatan.setValidate(true);
             kegiatanService.create(kegiatan);
-            validatorService.delete(id);
         });
         return "redirect:/validator";
     }
@@ -136,10 +128,10 @@ public class ValidatorController {
     @GetMapping("/validator/update/{id}")
     @PreAuthorize("hasAuthority('ADMIN')")
     public String formUpdateKegiatan(@PathVariable Integer id, Model model) {
-        Optional<Validator> byId = validatorService.findById(id);
+        Optional<Kegiatan> byId = kegiatanService.findById(id);
         if (byId.isPresent()) {
-            Validator validator = byId.get();
-            model.addAttribute("kegiatans", validator);
+            Kegiatan kegiatan = byId.get();
+            model.addAttribute("kegiatans", kegiatan);
             return "formUpdateValidator";
         }
         return "redirect:/validator";
@@ -188,8 +180,9 @@ public class ValidatorController {
 
     @PostMapping("/validator/update")
     @PreAuthorize("hasAuthority('ADMIN')")
-    public String update(Validator validator) {
-        validatorService.create(validator);
+    public String update(Kegiatan validator) {
+        validator.setValidate(false);
+        kegiatanService.create(validator);
         return "redirect:/validator";
     }
 

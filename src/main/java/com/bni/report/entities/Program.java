@@ -1,7 +1,6 @@
 package com.bni.report.entities;
 
 import com.bni.report.entities.dto.ProgramInputDTO;
-import com.bni.report.entities.validators.ValidatorProgram;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -53,12 +52,4 @@ public class Program {
         this.noUsulan = programInputDTO.getNoUsulan();
     }
 
-    public Program(ValidatorProgram program) {
-        this.id = program.getId();
-        this.name = program.getName();
-        this.budget = program.getBudget();
-        this.pic = program.getPic();
-        this.noUsulan = program.getNoUsulan();
-        this.beban = program.getBeban();
-    }
 }

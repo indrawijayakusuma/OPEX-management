@@ -35,7 +35,7 @@ public class KegiatanService {
     }
 
     public Page<Kegiatan> getAll(Pageable pageable, String id) {
-        Page<Kegiatan> program = kegiatanRepository.findByProgramId(id, pageable);
+        Page<Kegiatan> program = kegiatanRepository.getAllByBebanId(id, pageable);
         Program programId = programService.getById(id);
         final BigDecimal[] temp = {programId.getBudget()};
         List<Kegiatan> collect = program.stream()
@@ -48,14 +48,6 @@ public class KegiatanService {
                     kegiatanRepository.save(kegiatan);
                 }).collect(Collectors.toList());
         return new PageImpl<>(collect);
-    }
-
-    public Page<Kegiatan> getAllByKelompok(Pageable pageable, Integer kelompokId) {
-        List<Kegiatan> kegiatans = kegiatanRepository.findAll(pageable)
-                .stream()
-                .filter(kegiatan -> Objects.equals(kegiatan.getProgram().getBeban().getKelompok().getId(), kelompokId))
-                .toList();
-        return new PageImpl<>(kegiatans);
     }
 
     public BigDecimal getSisa(String programId) {
@@ -77,23 +69,14 @@ public class KegiatanService {
         return reduce;
     }
 
-    public Page<Kegiatan> paginateGetALlKelompok(int currPage, int pageSize, Integer id) {
-        Pageable pageable = PageRequest.of(currPage - 1, pageSize);
-        return getAllByKelompok(pageable, id);
-    }
-
     public Page<Kegiatan> paginateGetALl(int currPage, int pageSize, String id) {
         Pageable pageable = PageRequest.of(currPage - 1, pageSize);
         return getAll(pageable, id);
     }
 
-    public Page<Kegiatan> paginateSearchingGetAll(int currPage, int pageSize, String sortField, String sortDirection, String keyword, String id) {
-        Pageable pageable = PageRequest.of(currPage - 1, pageSize);
-        return kegiatanRepository.search(keyword, id, pageable);
-    }
 
-    public Kegiatan findById(Integer id) {
-        return kegiatanRepository.findById(id).orElseThrow(RuntimeException::new);
+    public Optional<Kegiatan> findById(Integer id) {
+        return kegiatanRepository.findById(id);
     }
 
     public Kegiatan create(Kegiatan kegiatan) {

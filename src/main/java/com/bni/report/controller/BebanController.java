@@ -27,8 +27,7 @@ public class BebanController {
     private KelompokService kelompokService;
     @Autowired
     private MataAnggaranService mataAnggaranService;
-
-
+    
     @GetMapping("/beban/{id}")
     public String getAll(@PathVariable Integer id, Model model) {
         return paginateGetAll(null, id, 1, "name", "asc", model);
@@ -56,12 +55,20 @@ public class BebanController {
 
         String nameKelompok = kelompokService.findById(idKelompok).getName();
 
-        List<String> all = mataAnggaranService.getAll(idKelompok).stream()
-                .map(MataAnggaran::getMataAnggaran)
-                .collect(Collectors.toList());
         List<String> namaMataanggarans = bebanService.getByKelompokId(idKelompok).stream()
                 .map(Beban::getName)
                 .toList();
+
+        List<String> all = mataAnggaranService.getAll(idKelompok).stream()
+                .map(MataAnggaran::getMataAnggaran).filter(s -> {
+                    for (String a: namaMataanggarans) {
+                        if (s.equals(a)){
+                            return false;
+                        }
+                    }
+                    return true;
+                })
+                .collect(Collectors.toList());
 
         model.addAttribute("currentPage", currPage);
         model.addAttribute("totalPages", bebanPage.getTotalPages());
@@ -78,7 +85,6 @@ public class BebanController {
         model.addAttribute("programAdd", new ProgramInputDTO());
         model.addAttribute("mataAnggarans", all);
         model.addAttribute("mataAnggaransBeban", namaMataanggarans);
-
 
         return "ListBeban";
     }

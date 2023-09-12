@@ -20,7 +20,7 @@ public class ReportExcelController {
         response.setContentType("application/octet-stream");
 
         String headerKey = "Content-Disposition";
-        String headerValue = "attachment;filename=test.xlsx";
+        String headerValue = "attachment;filename=opex.xlsx";
 
         response.setHeader(headerKey, headerValue);
         reportExcelService.generateExcel(response, id);

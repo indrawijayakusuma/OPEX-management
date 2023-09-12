@@ -27,21 +27,5 @@ public class Kegiatan {
     private BigDecimal sisa;
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date date;
-
-    public Kegiatan(Validator validator) {
-        this.budget = validator.getBudget();
-        this.keterangan = validator.getKeterangan();
-        this.realisasi = validator.getRealisasi();
-        this.sisa = validator.getSisa();
-        this.program = validator.getProgram();
-        this.date = validator.getDate();
-    }
-
-    public Kegiatan(Integer id,String keterangan, Program program, BigDecimal realisasi, Date date) {
-        this.id = id;
-        this.keterangan = keterangan;
-        this.program = program;
-        this.realisasi = realisasi;
-        this.date = date;
-    }
+    private Boolean validate;
 }
